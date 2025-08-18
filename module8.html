@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Module 8: Privacy & Security - Health Informatics</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Inter', sans-serif; background-color: #F8F7F4; color: #333333; }
+        .sidebar-link { transition: all 0.2s ease-in-out; }
+        .sidebar-link.active, .sidebar-link:hover { background-color: #4A7C59; color: #FFFFFF; transform: translateX(4px); }
+        .content-block { line-height: 1.7; }
+        .content-block h4 { font-size: 1.25rem; font-weight: 600; margin-top: 1.5rem; margin-bottom: 0.75rem; }
+        .content-block p { margin-bottom: 1rem; }
+        .content-block ul { list-style-type: disc; padding-left: 1.5rem; margin-bottom: 1rem; }
+        .accordion-header { cursor: pointer; }
+        .accordion-content { max-height: 0; overflow: hidden; transition: max-height 0.3s ease-out; }
+    </style>
+</head>
+<body class="antialiased">
+    <div class="min-h-screen lg:grid lg:grid-cols-12">
+        <aside class="lg:col-span-3 lg:block bg-[#EAE7E1] p-6 lg:fixed lg:h-full lg:w-1/4 xl:w-1/5">
+            <h1 class="text-2xl font-bold text-[#4A7C59]">Health Informatics</h1>
+            <p class="text-sm text-gray-600 mb-8">Master's Course Overview</p>
+            <nav id="sidebar-nav" class="space-y-2">
+                <a href="./index.html" class="sidebar-link block p-3 rounded-lg font-medium">Home</a>
+                <a href="./module1.html" class="sidebar-link block p-3 rounded-lg font-medium">1. Introduction</a>
+                <a href="./module2.html" class="sidebar-link block p-3 rounded-lg font-medium">2. EHR Ecosystem</a>
+                <a href="./module3.html" class="sidebar-link block p-3 rounded-lg font-medium">3. Data Standards</a>
+                <a href="./module4.html" class="sidebar-link block p-3 rounded-lg font-medium">4. Health Information Exchange</a>
+                <a href="./module5.html" class="sidebar-link block p-3 rounded-lg font-medium">5. Health Data Analytics</a>
+                <a href="./module6.html" class="sidebar-link block p-3 rounded-lg font-medium">6. Clinical Decision Support</a>
+                <a href="./module7.html" class="sidebar-link block p-3 rounded-lg font-medium">7. Safety, Quality & Value</a>
+                <a href="./module8.html" class="sidebar-link active block p-3 rounded-lg font-medium">8. Privacy & Security</a>
+            </nav>
+        </aside>
+
+        <main class="lg:col-span-9 lg:col-start-4 p-6 md:p-10">
+            <section id="module8">
+                <h3 class="text-3xl font-bold text-[#4A7C59] mb-4">Module 8: Health Information Privacy and Security</h3>
+                <div class="content-block text-gray-700">
+                    <h4>8.1 Definition and Scope</h4>
+                    <p>Health information <strong>privacy</strong> refers to the right of individuals to control the collection, use, and disclosure of their personal health information (PHI). <strong>Security</strong> encompasses the technical, administrative, and physical safeguards implemented to protect the confidentiality, integrity, and availability of health data. The scope involves compliance with regulations like HIPAA in the U.S. and GDPR in the EU, and extends to emerging areas like AI-driven tools and IoT devices. This holistic approach builds patient trust while enabling innovations like personalized medicine.</p>
+
+                    <h4>8.2 Historical Overview</h4>
+                    <p>The evolution of health information privacy began with confidentiality principles in medical ethics. The <strong>1996 Health Insurance Portability and Accountability Act (HIPAA)</strong> created national standards in the U.S. The <strong>2009 HITECH Act</strong> expanded HIPAA by increasing penalties for breaches and mandating notifications. The <strong>2013 Omnibus Rule</strong> extended liability to business associates. In 2024-2025, proposed HIPAA updates aim to enhance cybersecurity by mandating multi-factor authentication (MFA) and addressing reproductive health privacy, driven by major breaches like the 2024 Change Healthcare incident.</p>
+
+                    <h4>8.3 Key Concepts and Topics</h4>
+                    <p>Key concepts include privacy principles like consent and data minimization, and security measures categorized as administrative, physical, and technical safeguards. Regulations like HIPAA and GDPR define compliance. Common threats include ransomware and phishing, requiring robust incident response plans and zero-trust architectures.</p>
+                </div>
+                
+                <div class="bg-white p-8 rounded-xl shadow-md mt-8">
+                    <h4 class="text-xl font-semibold text-center mb-2">HIPAA Safeguards Explained</h4>
+                    <p class="text-center text-gray-600 mb-6">The HIPAA Security Rule requires three types of safeguards to protect electronic health information. Click each category to expand.</p>
+                    <div class="space-y-4">
+                        <div class="border rounded-lg">
+                            <div class="accordion-header bg-blue-100 p-4 flex justify-between items-center">
+                                <h5 class="font-bold text-blue-800 text-lg">Administrative Safeguards</h5>
+                                <span class="text-blue-800 transform transition-transform duration-300">&plus;</span>
+                            </div>
+                            <div class="accordion-content bg-white p-4 border-t border-gray-200">
+                                <p class="text-gray-700">Policies, procedures, and actions to manage security. Key requirements include conducting a formal risk analysis, designating a Security Official, and providing workforce security training.</p>
+                            </div>
+                        </div>
+                        <div class="border rounded-lg">
+                            <div class="accordion-header bg-green-100 p-4 flex justify-between items-center">
+                                <h5 class="font-bold text-green-800 text-lg">Physical Safeguards</h5>
+                                <span class="text-green-800 transform transition-transform duration-300">&plus;</span>
+                            </div>
+                            <div class="accordion-content bg-white p-4 border-t border-gray-200">
+                                <p class="text-gray-700">Measures to protect physical systems and buildings. This includes facility access controls, secure workstation use policies, and secure disposal of devices containing ePHI.</p>
+                            </div>
+                        </div>
+                        <div class="border rounded-lg">
+                            <div class="accordion-header bg-purple-100 p-4 flex justify-between items-center">
+                                <h5 class="font-bold text-purple-800 text-lg">Technical Safeguards</h5>
+                                <span class="text-purple-800 transform transition-transform duration-300">&plus;</span>
+                            </div>
+                            <div class="accordion-content bg-white p-4 border-t border-gray-200">
+                                <p class="text-gray-700">Technology and policies to protect data and control access. This includes access controls (unique user IDs), audit controls to monitor activity, and transmission security like encryption.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="content-block text-gray-700 mt-8">
+                    <h4>8.4 Benefits</h4>
+                    <p>Robust privacy and security yield multiple benefits, including enhanced patient trust, reduced breach costs, improved care quality through secure data, and enablement of innovation in research and AI.</p>
+
+                    <h4>8.5 Challenges and Barriers</h4>
+                    <p>Challenges include evolving cyber threats like ransomware, the complexity of navigating overlapping regulations, balancing data interoperability with privacy, and addressing workforce training gaps and resource shortages.</p>
+
+                    <h4>8.6 Implementation Strategies</h4>
+                    <p>Strategies include conducting annual risk assessments, implementing technical safeguards like encryption and MFA, providing regular staff training, developing incident response plans, and ensuring vendors sign Business Associate Agreements (BAAs).</p>
+
+                    <h4>8.7 Real-World Examples and Case Studies</h4>
+                    <p>The <strong>2024 Change Healthcare breach</strong> exposed 100 million records, highlighting third-party vulnerabilities. In contrast, organizations using comprehensive cybersecurity solutions have successfully achieved compliance. A <strong>2025 breach at Yale New Haven Health</strong> affecting 5.5 million people led to enhanced MFA adoption.</p>
+
+                    <h4>8.8 Role in Health Informatics</h4>
+                    <p>Privacy and security are foundational to health informatics, ensuring data integrity for reliable analytics, CDSS, and HIE. They enable ethical data use, supporting innovations while protecting against misuse.</p>
+
+                    <h4>8.9 Emerging Trends in 2025</h4>
+                    <p>Trends include HIPAA Security Rule updates mandating MFA and encryption, AI governance for ethical use, and new state laws on geolocation and health data. There is an increased focus on cybersecurity, privacy in AI, and quantum-resistant technology.</p>
+                </div>
+
+                <div class="bg-white p-8 rounded-xl shadow-md mt-8">
+                    <h4 class="text-xl font-semibold mb-4">Review Questions</h4>
+                    <ul class="space-y-2 text-gray-700 list-decimal pl-5">
+                        <li>Define privacy and security, explaining their scope in informatics.</li>
+                        <li>Trace HIPAA's history, noting 2025 updates.</li>
+                        <li>Describe a key security measure and its application.</li>
+                        <li>Discuss two benefits with examples.</li>
+                        <li>Identify three challenges and solutions.</li>
+                        <li>Outline implementation strategies.</li>
+                        <li>Analyze a breach case study.</li>
+                        <li>Explain the role in informatics.</li>
+                        <li>What are two 2025 trends?</li>
+                    </ul>
+                </div>
+                
+                <div class="bg-white p-8 rounded-xl shadow-md mt-8">
+                    <h4 class="text-xl font-semibold mb-4">Suggested Readings</h4>
+                    <ul class="space-y-2 text-gray-700 list-disc pl-5">
+                        <li>"HIPAA Updates and HIPAA Changes in 2025" (HIPAA Journal).</li>
+                        <li>"Major Healthcare Data Security Trends in 2025" (Bluesight).</li>
+                        <li>"State Policy Trends Reshaping Health Data and AI in 2025" (Datavant).</li>
+                        <li>"2025 HIPAA Updates: Key Changes" (MetricStream).</li>
+                        <li>"Data privacy in healthcare: Global challenges" (PMC).</li>
+                        <li>"Healthcare Compliance Examples: HIPAA, GDPR" (Uptech).</li>
+                    </ul>
+                </div>
+            </section>
+        </main>
+    </div>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const accordions = document.querySelectorAll('.accordion-header');
+    accordions.forEach(accordion => {
+        accordion.addEventListener('click', () => {
+            const content = accordion.nextElementSibling;
+            const icon = accordion.querySelector('span');
+            const isExpanded = content.style.maxHeight;
+            
+            accordions.forEach(otherAccordion => {
+                otherAccordion.nextElementSibling.style.maxHeight = null;
+                otherAccordion.querySelector('span').classList.remove('rotate-45');
+            });
+
+            if (!isExpanded) {
+                content.style.maxHeight = content.scrollHeight + "px";
+                icon.classList.add('rotate-45');
+            }
+        });
+    });
+});
+</script>
+</body>
+</html>

@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Module 5: Data Analytics - Health Informatics</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Inter', sans-serif; background-color: #F8F7F4; color: #333333; }
+        .sidebar-link { transition: all 0.2s ease-in-out; }
+        .sidebar-link.active, .sidebar-link:hover { background-color: #4A7C59; color: #FFFFFF; transform: translateX(4px); }
+        .analytics-step { cursor: pointer; transition: all 0.3s ease; }
+        .content-block { line-height: 1.7; }
+        .content-block h4 { font-size: 1.25rem; font-weight: 600; margin-top: 1.5rem; margin-bottom: 0.75rem; }
+        .content-block p { margin-bottom: 1rem; }
+        .content-block ul { list-style-type: disc; padding-left: 1.5rem; margin-bottom: 1rem; }
+    </style>
+</head>
+<body class="antialiased">
+    <div class="min-h-screen lg:grid lg:grid-cols-12">
+        <aside class="lg:col-span-3 lg:block bg-[#EAE7E1] p-6 lg:fixed lg:h-full lg:w-1/4 xl:w-1/5">
+            <h1 class="text-2xl font-bold text-[#4A7C59]">Health Informatics</h1>
+            <p class="text-sm text-gray-600 mb-8">Master's Course Overview</p>
+            <nav id="sidebar-nav" class="space-y-2">
+                <a href="./index.html" class="sidebar-link block p-3 rounded-lg font-medium">Home</a>
+                <a href="./module1.html" class="sidebar-link block p-3 rounded-lg font-medium">1. Introduction</a>
+                <a href="./module2.html" class="sidebar-link block p-3 rounded-lg font-medium">2. EHR Ecosystem</a>
+                <a href="./module3.html" class="sidebar-link block p-3 rounded-lg font-medium">3. Data Standards</a>
+                <a href="./module4.html" class="sidebar-link block p-3 rounded-lg font-medium">4. Health Information Exchange</a>
+                <a href="./module5.html" class="sidebar-link active block p-3 rounded-lg font-medium">5. Health Data Analytics</a>
+                <a href="./module6.html" class="sidebar-link block p-3 rounded-lg font-medium">6. Clinical Decision Support</a>
+                <a href="./module7.html" class="sidebar-link block p-3 rounded-lg font-medium">7. Safety, Quality & Value</a>
+                <a href="./module8.html" class="sidebar-link block p-3 rounded-lg font-medium">8. Privacy & Security</a>
+            </nav>
+        </aside>
+
+        <main class="lg:col-span-9 lg:col-start-4 p-6 md:p-10">
+            <section id="module5">
+                <h3 class="text-3xl font-bold text-[#4A7C59] mb-4">Module 5: Health Data Analytics</h3>
+                <div class="content-block text-gray-700">
+                    <h4>5.1 Definition and Scope</h4>
+                    <p>Health data analytics is the systematic process of examining raw health-related data to uncover insights, patterns, and trends that inform decision-making, improve patient outcomes, and enhance operational efficiency. Its scope encompasses descriptive, diagnostic, predictive, and prescriptive analytics, enabling providers to address complex challenges like resource allocation, disease prevention, and personalized medicine. In 2025, the scope has expanded with the integration of big data, AI, and cloud platforms, allowing for real-time analytics and personalized care models while addressing ethical considerations like data privacy.</p>
+
+                    <h4>5.2 Historical Overview</h4>
+                    <p>The roots of health data analytics trace back to the 1950s with basic statistical analysis. The 1960s and 1970s saw the advent of EHRs, enabling rudimentary data aggregation. The 1980s marked a shift with personal computers, and the 1990s brought big data concepts from the Human Genome Project. Policy milestones like HIPAA (1996) and the HITECH Act (2009) boosted EHR adoption and data availability. The 2010s integrated machine learning, and the COVID-19 pandemic accelerated real-time analytics. By 2025, analytics has evolved into a unified ecosystem incorporating cloud computing, AI, and real-world data (RWD).</p>
+
+                    <h4>5.3 Key Techniques in Health Data Analytics</h4>
+                    <p>Health data analytics employs various techniques:</p>
+                    <ul>
+                        <li><strong>Descriptive Analytics:</strong> Summarizes historical data to understand past events (e.g., hospital admission rates).</li>
+                        <li><strong>Diagnostic Analytics:</strong> Investigates why events occurred (e.g., pinpointing causes of high readmission rates).</li>
+                        <li><strong>Predictive Analytics:</strong> Forecasts future outcomes using statistical models and machine learning (e.g., predicting patient no-shows).</li>
+                        <li><strong>Prescriptive Analytics:</strong> Recommends actions based on predictions (e.g., suggesting optimal staffing levels).</li>
+                        <li><strong>Big Data and AI Techniques:</strong> Involves handling massive volumes with tools like Hadoop and TensorFlow, including text analytics and time-series analysis.</li>
+                    </ul>
+
+                    <h4>5.4 Benefits of Health Data Analytics</h4>
+                    <p>Health data analytics delivers transformative benefits, including enhanced patient care and outcomes through personalized treatments, cost reduction by identifying inefficiencies, operational efficiency by optimizing resource allocation, accelerated research and innovation, and public health improvements through surveillance and equity analysis.</p>
+
+                    <h4>5.5 Challenges and Barriers</h4>
+                    <p>Despite its potential, health data analytics faces hurdles such as poor data quality, privacy and security risks, interoperability issues, high implementation costs, skills gaps, and ethical concerns like algorithmic bias.</p>
+
+                    <h4>5.6 Implementation Strategies</h4>
+                    <p>Implementing health data analytics requires a structured approach, including data assessment and integration, careful tool selection, team building and training, pilot programs to demonstrate ROI, robust governance and compliance, and a plan for scaling and monitoring.</p>
+
+                    <h4>5.7 Real-World Examples and Case Studies</h4>
+                    <p><strong>Cleveland Clinic</strong> uses predictive analytics to reduce heart failure readmissions by 20%. <strong>Kaiser Permanente</strong> uses big data for fraud detection, saving millions. <strong>IBM Watson Health</strong> assists in personalized oncology plans. A failure case involved early AI pilots that failed due to poor data quality, emphasizing the need for robust validation.</p>
+
+                    <h4>5.8 Role in Health Informatics</h4>
+                    <p>Health data analytics is central to health informatics, providing the analytical engine to process and interpret data from systems like EHRs and HIEs. It enhances decision support, enables evidence-based practices, and drives innovation.</p>
+
+                    <h4>5.9 Emerging Trends in 2025</h4>
+                    <p>In 2025, trends include AI and generative AI integration, genomic and omics data analytics, a focus on data privacy and interoperability, remote monitoring and telehealth analytics, and using AI to improve efficiency and patient engagement.</p>
+                </div>
+                
+                <div class="bg-white p-8 rounded-xl shadow-md mt-8">
+                    <h4 class="text-xl font-semibold text-center mb-2">The Spectrum of Analytics</h4>
+                    <p class="text-center text-gray-600 mb-6">Analytics techniques range from describing the past to prescribing future actions. Click each step to see its role.</p>
+                    <div class="relative">
+                        <div class="border-l-2 border-dashed border-gray-300 absolute h-full top-0 left-4"></div>
+                        <div id="analytics-prescriptive" class="analytics-step pl-10 mb-6 relative"><div class="absolute w-8 h-8 bg-[#B89B72] rounded-full -left-4 border-4 border-white flex items-center justify-center text-white font-bold">4</div><h5 class="font-semibold text-lg">Prescriptive Analytics</h5><p class="text-gray-600 hidden">"What should we do?" Recommends specific actions to optimize outcomes. Example: Recommending a specific follow-up intervention to prevent a predicted hospital readmission.</p></div>
+                        <div id="analytics-predictive" class="analytics-step pl-10 mb-6 relative"><div class="absolute w-8 h-8 bg-[#B89B72] rounded-full -left-4 border-4 border-white flex items-center justify-center text-white font-bold">3</div><h5 class="font-semibold text-lg">Predictive Analytics</h5><p class="text-gray-600 hidden">"What will happen?" Forecasts future events. Example: A model that predicts which patients are at high risk for developing sepsis.</p></div>
+                        <div id="analytics-diagnostic" class="analytics-step pl-10 mb-6 relative"><div class="absolute w-8 h-8 bg-[#B89B72] rounded-full -left-4 border-4 border-white flex items-center justify-center text-white font-bold">2</div><h5 class="font-semibold text-lg">Diagnostic Analytics</h5><p class="text-gray-600 hidden">"Why did it happen?" Drills down into data to find root causes. Example: Analyzing the characteristics of readmitted patients to find common factors.</p></div>
+                        <div id="analytics-descriptive" class="analytics-step pl-10 relative"><div class="absolute w-8 h-8 bg-[#B89B72] rounded-full -left-4 border-4 border-white flex items-center justify-center text-white font-bold">1</div><h5 class="font-semibold text-lg">Descriptive Analytics</h5><p class="text-gray-600 hidden">"What happened?" Summarizes historical data. Example: A dashboard showing hospital admission rates over the last quarter.</p></div>
+                    </div>
+                </div>
+
+                <div class="bg-white p-8 rounded-xl shadow-md mt-8">
+                    <h4 class="text-xl font-semibold mb-4">Review Questions</h4>
+                    <ul class="space-y-2 text-gray-700 list-decimal pl-5">
+                        <li>Define health data analytics and explain its scope, with an example in precision medicine.</li>
+                        <li>Trace the historical evolution, highlighting a key milestone in the 2000s.</li>
+                        <li>Describe predictive analytics and provide a healthcare example.</li>
+                        <li>Discuss two benefits, including quantitative impacts.</li>
+                        <li>Identify three challenges in 2025 and suggest solutions.</li>
+                        <li>Outline implementation strategies for a hospital.</li>
+                        <li>Analyze a success case study and its outcomes.</li>
+                        <li>Explain the role in health informatics with an integration example.</li>
+                        <li>What are two emerging trends in 2025, with potential benefits?</li>
+                    </ul>
+                </div>
+
+                <div class="bg-white p-8 rounded-xl shadow-md mt-8">
+                    <h4 class="text-xl font-semibold mb-4">Suggested Readings</h4>
+                    <ul class="space-y-2 text-gray-700 list-disc pl-5">
+                        <li>"2025 Healthcare Data, Analytics, and AI: Thriving in Chaos" (IIA Analytics, 2025).</li>
+                        <li>"What Is Healthcare Data Analytics? Trends & Benefits 2025" (G & Co., 2025).</li>
+                        <li>"The Evolution of Healthcare Data Analytics" (Simbo.ai, 2025).</li>
+                        <li>"Healthcare Analytics" (NCBI, 2025).</li>
+                        <li>"10 Healthcare Analytics Case Studies [2025]" (DigitalDefynd).</li>
+                        <li>"2025 Global Health Care Outlook" (Deloitte, 2025).</li>
+                    </ul>
+                </div>
+            </section>
+        </main>
+    </div>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const analyticsSteps = document.querySelectorAll('.analytics-step');
+    analyticsSteps.forEach(step => {
+        step.addEventListener('click', () => {
+            const p = step.querySelector('p');
+            const isVisible = !p.classList.contains('hidden');
+            analyticsSteps.forEach(s => s.querySelector('p').classList.add('hidden'));
+            if (!isVisible) {
+                p.classList.remove('hidden');
+            }
+        });
+    });
+});
+</script>
+</body>
+</html>

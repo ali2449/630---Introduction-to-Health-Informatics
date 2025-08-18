@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Module 2: EHR Ecosystem - Health Informatics</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Inter', sans-serif; background-color: #F8F7F4; color: #333333; }
+        .sidebar-link { transition: all 0.2s ease-in-out; }
+        .sidebar-link.active, .sidebar-link:hover { background-color: #4A7C59; color: #FFFFFF; transform: translateX(4px); }
+        .chart-container { position: relative; width: 100%; max-width: 700px; margin-left: auto; margin-right: auto; height: 400px; max-height: 450px; }
+        .content-block { line-height: 1.7; }
+        .content-block h4 { font-size: 1.25rem; font-weight: 600; margin-top: 1.5rem; margin-bottom: 0.75rem; }
+        .content-block p { margin-bottom: 1rem; }
+        .content-block ul { list-style-type: disc; padding-left: 1.5rem; margin-bottom: 1rem; }
+    </style>
+</head>
+<body class="antialiased">
+    <div class="min-h-screen lg:grid lg:grid-cols-12">
+        <aside class="lg:col-span-3 lg:block bg-[#EAE7E1] p-6 lg:fixed lg:h-full lg:w-1/4 xl:w-1/5">
+            <h1 class="text-2xl font-bold text-[#4A7C59]">Health Informatics</h1>
+            <p class="text-sm text-gray-600 mb-8">Master's Course Overview</p>
+            <nav id="sidebar-nav" class="space-y-2">
+                <a href="./index.html" class="sidebar-link block p-3 rounded-lg font-medium">Home</a>
+                <a href="./module1.html" class="sidebar-link block p-3 rounded-lg font-medium">1. Introduction</a>
+                <a href="./module2.html" class="sidebar-link active block p-3 rounded-lg font-medium">2. EHR Ecosystem</a>
+                <a href="./module3.html" class="sidebar-link block p-3 rounded-lg font-medium">3. Data Standards</a>
+                <a href="./module4.html" class="sidebar-link block p-3 rounded-lg font-medium">4. Health Information Exchange</a>
+                <a href="./module5.html" class="sidebar-link block p-3 rounded-lg font-medium">5. Health Data Analytics</a>
+                <a href="./module6.html" class="sidebar-link block p-3 rounded-lg font-medium">6. Clinical Decision Support</a>
+                <a href="./module7.html" class="sidebar-link block p-3 rounded-lg font-medium">7. Safety, Quality & Value</a>
+                <a href="./module8.html" class="sidebar-link block p-3 rounded-lg font-medium">8. Privacy & Security</a>
+            </nav>
+        </aside>
+
+        <main class="lg:col-span-9 lg:col-start-4 p-6 md:p-10">
+            <section id="module2">
+                <h3 class="text-3xl font-bold text-[#4A7C59] mb-4">Module 2: Electronic Health Records</h3>
+                <div class="content-block text-gray-700">
+                    <h4>2.1 Definition and Components</h4>
+                    <p>Electronic Health Records (EHRs) represent a transformative shift from traditional paper-based medical charting to digital systems that capture, store, and manage patient health information in a structured, accessible format. An EHR is an electronic version of a patient's medical history, maintained by the provider over time, and may include all key administrative and clinical data relevant to that person's care under a particular provider. Unlike paper records, EHRs are real-time, patient-centered, and designed to be shared securely across different healthcare settings.</p>
+                    <p>The components of an EHR system are multifaceted, ensuring a holistic view of patient health while supporting clinical workflows. Key elements include:</p>
+                    <ul>
+                        <li><strong>Patient Demographics and Administrative Data:</strong> Basic information such as name, age, gender, contact details, insurance information, and billing data.</li>
+                        <li><strong>Clinical Documentation:</strong> Progress notes, problem lists, and encounter summaries that detail patient visits, symptoms, and provider observations.</li>
+                        <li><strong>Medication and Allergy Records:</strong> Lists of prescribed medications, dosages, administration routes, and known allergies or adverse reactions.</li>
+                        <li><strong>Vital Signs and Diagnostic Results:</strong> Real-time data from monitoring devices, including blood pressure, heart rate, and results from labs or imaging.</li>
+                        <li><strong>Immunization and Preventive Care History:</strong> Records of vaccinations and screenings, supporting public health initiatives.</li>
+                        <li><strong>Treatment Plans and Orders:</strong> Detailed care plans, including referrals, procedures, and electronic prescribing (e-prescribing).</li>
+                        <li><strong>Multimedia and Unstructured Data:</strong> Images, videos, or scanned documents, often stored using standards like DICOM for radiology.</li>
+                    </ul>
+
+                    <h4>2.2 Historical Overview</h4>
+                    <p>The development of EHRs has evolved over decades. Early precursors emerged in the 1960s with systems like the Regenstrief Medical Record System. By the 1970s, the U.S. Department of Veterans Affairs (VA) began developing the VistA system. The 1980s and 1990s saw commercial growth, but adoption was slow. A pivotal moment came in 2004 when President George W. Bush established the Office of the National Coordinator for Health Information Technology (ONC). The Health Information Technology for Economic and Clinical Health (HITECH) Act of 2009 provided incentives totaling over $30 billion, spurring adoption from 9% in 2008 to over 96% in hospitals by 2021.</p>
+                    
+                    <h4>2.3 Benefits of EHRs</h4>
+                    <p>EHRs offer substantial advantages that enhance healthcare delivery, patient outcomes, and operational efficiency. One primary benefit is improved patient care through accurate, real-time information access. Other benefits include:</p>
+                    <ul>
+                        <li><strong>Reduced Medical Errors:</strong> EHRs minimize handwriting illegibility and automate checks for drug interactions, cutting medication errors by up to 50%.</li>
+                        <li><strong>Enhanced Efficiency and Productivity:</strong> Streamlining tasks like billing and scheduling allows providers to see more patients.</li>
+                        <li><strong>Better Patient Engagement:</strong> Patient portals enable access to records, appointment booking, and secure messaging, empowering individuals.</li>
+                        <li><strong>Cost Savings:</strong> By reducing duplicate tests and paperwork, EHRs lower operational costs.</li>
+                        <li><strong>Support for Research and Public Health:</strong> Aggregated data aids in population health analytics, such as tracking disease outbreaks.</li>
+                    </ul>
+
+                    <h4>2.4 Challenges and Barriers</h4>
+                    <p>Despite their advantages, EHRs face significant challenges. High implementation costs pose a barrier, especially for small practices. Interoperability issues persist, as disparate systems often fail to communicate. Other barriers include:</p>
+                    <ul>
+                        <li><strong>Usability and Workflow Disruptions:</strong> Complex interfaces increase documentation time, contributing to clinician burnout.</li>
+                        <li><strong>Privacy and Security Risks:</strong> Cyberattacks highlight vulnerabilities.</li>
+                        <li><strong>Data Quality and Bias:</strong> Errors in entry or incomplete records can lead to inaccuracies.</li>
+                        <li><strong>Resistance to Change:</strong> Lack of training and user involvement results in low adoption.</li>
+                    </ul>
+
+                    <h4>2.5 Implementation Strategies</h4>
+                    <p>Successful EHR implementation demands a structured approach, including needs assessment, vendor selection, data migration, robust training and change management, ensuring compliance and security, and continuous monitoring and optimization. A phased rollout, as used by Mayo Clinic, reduces risks and builds user confidence.</p>
+
+                    <h4>2.6 Real-World Examples and Case Studies</h4>
+                    <p>EHR implementations yield varied outcomes. <strong>Kaiser Permanente's HealthConnect EHR</strong> integrates care for over 12 million members, reducing office visits by 26%. In contrast, the <strong>UK's National Programme for IT (NPfIT)</strong> was scrapped due to delays and cost overruns. The <strong>VA's transition to Cerner</strong> has faced delays and outages but has shown partial success in improving data sharing. These cases underscore the need for user involvement and iterative testing.</p>
+
+                    <h4>2.7 Role in Health Informatics</h4>
+                    <p>EHRs are foundational to health informatics, serving as the primary data source for analytics, decision support, and exchange. They enable informatics applications like predictive modeling and AI-driven diagnostics by providing structured data, bridging clinical practice and data science.</p>
+
+                    <h4>2.8 Emerging Trends in 2025</h4>
+                    <p>As of 2025, EHRs are evolving with technologies addressing past limitations. Key trends include AI and Machine Learning integration for predictive analytics and automated documentation, blockchain for security, improved interoperability via FHIR adoption, and the rise of cloud-based and mobile EHRs. These trends promise more intuitive, secure systems, though challenges like AI bias remain.</p>
+                </div>
+                
+                <div class="bg-white p-8 rounded-xl shadow-md mt-8">
+                    <h4 class="text-xl font-semibold text-center mb-2">EHR Adoption in the U.S.</h4>
+                    <p class="text-center text-gray-600 mb-6">The HITECH Act of 2009 dramatically accelerated the adoption of EHRs in U.S. hospitals. Hover over the points to see key events.</p>
+                    <div class="chart-container">
+                        <canvas id="ehrAdoptionChart"></canvas>
+                    </div>
+                </div>
+
+                <div class="bg-white p-8 rounded-xl shadow-md mt-8">
+                    <h4 class="text-xl font-semibold mb-4">Review Questions</h4>
+                    <ul class="space-y-2 text-gray-700 list-decimal pl-5">
+                        <li>Define EHRs and explain their key components, providing an example of how one component improves patient safety.</li>
+                        <li>Trace the historical development of EHRs, highlighting a key policy initiative and its impact.</li>
+                        <li>Discuss three major benefits of EHRs, including a real-world example for each.</li>
+                        <li>Identify and explain two challenges in EHR adoption, with strategies to overcome them.</li>
+                        <li>Outline the steps for successful EHR implementation, using a case study to illustrate.</li>
+                        <li>Describe a success and a failure in EHR case studies, analyzing reasons for outcomes.</li>
+                        <li>Explain the role of EHRs in health informatics, with an example of data utilization.</li>
+                        <li>What are two emerging trends in EHRs for 2025, and how do they address existing challenges?</li>
+                    </ul>
+                </div>
+
+                <div class="bg-white p-8 rounded-xl shadow-md mt-8">
+                    <h4 class="text-xl font-semibold mb-4">Suggested Readings</h4>
+                    <ul class="space-y-2 text-gray-700 list-disc pl-5">
+                        <li>"Electronic Health Record Implementation Guide 2025" by CleverDev Software.</li>
+                        <li>"Twenty-Five Years of Evolution and Hurdles in Electronic Health Records" (JMIR, 2025).</li>
+                        <li>"Effects of Electronic Health Record Implementation and Barriers" (PMC, 2020).</li>
+                        <li>"What are Electronic Health Records (EHR)? Best Practices" by Datavant (2024).</li>
+                        <li>"The Future of EMR: Key Trends Shaping Healthcare in 2025" by NCDS Inc.</li>
+                        <li>"How to Turn Around an EHR Disaster: Three Case Studies" (EHR in Practice, 2024).</li>
+                    </ul>
+                </div>
+            </section>
+        </main>
+    </div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const ehrAdoptionCtx = document.getElementById('ehrAdoptionChart').getContext('2d');
+    const ehrAdoptionChart = new Chart(ehrAdoptionCtx, {
+        type: 'line',
+        data: {
+            labels: ['2008', '2009', '2011', '2013', '2015', '2017', '2021'],
+            datasets: [{
+                label: '% of Non-Federal Acute Care Hospitals with Basic EHR',
+                data: [9, 12, 28, 59, 84, 91, 96],
+                borderColor: '#4A7C59',
+                backgroundColor: 'rgba(74, 124, 89, 0.1)',
+                fill: true,
+                tension: 0.3,
+                pointRadius: 5,
+                pointHoverRadius: 8,
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                tooltip: {
+                    callbacks: {
+                        afterBody: function(context) {
+                            const year = context[0].label;
+                            if (year === '2009') return 'HITECH Act Passed';
+                            if (year === '2011') return 'Meaningful Use Stage 1 Begins';
+                            if (year === '2015') return 'Meaningful Use Penalties Begin';
+                            return '';
+                        }
+                    }
+                },
+                legend: { position: 'bottom' }
+            },
+            scales: { y: { beginAtZero: true, max: 100, title: { display: true, text: 'Adoption Percentage (%)' } } }
+        }
+    });
+});
+</script>
+</body>
+</html>

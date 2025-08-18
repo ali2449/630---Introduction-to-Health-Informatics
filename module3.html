@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Module 3: Data Standards - Health Informatics</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Inter', sans-serif; background-color: #F8F7F4; color: #333333; }
+        .sidebar-link { transition: all 0.2s ease-in-out; }
+        .sidebar-link.active, .sidebar-link:hover { background-color: #4A7C59; color: #FFFFFF; transform: translateX(4px); }
+        .interop-level { cursor: pointer; transition: all 0.3s ease; }
+        .content-block { line-height: 1.7; }
+        .content-block h4 { font-size: 1.25rem; font-weight: 600; margin-top: 1.5rem; margin-bottom: 0.75rem; }
+        .content-block p { margin-bottom: 1rem; }
+        .content-block ul { list-style-type: disc; padding-left: 1.5rem; margin-bottom: 1rem; }
+    </style>
+</head>
+<body class="antialiased">
+    <div class="min-h-screen lg:grid lg:grid-cols-12">
+        <aside class="lg:col-span-3 lg:block bg-[#EAE7E1] p-6 lg:fixed lg:h-full lg:w-1/4 xl:w-1/5">
+            <h1 class="text-2xl font-bold text-[#4A7C59]">Health Informatics</h1>
+            <p class="text-sm text-gray-600 mb-8">Master's Course Overview</p>
+            <nav id="sidebar-nav" class="space-y-2">
+                <a href="./index.html" class="sidebar-link block p-3 rounded-lg font-medium">Home</a>
+                <a href="./module1.html" class="sidebar-link block p-3 rounded-lg font-medium">1. Introduction</a>
+                <a href="./module2.html" class="sidebar-link block p-3 rounded-lg font-medium">2. EHR Ecosystem</a>
+                <a href="./module3.html" class="sidebar-link active block p-3 rounded-lg font-medium">3. Data Standards</a>
+                <a href="./module4.html" class="sidebar-link block p-3 rounded-lg font-medium">4. Health Information Exchange</a>
+                <a href="./module5.html" class="sidebar-link block p-3 rounded-lg font-medium">5. Health Data Analytics</a>
+                <a href="./module6.html" class="sidebar-link block p-3 rounded-lg font-medium">6. Clinical Decision Support</a>
+                <a href="./module7.html" class="sidebar-link block p-3 rounded-lg font-medium">7. Safety, Quality & Value</a>
+                <a href="./module8.html" class="sidebar-link block p-3 rounded-lg font-medium">8. Privacy & Security</a>
+            </nav>
+        </aside>
+
+        <main class="lg:col-span-9 lg:col-start-4 p-6 md:p-10">
+            <section id="module3">
+                <h3 class="text-3xl font-bold text-[#4A7C59] mb-4">Module 3: Data Standards</h3>
+                <div class="content-block text-gray-700">
+                    <h4>3.1 Definition and Importance</h4>
+                    <p>Data standards in healthcare refer to agreed-upon rules, formats, and terminologies that govern how health information is collected, stored, shared, and interpreted across systems and organizations. These standards ensure consistency, accuracy, and interoperability, allowing different healthcare entities to communicate effectively. The importance of data standards cannot be overstated; they facilitate seamless data exchange, reduce errors, and enable advanced analytics, ultimately improving patient outcomes. During the COVID-19 pandemic, standardized data helped governments monitor vaccination rates and variant spread globally, demonstrating how standards underpin evidence-based decision-making.</p>
+
+                    <h4>3.2 Historical Overview</h4>
+                    <p>The evolution of health data standards traces back to the late 19th century with precursors to the International Classification of Diseases (ICD). In 1948, the WHO adopted ICD. The 1960s and 1970s saw the rise of computerized systems, prompting digital standards like SNOMED (1965) and LOINC (1994). The 1980s marked the inception of exchange standards with Health Level Seven (HL7) in 1987. Policy milestones like HIPAA (1996) accelerated progress. In the 2010s, Fast Healthcare Interoperability Resources (FHIR) emerged as a modern, API-based standard. By 2025, FHIR has matured, reflecting a shift from rigid messaging to agile, internet-era standards.</p>
+
+                    <h4>3.3 Key Data Standards</h4>
+                    <p>Health data standards can be categorized into terminologies, classifications, and exchange protocols.</p>
+                    <ul>
+                        <li><strong>SNOMED CT (Systematized Nomenclature of Medicine Clinical Terms):</strong> A comprehensive, multilingual clinical terminology standard for precise coding and semantic interoperability.</li>
+                        <li><strong>ICD (International Classification of Diseases):</strong> A statistical classification for diseases, injuries, and causes of death, used for billing and epidemiology.</li>
+                        <li><strong>LOINC (Logical Observation Identifiers Names and Codes):</strong> Standardizes lab tests, measurements, and observations for accurate exchange of results.</li>
+                        <li><strong>HL7 (Health Level Seven):</strong> Provides standards for exchanging clinical and administrative data, with versions like v2 (messaging) and v3 (documents).</li>
+                        <li><strong>FHIR (Fast Healthcare Interoperability Resources):</strong> An HL7 standard that uses modular "resources" and APIs for modern, web-like data access.</li>
+                    </ul>
+
+                    <h4>3.4 Benefits of Data Standards</h4>
+                    <p>Adopting data standards yields numerous advantages, including improved interoperability, enhanced data accuracy, greater efficiency and cost savings, better analytics and research capabilities, and patient empowerment through secure access to personal data.</p>
+                    
+                    <h4>3.5 Challenges and Barriers</h4>
+                    <p>Despite benefits, adoption faces hurdles such as lack of universal standardization, high implementation costs, data quality and bias issues, privacy concerns, and resistance to change from clinicians due to workflow disruptions.</p>
+
+                    <h4>3.6 Implementation Strategies</h4>
+                    <p>Effective implementation involves thorough assessment and planning, stakeholder engagement, phased rollouts, robust training, and continuous compliance monitoring. Leveraging tools like terminology servers can aid integration.</p>
+
+                    <h4>3.7 Real-World Examples and Case Studies</h4>
+                    <p><strong>Apple Health Records</strong> uses FHIR to integrate EHR data, enhancing patient access. <strong>Microsoft Azure API for FHIR</strong> enables secure data lakes for analytics, improving research at institutions like Partners HealthCare. <strong>NHS England's SNOMED CT adoption</strong> standardized records across the UK, improving care coordination.</p>
+
+                    <h4>3.8 Role in Health Informatics</h4>
+                    <p>Data standards are the backbone of health informatics, enabling data-driven insights, interoperability, and innovation. They support EHR integrations, analytics, and AI by providing structured, comparable data.</p>
+
+                    <h4>3.9 Emerging Trends in 2025</h4>
+                    <p>In 2025, trends include AI-enhanced standards for automated coding, blockchain for secure exchanges, and greater FHIR adoption. Real-world data (RWD) standards are evolving for clinical trials, while IoT integrations demand updates to standards like LOINC.</p>
+                </div>
+                
+                <div class="bg-white p-8 rounded-xl shadow-md mt-8">
+                    <h4 class="text-xl font-semibold text-center mb-2">Levels of Interoperability</h4>
+                    <p class="text-center text-gray-600 mb-6">Interoperability is achieved in stages, each building on the last. Click a level to explore its meaning.</p>
+                     <div class="space-y-4">
+                        <div id="interop-4" class="interop-level border-l-4 border-purple-500 p-4 bg-purple-50 rounded-r-lg"><h5 class="font-bold text-purple-800">Level 4: Organizational</h5><p class="text-sm text-purple-700 hidden">Encompasses governance, policy, legal frameworks, and trust agreements required for seamless data exchange.</p></div>
+                        <div id="interop-3" class="interop-level border-l-4 border-blue-500 p-4 bg-blue-50 rounded-r-lg"><h5 class="font-bold text-blue-800">Level 3: Semantic</h5><p class="text-sm text-blue-700 hidden">Ensures a shared understanding of the *meaning* of data, using standardized terminologies like SNOMED CT. This is the most critical and difficult level to achieve.</p></div>
+                        <div id="interop-2" class="interop-level border-l-4 border-green-500 p-4 bg-green-50 rounded-r-lg"><h5 class="font-bold text-green-800">Level 2: Structural</h5><p class="text-sm text-green-700 hidden">Defines the syntax or format of data exchange (e.g., an HL7 message), ensuring data fields can be correctly interpreted.</p></div>
+                        <div id="interop-1" class="interop-level border-l-4 border-yellow-500 p-4 bg-yellow-50 rounded-r-lg"><h5 class="font-bold text-yellow-800">Level 1: Foundational</h5><p class="text-sm text-yellow-700 hidden">Establishes the basic technical connectivity to send and receive data between systems.</p></div>
+                    </div>
+                </div>
+
+                <div class="bg-white p-8 rounded-xl shadow-md mt-8">
+                    <h4 class="text-xl font-semibold mb-4">Review Questions</h4>
+                    <ul class="space-y-2 text-gray-700 list-decimal pl-5">
+                        <li>Define health data standards and explain their importance, with an example from public health.</li>
+                        <li>Trace the historical evolution of key standards like ICD and FHIR.</li>
+                        <li>Describe SNOMED CT and its role in clinical documentation.</li>
+                        <li>Discuss two benefits of data standards, including a real-world impact.</li>
+                        <li>Identify three challenges in adoption and propose solutions.</li>
+                        <li>Outline implementation strategies for FHIR in a hospital.</li>
+                        <li>Provide a case study of FHIR use and its outcomes.</li>
+                        <li>Explain the role of standards in health informatics analytics.</li>
+                        <li>What are two emerging trends in 2025, with examples?</li>
+                    </ul>
+                </div>
+
+                <div class="bg-white p-8 rounded-xl shadow-md mt-8">
+                    <h4 class="text-xl font-semibold mb-4">Suggested Readings</h4>
+                    <ul class="space-y-2 text-gray-700 list-disc pl-5">
+                        <li>"Health Care Data Standards" (NCBI Bookshelf).</li>
+                        <li>"Principles of Health Interoperability: SNOMED CT, HL7 and FHIR" by Tim Benson and Grahame Grieve (Springer).</li>
+                        <li>"Essentials of Nursing Informatics" (Chapter 7: Health Data Standards) (McGraw Hill).</li>
+                        <li>"The Book of OHDSI" (OHDSI GitHub).</li>
+                        <li>"Finding What Works in Health Care: Standards for Systematic Reviews" (NCBI).</li>
+                    </ul>
+                </div>
+            </section>
+        </main>
+    </div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const interopLevels = document.querySelectorAll('.interop-level');
+    interopLevels.forEach(level => {
+        level.addEventListener('click', () => {
+            const p = level.querySelector('p');
+            const isVisible = !p.classList.contains('hidden');
+            interopLevels.forEach(l => l.querySelector('p').classList.add('hidden'));
+            if (!isVisible) {
+                p.classList.remove('hidden');
+            }
+        });
+    });
+});
+</script>
+</body>
+</html>
