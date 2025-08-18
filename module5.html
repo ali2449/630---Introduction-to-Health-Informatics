@@ -17,6 +17,8 @@
         .content-block h4 { font-size: 1.25rem; font-weight: 600; margin-top: 1.5rem; margin-bottom: 0.75rem; }
         .content-block p { margin-bottom: 1rem; }
         .content-block ul { list-style-type: disc; padding-left: 1.5rem; margin-bottom: 1rem; }
+        .data-source-icon { transition: transform 0.3s ease; }
+        .data-source-icon:hover { transform: scale(1.1); }
     </style>
 </head>
 <body class="antialiased">
@@ -46,17 +48,38 @@
 
                     <h4>5.2 Historical Overview</h4>
                     <p>The roots of health data analytics trace back to the 1950s with basic statistical analysis. The 1960s and 1970s saw the advent of EHRs, enabling rudimentary data aggregation. The 1980s marked a shift with personal computers, and the 1990s brought big data concepts from the Human Genome Project. Policy milestones like HIPAA (1996) and the HITECH Act (2009) boosted EHR adoption and data availability. The 2010s integrated machine learning, and the COVID-19 pandemic accelerated real-time analytics. By 2025, analytics has evolved into a unified ecosystem incorporating cloud computing, AI, and real-world data (RWD).</p>
+                </div>
 
+                <div class="bg-white p-8 rounded-xl shadow-md mt-8">
+                    <h4 class="text-xl font-semibold text-center mb-6">The Health Data Ecosystem</h4>
+                    <div class="flex flex-col items-center">
+                        <div class="grid grid-cols-2 md:grid-cols-4 gap-6 mb-6">
+                            <div class="text-center data-source-icon"><div class="text-5xl">🏥</div><p class="text-sm font-semibold mt-2">EHR Data</p></div>
+                            <div class="text-center data-source-icon"><div class="text-5xl">💳</div><p class="text-sm font-semibold mt-2">Claims Data</p></div>
+                            <div class="text-center data-source-icon"><div class="text-5xl">🧬</div><p class="text-sm font-semibold mt-2">Genomic Data</p></div>
+                            <div class="text-center data-source-icon"><div class="text-5xl">⌚</div><p class="text-sm font-semibold mt-2">Wearable Data</p></div>
+                        </div>
+                        <div class="text-4xl text-gray-400 mb-6">↓</div>
+                        <div class="bg-teal-500 text-white p-6 rounded-full w-48 h-48 flex items-center justify-center text-center shadow-lg">
+                            <div>
+                                <h5 class="font-bold text-xl">Analytics Platform</h5>
+                                <p class="text-xs">(AI / ML / Stats)</p>
+                            </div>
+                        </div>
+                        <div class="text-4xl text-gray-400 mt-6">↓</div>
+                        <div class="grid grid-cols-2 md:grid-cols-4 gap-6 mt-6">
+                            <div class="text-center"><div class="text-5xl">📈</div><p class="text-sm font-semibold mt-2">Improved Outcomes</p></div>
+                            <div class="text-center"><div class="text-5xl">💰</div><p class="text-sm font-semibold mt-2">Reduced Costs</p></div>
+                            <div class="text-center"><div class="text-5xl">🔬</div><p class="text-sm font-semibold mt-2">New Research</p></div>
+                            <div class="text-center"><div class="text-5xl">🏃</div><p class="text-sm font-semibold mt-2">Population Health</p></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="content-block text-gray-700 mt-8">
                     <h4>5.3 Key Techniques in Health Data Analytics</h4>
-                    <p>Health data analytics employs various techniques:</p>
-                    <ul>
-                        <li><strong>Descriptive Analytics:</strong> Summarizes historical data to understand past events (e.g., hospital admission rates).</li>
-                        <li><strong>Diagnostic Analytics:</strong> Investigates why events occurred (e.g., pinpointing causes of high readmission rates).</li>
-                        <li><strong>Predictive Analytics:</strong> Forecasts future outcomes using statistical models and machine learning (e.g., predicting patient no-shows).</li>
-                        <li><strong>Prescriptive Analytics:</strong> Recommends actions based on predictions (e.g., suggesting optimal staffing levels).</li>
-                        <li><strong>Big Data and AI Techniques:</strong> Involves handling massive volumes with tools like Hadoop and TensorFlow, including text analytics and time-series analysis.</li>
-                    </ul>
-
+                    <p>Health data analytics employs various techniques, from descriptive analytics that summarizes past events to prescriptive analytics that recommends future actions. The diagram above illustrates how diverse data sources are ingested into a central analytics platform, where techniques like machine learning and statistical analysis transform them into valuable insights that drive improvements across the healthcare system.</p>
+                    
                     <h4>5.4 Benefits of Health Data Analytics</h4>
                     <p>Health data analytics delivers transformative benefits, including enhanced patient care and outcomes through personalized treatments, cost reduction by identifying inefficiencies, operational efficiency by optimizing resource allocation, accelerated research and innovation, and public health improvements through surveillance and equity analysis.</p>
 

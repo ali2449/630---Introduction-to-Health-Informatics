@@ -18,6 +18,7 @@
         .content-block ul { list-style-type: disc; padding-left: 1.5rem; margin-bottom: 1rem; }
         .accordion-header { cursor: pointer; }
         .accordion-content { max-height: 0; overflow: hidden; transition: max-height 0.3s ease-out; }
+        .cia-triad-segment { clip-path: polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%); }
     </style>
 </head>
 <body class="antialiased">
@@ -44,7 +45,27 @@
                 <div class="content-block text-gray-700">
                     <h4>8.1 Definition and Scope</h4>
                     <p>Health information <strong>privacy</strong> refers to the right of individuals to control the collection, use, and disclosure of their personal health information (PHI). <strong>Security</strong> encompasses the technical, administrative, and physical safeguards implemented to protect the confidentiality, integrity, and availability of health data. The scope involves compliance with regulations like HIPAA in the U.S. and GDPR in the EU, and extends to emerging areas like AI-driven tools and IoT devices. This holistic approach builds patient trust while enabling innovations like personalized medicine.</p>
+                </div>
 
+                <div class="bg-white p-8 rounded-xl shadow-md mt-8">
+                    <h4 class="text-xl font-semibold text-center mb-6">The CIA Triad of Security</h4>
+                    <div class="flex justify-center items-center space-x-8">
+                        <div class="text-center">
+                            <div class="bg-red-100 text-red-800 rounded-full w-32 h-32 flex items-center justify-center mx-auto mb-3 font-bold text-lg shadow-md">Confidentiality</div>
+                            <p class="text-sm text-gray-600 max-w-xs mx-auto">Ensuring data is accessible only to authorized individuals.</p>
+                        </div>
+                        <div class="text-center">
+                            <div class="bg-yellow-100 text-yellow-800 rounded-full w-32 h-32 flex items-center justify-center mx-auto mb-3 font-bold text-lg shadow-md">Integrity</div>
+                             <p class="text-sm text-gray-600 max-w-xs mx-auto">Maintaining the accuracy and completeness of data.</p>
+                        </div>
+                        <div class="text-center">
+                            <div class="bg-teal-100 text-teal-800 rounded-full w-32 h-32 flex items-center justify-center mx-auto mb-3 font-bold text-lg shadow-md">Availability</div>
+                             <p class="text-sm text-gray-600 max-w-xs mx-auto">Ensuring data is accessible and usable when needed.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="content-block text-gray-700 mt-8">
                     <h4>8.2 Historical Overview</h4>
                     <p>The evolution of health information privacy began with confidentiality principles in medical ethics. The <strong>1996 Health Insurance Portability and Accountability Act (HIPAA)</strong> created national standards in the U.S. The <strong>2009 HITECH Act</strong> expanded HIPAA by increasing penalties for breaches and mandating notifications. The <strong>2013 Omnibus Rule</strong> extended liability to business associates. In 2024-2025, proposed HIPAA updates aim to enhance cybersecurity by mandating multi-factor authentication (MFA) and addressing reproductive health privacy, driven by major breaches like the 2024 Change Healthcare incident.</p>
 

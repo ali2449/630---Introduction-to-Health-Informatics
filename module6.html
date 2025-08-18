@@ -16,6 +16,8 @@
         .content-block h4 { font-size: 1.25rem; font-weight: 600; margin-top: 1.5rem; margin-bottom: 0.75rem; }
         .content-block p { margin-bottom: 1rem; }
         .content-block ul { list-style-type: disc; padding-left: 1.5rem; margin-bottom: 1rem; }
+        .flow-arrow { position: relative; }
+        .flow-arrow::after { content: '→'; font-size: 2rem; color: #9ca3af; position: absolute; top: 50%; left: 100%; transform: translate(-50%, -50%); }
     </style>
 </head>
 <body class="antialiased">
@@ -45,16 +47,45 @@
 
                     <h4>6.2 Historical Overview</h4>
                     <p>The origins of CDS trace back to the 1950s and 1960s with early computer applications in medical decision-making. In the 1970s, systems like MYCIN at Stanford University emerged as one of the first expert systems. The 1990s marked a shift with the integration of CDS into EHRs. Policy catalysts in the 2000s, such as the IOM's report "To Err is Human," spurred investment. The HITECH Act of 2009 incentivized EHR adoption with embedded CDS. By the 2020s, CDS evolved with deep learning, and as of 2025, has matured into AI-driven ecosystems integrating generative AI.</p>
+                </div>
 
+                <div class="bg-white p-8 rounded-xl shadow-md mt-8">
+                    <h4 class="text-xl font-semibold text-center mb-6">CDSS Architecture: Knowledge-Based vs. Non-Knowledge-Based</h4>
+                    <div class="grid md:grid-cols-2 gap-8">
+                        <!-- Knowledge-Based Flow -->
+                        <div class="border p-4 rounded-lg">
+                            <h5 class="font-bold text-lg text-center mb-4">Knowledge-Based CDSS</h5>
+                            <div class="flex items-center justify-around text-center">
+                                <div class="flow-arrow w-1/4"><div class="bg-blue-100 p-2 rounded">Patient Data (EHR)</div></div>
+                                <div class="flow-arrow w-1/4"><div class="bg-blue-100 p-2 rounded">Inference Engine</div></div>
+                                <div class="w-1/4"><div class="bg-blue-100 p-2 rounded">Alert / Rec</div></div>
+                            </div>
+                            <div class="text-center text-2xl my-2 text-gray-400">↑</div>
+                            <div class="flex justify-center">
+                                <div class="w-1/2 bg-gray-200 p-2 rounded text-center">Knowledge Base (If-Then Rules)</div>
+                            </div>
+                            <p class="text-sm text-gray-600 mt-4 text-center">Relies on an explicit, pre-programmed set of rules defined by human experts.</p>
+                        </div>
+                        <!-- Non-Knowledge-Based Flow -->
+                        <div class="border p-4 rounded-lg">
+                            <h5 class="font-bold text-lg text-center mb-4">Non-Knowledge-Based CDSS</h5>
+                            <div class="flex items-center justify-around text-center">
+                                 <div class="flow-arrow w-1/4"><div class="bg-green-100 p-2 rounded">Patient Data (EHR)</div></div>
+                                <div class="flow-arrow w-1/4"><div class="bg-green-100 p-2 rounded">ML Model</div></div>
+                                <div class="w-1/4"><div class="bg-green-100 p-2 rounded">Prediction</div></div>
+                            </div>
+                             <div class="text-center text-2xl my-2 text-gray-400">↑</div>
+                            <div class="flex justify-center">
+                                <div class="w-1/2 bg-gray-200 p-2 rounded text-center">Learns from Historical Data</div>
+                            </div>
+                            <p class="text-sm text-gray-600 mt-4 text-center">Uses AI/ML to learn patterns directly from clinical data without explicit rules.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="content-block text-gray-700 mt-8">
                     <h4>6.3 Types of CDSS</h4>
-                    <p>CDSS can be classified based on their architecture and functionality:</p>
-                    <ul>
-                        <li><strong>Knowledge-Based CDSS:</strong> Rely on predefined rules and if-then logic derived from medical guidelines.</li>
-                        <li><strong>Non-Knowledge-Based CDSS:</strong> Use machine learning or AI to learn patterns from data without explicit rules.</li>
-                        <li><strong>Active vs. Passive CDSS:</strong> Active systems interrupt workflows with alerts, while passive ones provide on-demand information.</li>
-                        <li><strong>Integrated vs. Standalone CDSS:</strong> Integrated systems embed within EHRs, while standalone ones operate independently.</li>
-                        <li><strong>Patient-Facing CDSS:</strong> Empower patients with tools like symptom checkers or apps recommending lifestyle changes.</li>
-                    </ul>
+                    <p>CDSS can be classified as Knowledge-Based or Non-Knowledge-Based, as illustrated above. They can also be categorized as Active (interruptive alerts) vs. Passive (on-demand info), Integrated (within EHR) vs. Standalone, and even Patient-Facing (symptom checkers).</p>
 
                     <h4>6.4 Benefits of CDSS</h4>
                     <p>CDSS offers substantial advantages, including improved patient safety by reducing medication errors, enhanced diagnostic accuracy with AI-based systems, efficiency and cost savings by streamlining workflows, and better adherence to evidence-based guidelines.</p>
@@ -78,12 +109,12 @@
                 <div class="bg-white p-8 rounded-xl shadow-md mt-8">
                     <h4 class="text-xl font-semibold text-center mb-2">The "Five Rights" of CDS</h4>
                     <p class="text-center text-gray-600 mb-6">This framework is critical for designing CDS that is helpful, not intrusive.</p>
-                    <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
-                        <div class="bg-gray-50 p-4 rounded-lg text-center"><div class="text-3xl mb-2">💡</div><h5 class="font-semibold">The Right Information</h5></div>
-                        <div class="bg-gray-50 p-4 rounded-lg text-center"><div class="text-3xl mb-2">👤</div><h5 class="font-semibold">The Right Person</h5></div>
-                        <div class="bg-gray-50 p-4 rounded-lg text-center"><div class="text-3xl mb-2">🎨</div><h5 class="font-semibold">The Right Format</h5></div>
-                        <div class="bg-gray-50 p-4 rounded-lg text-center"><div class="text-3xl mb-2">💻</div><h5 class="font-semibold">The Right Channel</h5></div>
-                        <div class="bg-gray-50 p-4 rounded-lg text-center"><div class="text-3xl mb-2">⏱️</div><h5 class="font-semibold">The Right Time</h5></div>
+                    <div class="grid md:grid-cols-2 lg:grid-cols-5 gap-4 text-center">
+                        <div class="bg-gray-50 p-4 rounded-lg border"><div class="text-3xl mb-2">💡</div><h5 class="font-semibold">Right Information</h5></div>
+                        <div class="bg-gray-50 p-4 rounded-lg border"><div class="text-3xl mb-2">👤</div><h5 class="font-semibold">Right Person</h5></div>
+                        <div class="bg-gray-50 p-4 rounded-lg border"><div class="text-3xl mb-2">🎨</div><h5 class="font-semibold">Right Format</h5></div>
+                        <div class="bg-gray-50 p-4 rounded-lg border"><div class="text-3xl mb-2">💻</div><h5 class="font-semibold">Right Channel</h5></div>
+                        <div class="bg-gray-50 p-4 rounded-lg border"><div class="text-3xl mb-2">⏱️</div><h5 class="font-semibold">Right Time</h5></div>
                     </div>
                 </div>
 

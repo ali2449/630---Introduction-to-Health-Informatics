@@ -12,11 +12,13 @@
         body { font-family: 'Inter', sans-serif; background-color: #F8F7F4; color: #333333; }
         .sidebar-link { transition: all 0.2s ease-in-out; }
         .sidebar-link.active, .sidebar-link:hover { background-color: #4A7C59; color: #FFFFFF; transform: translateX(4px); }
-        .dikw-level { cursor: pointer; transition: all 0.3s ease; }
+        .dikw-level { cursor: pointer; transition: all 0.3s ease; filter: grayscale(30%); }
+        .dikw-level.active, .dikw-level:hover { filter: grayscale(0%); transform: scale(1.02); }
         .content-block { line-height: 1.7; }
         .content-block h4 { font-size: 1.25rem; font-weight: 600; margin-top: 1.5rem; margin-bottom: 0.75rem; }
         .content-block p { margin-bottom: 1rem; }
         .content-block ul { list-style-type: disc; padding-left: 1.5rem; margin-bottom: 1rem; }
+        .timeline-item::before { content: ''; position: absolute; left: -0.6rem; top: 0.5rem; width: 1.2rem; height: 1.2rem; background-color: #4A7C59; border-radius: 50%; border: 3px solid #F8F7F4; }
     </style>
 </head>
 <body class="antialiased">
@@ -45,13 +47,57 @@
                     <p>Health informatics is the interdisciplinary study and application of information technology, data management, and computational methods to support healthcare delivery, research, and public health. It encompasses the acquisition, storage, retrieval, and optimal use of biomedical data, information, and knowledge for problem-solving and decision-making in healthcare settings. At its core, health informatics bridges the gap between clinical practice and information science, aiming to improve patient outcomes, enhance operational efficiency, and reduce costs through the strategic use of data and technology. This field goes beyond mere digitization; it involves transforming raw data into actionable insights that can guide clinical decisions, policy-making, and resource allocation.</p>
                     <p>The scope of health informatics is broad and multifaceted, integrating elements from computer science, statistics, socio-technical systems, and healthcare domains. It includes the design, development, and implementation of systems such as electronic health records (EHRs), health information exchanges (HIEs), and clinical decision support systems (CDSS). It also involves data analytics, artificial intelligence (AI), and machine learning to derive insights from vast amounts of health data. Health informatics addresses challenges in data interoperability, privacy, and security while promoting evidence-based practices. As a field, it integrates elements from computer science, engineering, medicine, nursing, and public health, making it essential for modern healthcare systems.</p>
                     <p>In practical terms, health informatics enables healthcare providers to manage patient information more effectively, supports population health management, and facilitates research by providing structured data for analysis. For instance, it plays a critical role in telemedicine, where remote monitoring and virtual consultations rely on secure data transmission and real-time analytics. A real-world example is the use of health informatics in managing chronic diseases like diabetes: apps and wearable devices collect patient data on blood sugar levels, which informatics systems analyze to alert providers to potential issues, preventing hospitalizations and improving quality of life. Another example is during public health crises, such as the COVID-19 pandemic, where informatics tools tracked infection rates, vaccine distribution, and genomic variants to inform global responses. The scope extends to ethical considerations, ensuring equitable access to technology and mitigating biases in data-driven decisions.</p>
+                </div>
 
+                <div class="bg-white p-8 rounded-xl shadow-md mt-8">
+                    <h4 class="text-xl font-semibold text-center mb-2">The DIKW Hierarchy</h4>
+                    <p class="text-center text-gray-600 mb-6">A central framework for understanding how raw facts are transformed into actionable insights. Click on each level to learn more.</p>
+                    <div class="lg:grid lg:grid-cols-2 gap-8 items-center">
+                        <div class="flex flex-col-reverse">
+                            <div id="dikw-data" class="dikw-level bg-teal-200 text-teal-800 p-4 rounded-b-lg text-center font-bold shadow-sm">Data</div>
+                            <div id="dikw-information" class="dikw-level bg-teal-300 text-teal-800 p-4 text-center font-bold shadow-sm">Information</div>
+                            <div id="dikw-knowledge" class="dikw-level bg-teal-400 text-white p-4 text-center font-bold shadow-sm">Knowledge</div>
+                            <div id="dikw-wisdom" class="dikw-level bg-teal-500 text-white p-4 rounded-t-lg text-center font-bold shadow-sm">Wisdom</div>
+                        </div>
+                        <div id="dikw-explanation" class="mt-6 lg:mt-0 p-6 bg-gray-50 rounded-lg min-h-[200px] border border-gray-200">
+                            <h5 class="font-bold text-lg mb-2 text-gray-800">Select a level</h5>
+                            <p class="text-gray-600">Click on a level of the pyramid to see its definition and a clinical example.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="content-block text-gray-700 mt-8">
                     <h4>1.2 Historical Overview</h4>
-                    <p>The evolution of health informatics dates back to the mid-20th century, when early computing technologies were first applied to medical problems. It can be divided into five key periods, starting in the 1950s in the USA and later expanding to Europe and other regions. In the 1940s, German doctor Gustav Wagner founded the first professional organization for informatics, laying foundational concepts for data processing in healthcare. By the 1950s, pioneers like Robert Ledley utilized digital computers for dental projects at the U.S. National Bureau of Standards, marking one of the initial forays into computational medicine. In 1959, Ledley and Lee B. Lusted published "Reasoning Foundations of Medical Diagnosis," which introduced computing techniques to medical professionals and laid the groundwork for diagnostic algorithms.</p>
-                    <p>The 1960s saw the establishment of specialized university departments and training programs in Europe, including France, Germany, Belgium, and the Netherlands. In the U.S., the National Institutes of Health (NIH) invested heavily in biomedical research centers, spending over $40 million between 1960 and 1964. Key developments included the creation of MEDLINE and MEDLARS by the National Library of Medicine in 1965, which revolutionized access to medical literature through computerized indexing and retrieval systems.</p>
-                    <p>The 1970s brought advancements in expert systems, such as MYCIN for infectious disease diagnosis at Stanford University, which used rule-based AI to recommend antibiotics, and Internist-I for internal medicine at the University of Pittsburgh. The Massachusetts General Hospital developed MUMPS (Massachusetts General Hospital Utility Multi-Programming System), a programming language that became foundational for clinical applications, including the U.S. Veterans Affairs' VistA system, which is still in use today for managing veteran health records across the country.</p>
-                    <p>The 1980s and 1990s witnessed the formation of international organizations like the International Medical Informatics Association (IMIA) in 1967 and the growth of subfields such as nursing informatics. The earliest EHRs appeared in the late 1960s and early 1970s, with systems like the Regenstrief Medical Record System in Indiana. In the 2000s, policy initiatives like the U.S. Executive Order 13335 (2004) established national coordinators for health IT. Today, health informatics continues to evolve with big data, AI, and global standards, as seen in the rapid deployment of contact tracing apps during the 2020 pandemic.</p>
+                    <p>The evolution of health informatics dates back to the mid-20th century. The timeline below highlights key milestones, showing the progression from foundational concepts to the complex, AI-driven systems of today.</p>
+                </div>
+                
+                <div class="bg-white p-8 rounded-xl shadow-md mt-8">
+                    <h4 class="text-xl font-semibold text-center mb-6">Timeline of Health Informatics</h4>
+                    <div class="relative border-l-2 border-gray-300 ml-4">
+                        <div class="timeline-item mb-8 pl-8">
+                            <h5 class="font-bold text-lg text-gray-800">1950s: The Dawn of Computation</h5>
+                            <p class="text-sm text-gray-600">Pioneers like Robert Ledley begin using digital computers for medical projects. The publication "Reasoning Foundations of Medical Diagnosis" (1959) introduces computational techniques to medicine.</p>
+                        </div>
+                        <div class="timeline-item mb-8 pl-8">
+                            <h5 class="font-bold text-lg text-gray-800">1960s: Academic Foundations</h5>
+                            <p class="text-sm text-gray-600">Specialized university departments are established. The NIH invests heavily in biomedical research centers. The National Library of Medicine creates MEDLINE, revolutionizing access to medical literature.</p>
+                        </div>
+                        <div class="timeline-item mb-8 pl-8">
+                            <h5 class="font-bold text-lg text-gray-800">1970s: Rise of Expert Systems</h5>
+                            <p class="text-sm text-gray-600">Landmark systems like MYCIN (infectious disease) and Internist-I (internal medicine) are developed. The MUMPS programming language becomes foundational for clinical applications, including the VA's VistA system.</p>
+                        </div>
+                        <div class="timeline-item mb-8 pl-8">
+                            <h5 class="font-bold text-lg text-gray-800">1990s-2000s: Policy and Growth</h5>
+                            <p class="text-sm text-gray-600">International organizations like IMIA grow. The first EHRs appear. Policy initiatives like the U.S. Executive Order 13335 (2004) establish national coordinators for health IT, setting the stage for widespread adoption.</p>
+                        </div>
+                         <div class="timeline-item pl-8">
+                            <h5 class="font-bold text-lg text-gray-800">2010s-2020s: The Modern Era</h5>
+                            <p class="text-sm text-gray-600">The HITECH Act (2009) drives massive EHR adoption. The focus shifts to interoperability with standards like FHIR. Big data, AI, and mobile health become central to the field, as seen in the response to the COVID-19 pandemic.</p>
+                        </div>
+                    </div>
+                </div>
 
+                <div class="content-block text-gray-700 mt-8">
                     <h4>1.3 The Role of Health Informatics in Healthcare</h4>
                     <p>Health informatics plays a pivotal role in transforming healthcare from a reactive, paper-based system to a proactive, data-driven one. It supports the entire healthcare ecosystem by enabling better communication among providers, patients, and administrators. For example, informatics tools help in reducing medical errors through automated alerts and standardized protocols, improving patient safety and care quality. In the U.S. healthcare system, which faces challenges like high costs and fragmentation, informatics addresses key issues such as quality reform and consumerism. It facilitates value-based care by analyzing data to identify inefficiencies and support evidence-based decisions. Globally, informatics aids in public health surveillance, epidemic tracking, and resource allocation in low- and middle-income countries.</p>
                     <p>Informatics also empowers patients through tools like personal health records and mobile apps, promoting engagement and self-management. In research, it enables large-scale studies by aggregating de-identified data, accelerating discoveries in genomics and personalized medicine. A real-world example is the use of informatics in combating the opioid crisis: Systems like Prescription Drug Monitoring Programs (PDMPs) in states like Ohio aggregate prescription data to detect overprescribing, reducing overdose deaths by up to 20% in participating areas. Another example is in pediatric asthma management, where informatics platforms use EHR data to predict exacerbations and tailor interventions, decreasing emergency visits. During public health emergencies, informatics has been crucial; for instance, the CDC's use of data dashboards during COVID-19 helped track variants and vaccination rates, informing policy and resource distribution.</p>
@@ -107,5 +153,27 @@
             </section>
         </main>
     </div>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const dikwData = {
+        data: { title: 'Data: Discrete Facts', text: 'Discrete, unorganized facts. Example: The number "140". It has no context or meaning on its own. EHRs and medical devices are primary engines for capturing raw data.' },
+        information: { title: 'Information: Data in Context', text: 'Data that is organized and given context. Example: "The patient\'s systolic blood pressure was 140 mmHg at 2:30 PM". Data standards are the mechanisms for structuring data into usable information.' },
+        knowledge: { title: 'Knowledge: Synthesized Information', text: 'The synthesis of information to identify patterns. Example: "This patient\'s blood pressure has been trending upward for six months, despite medication". Analytics platforms generate clinical knowledge.' },
+        wisdom: { title: 'Wisdom: Applied Knowledge', text: 'The application of knowledge to make sound decisions. Example: "Given the trend and the patient\'s lifestyle, we should refer them to a nutritionist in addition to adjusting their medication". Clinical Decision Support systems are designed to enable wisdom at the point of care.' }
+    };
+
+    const dikwLevels = document.querySelectorAll('.dikw-level');
+    const dikwExplanation = document.getElementById('dikw-explanation');
+    dikwLevels.forEach(level => {
+        level.addEventListener('click', () => {
+            const levelId = level.id.split('-')[1];
+            const content = dikwData[levelId];
+            dikwLevels.forEach(l => l.classList.remove('active'));
+            level.classList.add('active');
+            dikwExplanation.innerHTML = `<h5 class="font-bold text-lg mb-2 text-gray-800">${content.title}</h5><p class="text-gray-600">${content.text}</p>`;
+        });
+    });
+});
+</script>
 </body>
 </html>

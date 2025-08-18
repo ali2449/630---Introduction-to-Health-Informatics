@@ -47,14 +47,32 @@
 
                     <h4>4.2 Historical Overview</h4>
                     <p>The concept of HIE dates back to the early 1990s with community health information networks (CHINs). A major catalyst was the 2009 HITECH Act, which allocated $564 million for state-level HIE development, spurring the creation of over 100 regional HIEs. By the 2020s, HIE evolved with the Trusted Exchange Framework and Common Agreement (TEFCA) in 2022, establishing a national framework for secure sharing. The COVID-19 pandemic accelerated HIE use for real-time surveillance, and as of 2025, HIE has matured into hybrid models integrating AI and blockchain.</p>
+                </div>
 
+                <div class="bg-white p-8 rounded-xl shadow-md mt-8">
+                    <h4 class="text-xl font-semibold text-center mb-6">Types of Health Information Exchange</h4>
+                    <div class="grid md:grid-cols-3 gap-8">
+                        <div class="text-center p-4 border rounded-lg shadow-sm">
+                            <div class="text-4xl mb-3">➡️</div>
+                            <h5 class="font-bold text-lg mb-2">Directed Exchange</h5>
+                            <p class="text-sm text-gray-600">Secure point-to-point sending of data between two known parties. Used for referrals and care transitions.</p>
+                        </div>
+                        <div class="text-center p-4 border rounded-lg shadow-sm">
+                            <div class="text-4xl mb-3">🔍</div>
+                            <h5 class="font-bold text-lg mb-2">Query-Based Exchange</h5>
+                            <p class="text-sm text-gray-600">Providers find and/or request information on a patient from other providers. Used for unplanned care.</p>
+                        </div>
+                        <div class="text-center p-4 border rounded-lg shadow-sm">
+                            <div class="text-4xl mb-3">👤</div>
+                            <h5 class="font-bold text-lg mb-2">Consumer-Mediated</h5>
+                            <p class="text-sm text-gray-600">Patients control the use of their health information among providers via portals or apps.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="content-block text-gray-700 mt-8">
                     <h4>4.3 Types of HIE</h4>
-                    <p>HIE can be categorized into three primary types:</p>
-                    <ul>
-                        <li><strong>Directed Exchange:</strong> Secure, point-to-point transmission of patient information between known providers, ideal for coordinated care like referrals.</li>
-                        <li><strong>Query-Based Exchange:</strong> Allows providers to search and retrieve patient data from other organizations on-demand, useful in unplanned scenarios like emergencies.</li>
-                        <li><strong>Consumer-Mediated Exchange:</strong> Empowers patients to aggregate and control their data sharing, often through personal health records (PHRs) or apps.</li>
-                    </ul>
+                    <p>HIE can be categorized into three primary types: Directed Exchange, Query-Based Exchange, and Consumer-Mediated Exchange, each serving distinct data-sharing needs as illustrated in the diagram above.</p>
 
                     <h4>4.4 Benefits of HIE</h4>
                     <p>HIE offers multifaceted benefits, including improved patient care and safety by providing comprehensive data for informed decisions. It leads to cost savings and efficiency by minimizing redundancies. HIE also enhances population health and analytics by aggregating data for public health surveillance and supports patient engagement and equity by fostering self-management.</p>
@@ -82,9 +100,9 @@
                     <h4 class="text-xl font-semibold text-center mb-2">HIE Architectural Models</h4>
                     <p class="text-center text-gray-600 mb-6">The structure of an HIE reflects the technical goals and trust among participants. Explore the three main models.</p>
                     <div class="grid md:grid-cols-3 gap-6 text-center">
-                        <div class="interactive-card border-2 border-gray-200 p-6 rounded-lg"><h5 class="font-bold text-lg mb-2">Centralized</h5><p class="text-sm text-gray-600">Participants send data copies to a single, central repository. Fast queries, but requires high trust.</p></div>
-                        <div class="interactive-card border-2 border-gray-200 p-6 rounded-lg"><h5 class="font-bold text-lg mb-2">Federated</h5><p class="text-sm text-gray-600">Data remains at the source. The HIE acts as a "record locator." More complex, but participants retain control.</p></div>
-                        <div class="interactive-card border-2 border-gray-200 p-6 rounded-lg"><h5 class="font-bold text-lg mb-2">Hybrid</h5><p class="text-sm text-gray-600">Combines elements of both, centralizing some data for speed while leaving other data at the source.</p></div>
+                        <div class="interactive-card border-2 border-gray-200 p-6 rounded-lg bg-blue-50"><h5 class="font-bold text-lg mb-2 text-blue-800">Centralized</h5><p class="text-sm text-gray-600">Participants send data copies to a single, central repository. Fast queries, but requires high trust.</p></div>
+                        <div class="interactive-card border-2 border-gray-200 p-6 rounded-lg bg-green-50"><h5 class="font-bold text-lg mb-2 text-green-800">Federated</h5><p class="text-sm text-gray-600">Data remains at the source. The HIE acts as a "record locator." More complex, but participants retain control.</p></div>
+                        <div class="interactive-card border-2 border-gray-200 p-6 rounded-lg bg-purple-50"><h5 class="font-bold text-lg mb-2 text-purple-800">Hybrid</h5><p class="text-sm text-gray-600">Combines elements of both, centralizing some data for speed while leaving other data at the source.</p></div>
                     </div>
                 </div>
 

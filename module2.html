@@ -18,6 +18,8 @@
         .content-block h4 { font-size: 1.25rem; font-weight: 600; margin-top: 1.5rem; margin-bottom: 0.75rem; }
         .content-block p { margin-bottom: 1rem; }
         .content-block ul { list-style-type: disc; padding-left: 1.5rem; margin-bottom: 1rem; }
+        .ehr-component { cursor: pointer; transition: all 0.3s ease; }
+        .ehr-component:hover { background-color: #f0fdf4; }
     </style>
 </head>
 <body class="antialiased">
@@ -44,17 +46,34 @@
                 <div class="content-block text-gray-700">
                     <h4>2.1 Definition and Components</h4>
                     <p>Electronic Health Records (EHRs) represent a transformative shift from traditional paper-based medical charting to digital systems that capture, store, and manage patient health information in a structured, accessible format. An EHR is an electronic version of a patient's medical history, maintained by the provider over time, and may include all key administrative and clinical data relevant to that person's care under a particular provider. Unlike paper records, EHRs are real-time, patient-centered, and designed to be shared securely across different healthcare settings.</p>
-                    <p>The components of an EHR system are multifaceted, ensuring a holistic view of patient health while supporting clinical workflows. Key elements include:</p>
-                    <ul>
-                        <li><strong>Patient Demographics and Administrative Data:</strong> Basic information such as name, age, gender, contact details, insurance information, and billing data.</li>
-                        <li><strong>Clinical Documentation:</strong> Progress notes, problem lists, and encounter summaries that detail patient visits, symptoms, and provider observations.</li>
-                        <li><strong>Medication and Allergy Records:</strong> Lists of prescribed medications, dosages, administration routes, and known allergies or adverse reactions.</li>
-                        <li><strong>Vital Signs and Diagnostic Results:</strong> Real-time data from monitoring devices, including blood pressure, heart rate, and results from labs or imaging.</li>
-                        <li><strong>Immunization and Preventive Care History:</strong> Records of vaccinations and screenings, supporting public health initiatives.</li>
-                        <li><strong>Treatment Plans and Orders:</strong> Detailed care plans, including referrals, procedures, and electronic prescribing (e-prescribing).</li>
-                        <li><strong>Multimedia and Unstructured Data:</strong> Images, videos, or scanned documents, often stored using standards like DICOM for radiology.</li>
-                    </ul>
+                </div>
 
+                <div class="bg-white p-8 rounded-xl shadow-md mt-8">
+                    <h4 class="text-xl font-semibold text-center mb-2">Anatomy of a Modern EHR</h4>
+                    <p class="text-center text-gray-600 mb-6">A modern EHR is a complex system of interconnected components. Click on a component below to learn more about its function.</p>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div class="md:col-span-2 grid grid-cols-2 md:grid-cols-4 gap-4 text-center">
+                            <div class="ehr-component p-4 border rounded-lg" data-title="Clinical Documentation" data-text="Includes progress notes, problem lists, and encounter summaries detailing patient visits, symptoms, and provider observations.">
+                                <div class="text-3xl mb-2">📝</div><span class="font-semibold">Documentation</span>
+                            </div>
+                            <div class="ehr-component p-4 border rounded-lg" data-title="Order Management (CPOE)" data-text="Allows clinicians to enter and manage orders for medications, tests, and procedures electronically, reducing handwriting errors.">
+                                <div class="text-3xl mb-2">➡️</div><span class="font-semibold">Order Entry</span>
+                            </div>
+                            <div class="ehr-component p-4 border rounded-lg" data-title="Results Management" data-text="Manages and displays results from labs, imaging, and other tests, allowing for trend analysis over time.">
+                                <div class="text-3xl mb-2">📊</div><span class="font-semibold">Results</span>
+                            </div>
+                            <div class="ehr-component p-4 border rounded-lg" data-title="Decision Support (CDS)" data-text="Provides reminders, alerts for drug interactions, and links to clinical guidelines to support evidence-based care.">
+                                <div class="text-3xl mb-2">💡</div><span class="font-semibold">Decision Support</span>
+                            </div>
+                        </div>
+                        <div id="ehr-explanation" class="md:col-span-2 mt-4 p-6 bg-gray-50 rounded-lg min-h-[100px] border border-gray-200">
+                            <h5 id="ehr-title" class="font-bold text-lg mb-2 text-gray-800">Select a Component</h5>
+                            <p id="ehr-text" class="text-gray-600">Click on an icon above to see a description of that EHR component.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="content-block text-gray-700 mt-8">
                     <h4>2.2 Historical Overview</h4>
                     <p>The development of EHRs has evolved over decades. Early precursors emerged in the 1960s with systems like the Regenstrief Medical Record System. By the 1970s, the U.S. Department of Veterans Affairs (VA) began developing the VistA system. The 1980s and 1990s saw commercial growth, but adoption was slow. A pivotal moment came in 2004 when President George W. Bush established the Office of the National Coordinator for Health Information Technology (ONC). The Health Information Technology for Economic and Clinical Health (HITECH) Act of 2009 provided incentives totaling over $30 billion, spurring adoption from 9% in 2008 to over 96% in hospitals by 2021.</p>
                     
@@ -130,7 +149,7 @@
 <script>
 document.addEventListener('DOMContentLoaded', function() {
     const ehrAdoptionCtx = document.getElementById('ehrAdoptionChart').getContext('2d');
-    const ehrAdoptionChart = new Chart(ehrAdoptionCtx, {
+    new Chart(ehrAdoptionCtx, {
         type: 'line',
         data: {
             labels: ['2008', '2009', '2011', '2013', '2015', '2017', '2021'],
@@ -164,6 +183,18 @@ document.addEventListener('DOMContentLoaded', function() {
             },
             scales: { y: { beginAtZero: true, max: 100, title: { display: true, text: 'Adoption Percentage (%)' } } }
         }
+    });
+
+    const ehrComponents = document.querySelectorAll('.ehr-component');
+    const ehrTitle = document.getElementById('ehr-title');
+    const ehrText = document.getElementById('ehr-text');
+    ehrComponents.forEach(component => {
+        component.addEventListener('click', () => {
+            ehrTitle.textContent = component.dataset.title;
+            ehrText.textContent = component.dataset.text;
+            ehrComponents.forEach(c => c.classList.remove('bg-green-100', 'border-green-400'));
+            component.classList.add('bg-green-100', 'border-green-400');
+        });
     });
 });
 </script>

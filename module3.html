@@ -17,6 +17,8 @@
         .content-block h4 { font-size: 1.25rem; font-weight: 600; margin-top: 1.5rem; margin-bottom: 0.75rem; }
         .content-block p { margin-bottom: 1rem; }
         .content-block ul { list-style-type: disc; padding-left: 1.5rem; margin-bottom: 1rem; }
+        .flow-diagram .flow-box { transition: all 0.3s ease; }
+        .flow-diagram .flow-box:hover { transform: translateY(-4px); box-shadow: 0 4px 6px rgba(0,0,0,0.1); }
     </style>
 </head>
 <body class="antialiased">
@@ -46,7 +48,51 @@
 
                     <h4>3.2 Historical Overview</h4>
                     <p>The evolution of health data standards traces back to the late 19th century with precursors to the International Classification of Diseases (ICD). In 1948, the WHO adopted ICD. The 1960s and 1970s saw the rise of computerized systems, prompting digital standards like SNOMED (1965) and LOINC (1994). The 1980s marked the inception of exchange standards with Health Level Seven (HL7) in 1987. Policy milestones like HIPAA (1996) accelerated progress. In the 2010s, Fast Healthcare Interoperability Resources (FHIR) emerged as a modern, API-based standard. By 2025, FHIR has matured, reflecting a shift from rigid messaging to agile, internet-era standards.</p>
+                </div>
 
+                <div class="bg-white p-8 rounded-xl shadow-md mt-8 flow-diagram">
+                    <h4 class="text-xl font-semibold text-center mb-6">Comparing Data Exchange Standards</h4>
+                    <div class="grid md:grid-cols-3 gap-8 text-center">
+                        <!-- HL7 v2 -->
+                        <div>
+                            <h5 class="font-bold text-lg mb-4">HL7 v2 (Messaging)</h5>
+                            <div class="space-y-2">
+                                <div class="flow-box bg-blue-100 p-3 rounded-lg border border-blue-200">EHR A (Event Trigger)</div>
+                                <div class="text-2xl text-blue-400">↓</div>
+                                <div class="flow-box bg-blue-100 p-3 rounded-lg border border-blue-200">"Pipe & Hat" Message</div>
+                                <div class="text-2xl text-blue-400">↓</div>
+                                <div class="flow-box bg-blue-100 p-3 rounded-lg border border-blue-200">EHR B (Point-to-Point)</div>
+                            </div>
+                            <p class="text-sm text-gray-600 mt-4">Legacy workhorse for internal hospital communication. Rigid but efficient for specific tasks.</p>
+                        </div>
+                        <!-- C-CDA -->
+                        <div>
+                            <h5 class="font-bold text-lg mb-4">C-CDA (Documents)</h5>
+                            <div class="space-y-2">
+                                <div class="flow-box bg-green-100 p-3 rounded-lg border border-green-200">EHR A (Generates Summary)</div>
+                                <div class="text-2xl text-green-400">↓</div>
+                                <div class="flow-box bg-green-100 p-3 rounded-lg border border-green-200">XML Document (Snapshot)</div>
+                                <div class="text-2xl text-green-400">↓</div>
+                                <div class="flow-box bg-green-100 p-3 rounded-lg border border-green-200">EHR B (Displays Document)</div>
+                            </div>
+                            <p class="text-sm text-gray-600 mt-4">Standard for exchanging entire clinical documents, like a digital fax. Human-readable but not easily computable.</p>
+                        </div>
+                        <!-- FHIR -->
+                        <div>
+                            <h5 class="font-bold text-lg mb-4">FHIR (API/Resources)</h5>
+                            <div class="space-y-2">
+                                <div class="flow-box bg-purple-100 p-3 rounded-lg border border-purple-200">App (Requests Data)</div>
+                                <div class="text-2xl text-purple-400">↕</div>
+                                <div class="flow-box bg-purple-100 p-3 rounded-lg border border-purple-200">FHIR Server (API)</div>
+                                <div class="text-2xl text-purple-400">↕</div>
+                                <div class="flow-box bg-purple-100 p-3 rounded-lg border border-purple-200">EHR Data (Resources)</div>
+                            </div>
+                             <p class="text-sm text-gray-600 mt-4">Modern, web-based approach for querying discrete data elements. Flexible and developer-friendly.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="content-block text-gray-700 mt-8">
                     <h4>3.3 Key Data Standards</h4>
                     <p>Health data standards can be categorized into terminologies, classifications, and exchange protocols.</p>
                     <ul>
