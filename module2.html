@@ -10,106 +10,428 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
-        body { font-family: 'Inter', sans-serif; background-color: #F8F7F4; color: #333333; }
-        .sidebar-link { transition: all 0.2s ease-in-out; }
-        .sidebar-link.active, .sidebar-link:hover { background-color: #4A7C59; color: #FFFFFF; transform: translateX(4px); }
-        .chart-container { position: relative; width: 100%; max-width: 700px; margin-left: auto; margin-right: auto; height: 400px; max-height: 450px; }
-        .content-block { line-height: 1.7; }
-        .content-block h4 { font-size: 1.25rem; font-weight: 600; margin-top: 1.5rem; margin-bottom: 0.75rem; }
-        .content-block p { margin-bottom: 1rem; }
-        .content-block ul { list-style-type: disc; padding-left: 1.5rem; margin-bottom: 1rem; }
-        .ehr-component { cursor: pointer; transition: all 0.3s ease; }
-        .ehr-component:hover { background-color: #f0fdf4; }
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #F7F5F0;
+            color: #2F3E46;
+        }
+        .sidebar-link {
+            transition: all 0.2s ease-in-out;
+            border-radius: 0.5rem;
+        }
+        .sidebar-link.active, .sidebar-link:hover {
+            background-color: #2C6E49;
+            color: #FFFFFF;
+            transform: translateX(4px);
+        }
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 700px;
+            margin-left: auto;
+            margin-right: auto;
+            height: 400px;
+            max-height: 450px;
+        }
+        .content-block {
+            line-height: 1.7;
+        }
+        .content-block h4 {
+            font-size: 1.25rem;
+            font-weight: 600;
+            margin-top: 1.5rem;
+            margin-bottom: 0.75rem;
+        }
+        .content-block p {
+            margin-bottom: 1rem;
+            text-align: justify;
+        }
+        .content-block ul {
+            list-style-type: disc;
+            padding-left: 1.5rem;
+            margin-bottom: 1rem;
+        }
+        .ehr-component {
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+        }
+        .ehr-component:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+        }
+        .ehr-component.active {
+            background-color: #d1f7e0;
+            border-color: #2C6E49;
+            transform: translateY(-2px);
+        }
+        @media (max-width: 1023px) {
+            .fixed-sidebar {
+                position: static;
+                width: auto;
+                height: auto;
+            }
+        }
+        .data-table th, .data-table td {
+            border: 1px solid #e5e7eb;
+            padding: 8px;
+        }
+        .dik-diagram {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-bottom: 2rem;
+            text-align: center;
+        }
+        .dik-box {
+            background-color: #e2e8f0;
+            padding: 1rem 2rem;
+            border-radius: 0.5rem;
+            border: 1px solid #cbd5e1;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+        }
+        .dik-arrow {
+            width: 2px;
+            height: 2rem;
+            background-color: #64748b;
+            position: relative;
+        }
+        .dik-arrow::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%) rotate(45deg);
+            width: 10px;
+            height: 10px;
+            border: solid #64748b;
+            border-width: 0 2px 2px 0;
+            display: inline-block;
+        }
+        .ehr-ecosystem-diagram {
+            display: grid;
+            grid-template-areas:
+                ". lab ."
+                "patient center pharmacy"
+                ". hie .";
+            grid-template-columns: 1fr 1fr 1fr;
+            grid-template-rows: 1fr 1fr 1fr;
+            gap: 20px;
+            position: relative;
+            margin: 2rem auto;
+            max-width: 600px;
+            height: 400px;
+            color: white;
+            font-weight: 500;
+        }
+        .ehr-circle {
+            background-color: #2C6E49;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 120px;
+            height: 120px;
+            text-align: center;
+            box-shadow: 0 6px 10px rgba(0, 0, 0, 0.2);
+        }
+        .ehr-circle-center {
+            grid-area: center;
+            width: 150px;
+            height: 150px;
+            background-color: #4A7C59;
+        }
+        .ecosystem-line {
+            position: absolute;
+            background-color: #64748b;
+            z-index: -1;
+        }
+        .line-1 { top: 30%; left: 50%; width: 2px; height: 20%; transform: translateY(-50%); }
+        .line-2 { top: 50%; left: 30%; width: 20%; height: 2px; transform: translateX(-50%); }
+        .line-3 { top: 50%; right: 30%; width: 20%; height: 2px; transform: translateX(50%); }
+        .line-4 { bottom: 30%; left: 50%; width: 2px; height: 20%; transform: translateY(50%); }
     </style>
 </head>
 <body class="antialiased">
     <div class="min-h-screen lg:grid lg:grid-cols-12">
-        <aside class="lg:col-span-3 lg:block bg-[#EAE7E1] p-6 lg:fixed lg:h-full lg:w-1/4 xl:w-1/5">
-            <h1 class="text-2xl font-bold text-[#4A7C59]">Health Informatics</h1>
+        <aside class="lg:col-span-3 lg:block bg-[#EAE7E1] p-6 lg:fixed lg:h-full lg:w-1/4 xl:w-1/5 fixed-sidebar">
+            <h1 class="text-2xl font-bold text-[#2C6E49]">Health Informatics</h1>
             <p class="text-sm text-gray-600 mb-8">Master's Course Overview</p>
             <nav id="sidebar-nav" class="space-y-2">
-                <a href="./index.html" class="sidebar-link block p-3 rounded-lg font-medium">Home</a>
-                <a href="./module1.html" class="sidebar-link block p-3 rounded-lg font-medium">1. Introduction</a>
-                <a href="./module2.html" class="sidebar-link active block p-3 rounded-lg font-medium">2. EHR Ecosystem</a>
-                <a href="./module3.html" class="sidebar-link block p-3 rounded-lg font-medium">3. Data Standards</a>
-                <a href="./module4.html" class="sidebar-link block p-3 rounded-lg font-medium">4. Health Information Exchange</a>
-                <a href="./module5.html" class="sidebar-link block p-3 rounded-lg font-medium">5. Health Data Analytics</a>
-                <a href="./module6.html" class="sidebar-link block p-3 rounded-lg font-medium">6. Clinical Decision Support</a>
-                <a href="./module7.html" class="sidebar-link block p-3 rounded-lg font-medium">7. Safety, Quality & Value</a>
-                <a href="./module8.html" class="sidebar-link block p-3 rounded-lg font-medium">8. Privacy & Security</a>
+                <a href="./index.html" class="sidebar-link block p-3 font-medium">Home</a>
+                <a href="./module1.html" class="sidebar-link block p-3 font-medium">1. Introduction</a>
+                <a href="./module2.html" class="sidebar-link active block p-3 font-medium">2. EHR Ecosystem</a>
+                <a href="./module3.html" class="sidebar-link block p-3 font-medium">3. Data Standards</a>
+                <a href="./module4.html" class="sidebar-link block p-3 font-medium">4. Health Information Exchange</a>
+                <a href="./module5.html" class="sidebar-link block p-3 font-medium">5. Health Data Analytics</a>
+                <a href="./module6.html" class="sidebar-link block p-3 font-medium">6. Clinical Decision Support</a>
+                <a href="./module7.html" class="sidebar-link block p-3 font-medium">7. Safety, Quality & Value</a>
+                <a href="./module8.html" class="sidebar-link block p-3 font-medium">8. Privacy & Security</a>
             </nav>
         </aside>
 
         <main class="lg:col-span-9 lg:col-start-4 p-6 md:p-10">
             <section id="module2">
-                <h3 class="text-3xl font-bold text-[#4A7C59] mb-4">Module 2: Electronic Health Records</h3>
+                <h3 class="text-3xl font-bold text-[#2C6E49] mb-4">The Evolution of Health Informatics: From Data Silos to an Intelligent Healthcare Ecosystem</h3>
                 <div class="content-block text-gray-700">
-                    <h4>2.1 Definition and Components</h4>
-                    <p>Electronic Health Records (EHRs) represent a transformative shift from traditional paper-based medical charting to digital systems that capture, store, and manage patient health information in a structured, accessible format. An EHR is an electronic version of a patient's medical history, maintained by the provider over time, and may include all key administrative and clinical data relevant to that person's care under a particular provider. Unlike paper records, EHRs are real-time, patient-centered, and designed to be shared securely across different healthcare settings.</p>
+                    <h4 class="text-xl font-semibold mb-2">Executive Summary</h4>
+                    <p>The way health information is handled in the United States has changed greatly, especially since electronic health records (EHRs) became common. This change, driven by laws like the HITECH Act and the 21st Century Cures Act, has moved the industry from simply collecting data to creating a connected, smart healthcare system. As a result, efficiency and patient care have improved significantly. However, this has also led to new, complex problems. The most important issues, such as difficulties in sharing information, growing cyber threats, and high levels of stress for clinicians, cannot be fixed with technology alone. They require a new focus on people and the system as a whole, rather than just on technology. The future of this field will depend on using new tools like artificial intelligence (AI), predictive analytics, and secure platforms like blockchain to solve these problems and create a more reliable and forward-thinking healthcare system.</p>
                 </div>
-
-                <div class="bg-white p-8 rounded-xl shadow-md mt-8">
-                    <h4 class="text-xl font-semibold text-center mb-2">Anatomy of a Modern EHR</h4>
-                    <p class="text-center text-gray-600 mb-6">A modern EHR is a complex system of interconnected components. Click on a component below to learn more about its function.</p>
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                        <div class="md:col-span-2 grid grid-cols-2 md:grid-cols-4 gap-4 text-center">
-                            <div class="ehr-component p-4 border rounded-lg" data-title="Clinical Documentation" data-text="Includes progress notes, problem lists, and encounter summaries detailing patient visits, symptoms, and provider observations.">
-                                <div class="text-3xl mb-2">📝</div><span class="font-semibold">Documentation</span>
+                
+                <div class="content-block text-gray-700 mt-8">
+                    <h4 class="text-xl font-semibold mb-2">Chapter 1: The Basics of Informatics: From Data to Knowledge</h4>
+                    <h5 class="font-bold text-lg mt-4">1.1 The Journey from Data to Knowledge in Healthcare</h5>
+                    <p>To understand health informatics, it helps to think of a simple chain: from data to information to knowledge. <strong>Data</strong> is just a raw observation or symbol, like a number such as 250.00. This raw data becomes <strong>information</strong> when it is given meaning. For example, the number 250.00 becomes information when it is identified as a medical code that means Type 2 diabetes.1 The final and most advanced step is <strong>knowledge</strong>, which is information that is proven to be true. An example of this is the belief that obese patients are more likely to get Type 2 diabetes, a conclusion that comes from looking at a lot of information. The main goal of health informatics is to help this process happen, turning raw data into useful information and then into knowledge that can improve human health.1</p>
+                    <div class="my-6">
+                        <h5 class="font-bold text-center text-lg mb-4">The Data-Information-Knowledge (DIK) Continuum</h5>
+                        <div class="dik-diagram">
+                            <div class="dik-box">
+                                <h6 class="font-bold text-sm">DATA</h6>
+                                <p class="text-sm">Raw symbols or numbers</p>
                             </div>
-                            <div class="ehr-component p-4 border rounded-lg" data-title="Order Management (CPOE)" data-text="Allows clinicians to enter and manage orders for medications, tests, and procedures electronically, reducing handwriting errors.">
-                                <div class="text-3xl mb-2">➡️</div><span class="font-semibold">Order Entry</span>
+                            <div class="dik-arrow"></div>
+                            <div class="dik-box">
+                                <h6 class="font-bold text-sm">INFORMATION</h6>
+                                <p class="text-sm">Data with context</p>
                             </div>
-                            <div class="ehr-component p-4 border rounded-lg" data-title="Results Management" data-text="Manages and displays results from labs, imaging, and other tests, allowing for trend analysis over time.">
-                                <div class="text-3xl mb-2">📊</div><span class="font-semibold">Results</span>
-                            </div>
-                            <div class="ehr-component p-4 border rounded-lg" data-title="Decision Support (CDS)" data-text="Provides reminders, alerts for drug interactions, and links to clinical guidelines to support evidence-based care.">
-                                <div class="text-3xl mb-2">💡</div><span class="font-semibold">Decision Support</span>
+                            <div class="dik-arrow"></div>
+                            <div class="dik-box">
+                                <h6 class="font-bold text-sm">KNOWLEDGE</h6>
+                                <p class="text-sm">Information with meaning</p>
                             </div>
                         </div>
-                        <div id="ehr-explanation" class="md:col-span-2 mt-4 p-6 bg-gray-50 rounded-lg min-h-[100px] border border-gray-200">
-                            <h5 id="ehr-title" class="font-bold text-lg mb-2 text-gray-800">Select a Component</h5>
-                            <p id="ehr-text" class="text-gray-600">Click on an icon above to see a description of that EHR component.</p>
+                    </div>
+                    
+                    <h5 class="font-bold text-lg mt-4">1.2 The Special Difficulties of Healthcare Data</h5>
+                    <p>Unlike in other industries, such as banking, where a number like $100.50 clearly means an account balance, healthcare data is much more complex and can be seen in different ways. This is known as the "semantic gap," which is the space between a simple data point and its real clinical meaning, which often depends on who is looking at it. For instance, a blood glucose number of 127 is not useful by itself. It needs more details, like the unit of measurement (mg/dl) or whether the patient had fasted. In addition to numbers, healthcare also involves subjective things like a patient saying they "feel sick," which can mean different things to different people.</p>
+                    <p>This main challenge is not just about technology but also about meaning. Clinical data does not have a clear meaning on its own; it requires human interpretation and is often vague or incomplete. While people can easily handle this kind of changing information, computers cannot. This is a key reason why clinical decision support systems (CDSS) can sometimes be frustrating, as they often require a level of precision that does not match the reality of a doctor's work.</p>
+                    
+                    <h5 class="font-bold text-lg mt-4">1.3 Using Clinical Data Warehouses to Find Important Insights</h5>
+                    <p>One of the most important modern ways to turn large amounts of different medical information into a useful knowledge base is through a <strong>clinical data warehouse (CDW)</strong>. While a normal EHR focuses on one patient at a time, a CDW is made to handle and analyze information from many patients at once. Data from various sources—like EHRs, radiology, and pathology—is copied into a temporary database. In this database, the data is cleaned and organized into a shared system that includes extra information about the data itself, known as metadata. This step is crucial for solving the problems of unclear meanings and sharing data.</p>
+                    <p>The CDW acts as a bridge between the separate, patient-focused data in individual EHRs and the larger analysis needed for research and public health. It helps turn information into knowledge by cleaning up and combining data from many different places. This allows for useful tools like descriptive analytics that can report on the number of patients with a certain condition, check clinical processes, estimate costs, and analyze solutions. CDWs are also very useful for public health, as they can track infections and report trends to health authorities.3 The ability of a CDW to create a single, structured knowledge base from real-world data is a direct way to help the healthcare industry move from just storing data to using it in a smart way.</p>
+                </div>
+
+                <div class="content-block text-gray-700 mt-8">
+                    <h4 class="text-xl font-semibold mb-2">Chapter 2: The EHR World: A Period of Great Change</h4>
+                    <h5 class="font-bold text-lg mt-4">2.1 Defining a Modern Electronic Health Record</h5>
+                    <p>The terms <strong>electronic medical record (EMR)</strong> and <strong>electronic health record (EHR)</strong> are often used in the same way, but they have a key difference.4 An EMR is a digital version of a paper chart and is typically used within a single doctor's office for patient care and treatment.4 While an EMR is better than a paper chart for things like tracking data over time, the information inside it does not easily leave the practice.4 In contrast, an EHR is a full digital record of a patient's health that is designed to be used and shared by authorized doctors and staff across more than one healthcare organization.4 What makes an EHR special is its focus on the patient's complete health and its ability to securely share medical information with different parties.4</p>
+                    
+                    <h5 class="font-bold text-lg mt-4">2.2 The HITECH Act: A Big Push for Adoption</h5>
+                    <p>The move from paper to electronic records really took off after the Health Information Technology for Economic and Clinical Health (HITECH) Act was passed in 2009.6 This law created a government program to pay doctors and hospitals to adopt and use certified EHRs in a "Meaningful Use" program, with the goal of making healthcare better and safer.7 This financial incentive, which could be as much as $44,000 for some providers, had a big effect on EHR adoption.7 Data shows that the number of office-based doctors using EHRs went from 18% in 2001 to 78% by 2013.7 By 2015, about 86% of doctor's offices and 96% of US hospitals had adopted EHRs, showing a huge change in the healthcare world.</p>
+                    <p>However, some research shows that the subsidies from the program were not the only reason for the increase in adoption. One study suggests that the adoption was also driven by a kind of "imitation," where doctors adopted the technology because their peers were.8 This shows that the HITECH Act had a powerful effect by combining financial rewards and penalties for not adopting the technology, which created a turning point. The law made a strong business and clinical case for using EHRs, which led to a wider trend that made using EHRs the new standard of care.</p>
+                    
+                    <h5 class="font-bold text-lg mt-4">2.3 The EHR Market: Adoption and Competition</h5>
+                    <p>The EHR market in the United States is a big part of the healthcare economy, with a total market size of about $12.87 billion in 2024 and the doctor's office segment at $5.49 billion.6 When you look at the market share data, it shows that a few main companies control a large part of the market. In the hospital market, Epic has a 37.7% share, and Oracle Health (formerly Cerner) has 21.7%.10 This control also exists in the market for doctors' offices, where Epic has a large 43.92% share, followed by Oracle Health at 25.06%.10</p>
+                    <p>The market information shows that Epic's growth is largely because it focuses on working with large, integrated health systems.10 This trend has two sides. On one hand, it can improve data sharing and streamline work within a single, large health system that uses one vendor's platform. However, it can also create bigger "data silos" or separate data pools between different health systems. This highlights a serious problem: while healthcare has moved past paper records, the new digital world is made up of large, vendor-specific platforms that can make it hard to share information across the country, which was the original goal of the technology. This shows why we still need regulations to make sure data can be shared securely between these large, separate systems.</p>
+                    <div class="my-6">
+                        <h5 class="font-bold text-center text-lg mb-4">EHR Hospital Market Share by Vendor (2024)</h5>
+                        <div class="chart-container">
+                            <canvas id="ehrMarketShareChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="content-block text-gray-700 mt-8">
+                    <h5 class="font-bold text-lg mt-4">2.4 The EHR Ecosystem: Beyond the Single System</h5>
+                    <p>An EHR is not a standalone product; it is the central hub of a complex digital ecosystem. It is designed to connect and exchange data with a variety of other systems, both internal and external to a hospital or clinic. This interconnectedness is what enables a truly coordinated and holistic approach to patient care. Key components of this ecosystem include a Patient Portal, which allows patients to access their own data, and Health Information Exchanges (HIEs), which facilitate the secure sharing of data between different healthcare organizations. The visual below provides a simplified overview of this interconnected environment.</p>
+                    <div class="flex justify-center my-6">
+                        <div class="ehr-ecosystem-diagram">
+                            <div class="ehr-circle" style="grid-area: lab;">Labs & Radiology</div>
+                            <div class="ehr-circle" style="grid-area: patient;">Patient & Patient Portal</div>
+                            <div class="ehr-circle ehr-circle-center">Electronic Health Record (EHR)</div>
+                            <div class="ehr-circle" style="grid-area: pharmacy;">Pharmacy & Prescribers</div>
+                            <div class="ehr-circle" style="grid-area: hie;">HIEs & Public Health</div>
                         </div>
                     </div>
                 </div>
 
                 <div class="content-block text-gray-700 mt-8">
-                    <h4>2.2 Historical Overview</h4>
-                    <p>The development of EHRs has evolved over decades. Early precursors emerged in the 1960s with systems like the Regenstrief Medical Record System. By the 1970s, the U.S. Department of Veterans Affairs (VA) began developing the VistA system. The 1980s and 1990s saw commercial growth, but adoption was slow. A pivotal moment came in 2004 when President George W. Bush established the Office of the National Coordinator for Health Information Technology (ONC). The Health Information Technology for Economic and Clinical Health (HITECH) Act of 2009 provided incentives totaling over $30 billion, spurring adoption from 9% in 2008 to over 96% in hospitals by 2021.</p>
+                    <h4 class="text-xl font-semibold mb-2">Chapter 3: The Contradiction of Digital Medicine: Looking at Key EHR Features</h4>
+                    <h5 class="font-bold text-lg mt-4">3.1 CPOE and CDSS: Making Care Safer, but Creating New Problems</h5>
+                    <p>One of the most praised features of a modern EHR is the <strong>Computerized Physician Order Entry (CPOE)</strong> system, which handles orders for medications, lab tests, and other procedures. CPOE was created to solve old problems from paper records, like hard-to-read handwriting and unclear abbreviations, which were a main cause of medical errors.12 Studies have shown that CPOE can reduce prescribing errors by as much as 48% compared to paper orders.12 The real strength of CPOE comes when it works with <strong>Clinical Decision Support Systems (CDSS)</strong>, which provide real-time warnings about things like drug interactions, wrong doses, and allergies.12</p>
+                    <p>However, while switching from paper to electronic systems solved one problem, it created a new set of complex, technology-related issues. While CPOE has been shown to reduce prescribing errors, it is less clear if it reliably reduces patient harm, like adverse drug events.12 Research has found that badly designed CPOE systems can introduce new kinds of errors, make things harder for clinicians to think through, and can be avoided by users who find them difficult.12 This creates a contradiction: the same technology that stops simple, common errors can also create new, equally dangerous ones. For CPOE to be successful, it's not enough to just digitize a process; the system must be designed to be both safe and easy to use. Otherwise, it risks replacing old problems with new, more complicated ones.12</p>
                     
-                    <h4>2.3 Benefits of EHRs</h4>
-                    <p>EHRs offer substantial advantages that enhance healthcare delivery, patient outcomes, and operational efficiency. One primary benefit is improved patient care through accurate, real-time information access. Other benefits include:</p>
-                    <ul>
-                        <li><strong>Reduced Medical Errors:</strong> EHRs minimize handwriting illegibility and automate checks for drug interactions, cutting medication errors by up to 50%.</li>
-                        <li><strong>Enhanced Efficiency and Productivity:</strong> Streamlining tasks like billing and scheduling allows providers to see more patients.</li>
-                        <li><strong>Better Patient Engagement:</strong> Patient portals enable access to records, appointment booking, and secure messaging, empowering individuals.</li>
-                        <li><strong>Cost Savings:</strong> By reducing duplicate tests and paperwork, EHRs lower operational costs.</li>
-                        <li><strong>Support for Research and Public Health:</strong> Aggregated data aids in population health analytics, such as tracking disease outbreaks.</li>
-                    </ul>
-
-                    <h4>2.4 Challenges and Barriers</h4>
-                    <p>Despite their advantages, EHRs face significant challenges. High implementation costs pose a barrier, especially for small practices. Interoperability issues persist, as disparate systems often fail to communicate. Other barriers include:</p>
-                    <ul>
-                        <li><strong>Usability and Workflow Disruptions:</strong> Complex interfaces increase documentation time, contributing to clinician burnout.</li>
-                        <li><strong>Privacy and Security Risks:</strong> Cyberattacks highlight vulnerabilities.</li>
-                        <li><strong>Data Quality and Bias:</strong> Errors in entry or incomplete records can lead to inaccuracies.</li>
-                        <li><strong>Resistance to Change:</strong> Lack of training and user involvement results in low adoption.</li>
-                    </ul>
-
-                    <h4>2.5 Implementation Strategies</h4>
-                    <p>Successful EHR implementation demands a structured approach, including needs assessment, vendor selection, data migration, robust training and change management, ensuring compliance and security, and continuous monitoring and optimization. A phased rollout, as used by Mayo Clinic, reduces risks and builds user confidence.</p>
-
-                    <h4>2.6 Real-World Examples and Case Studies</h4>
-                    <p>EHR implementations yield varied outcomes. <strong>Kaiser Permanente's HealthConnect EHR</strong> integrates care for over 12 million members, reducing office visits by 26%. In contrast, the <strong>UK's National Programme for IT (NPfIT)</strong> was scrapped due to delays and cost overruns. The <strong>VA's transition to Cerner</strong> has faced delays and outages but has shown partial success in improving data sharing. These cases underscore the need for user involvement and iterative testing.</p>
-
-                    <h4>2.7 Role in Health Informatics</h4>
-                    <p>EHRs are foundational to health informatics, serving as the primary data source for analytics, decision support, and exchange. They enable informatics applications like predictive modeling and AI-driven diagnostics by providing structured data, bridging clinical practice and data science.</p>
-
-                    <h4>2.8 Emerging Trends in 2025</h4>
-                    <p>As of 2025, EHRs are evolving with technologies addressing past limitations. Key trends include AI and Machine Learning integration for predictive analytics and automated documentation, blockchain for security, improved interoperability via FHIR adoption, and the rise of cloud-based and mobile EHRs. These trends promise more intuitive, secure systems, though challenges like AI bias remain.</p>
+                    <h5 class="font-bold text-lg mt-4">3.2 Alert Fatigue: A Hidden Threat to Patient Safety</h5>
+                    <p>A major, unplanned side effect of using CPOE and CDSS is a problem called <strong>alert fatigue</strong>. This happens when clinicians are overwhelmed with so many alerts—many of which are not important—that they start to ignore them, which increases the chance of missing a truly critical warning.14 The scope of this issue is large. One study found that primary care clinicians received more than 100 alerts a day, while another found that doctors accepted only one out of every thousand alerts they got for prescriptions.14 This shows that the problem is not a lack of attention from the clinician but a natural human reaction to a poorly designed, overwhelming technological environment.</p>
+                    <p>The problem is not just the number of alerts but their quality and context.14 The main cause is a system that doesn't understand the work of a busy clinician. Proposed solutions are based on the idea of designing technology with people in mind. These ideas include making alerts more specific so they don't include unimportant warnings, organizing alerts by how serious they are, and customizing alerts for certain patients.14 Solving alert fatigue requires a change in how these systems are designed, moving from just giving warnings to intelligently filtering and prioritizing them. This needs collaboration between developers and clinicians to create a system that is a helpful tool instead of a constant source of stress.</p>
                 </div>
                 
-                <div class="bg-white p-8 rounded-xl shadow-md mt-8">
+                <div class="content-block text-gray-700 mt-8">
+                    <h4 class="text-xl font-semibold mb-2">Chapter 4: The Future of Health Informatics: Sharing Data, Security, and New Ideas</h4>
+                    <h5 class="font-bold text-lg mt-4">4.1 The 21st Century Cures Act and Data Sharing</h5>
+                    <p>Even with more EHR use, a big problem has been that different EHRs can't easily talk to each other, which makes it hard to share data across the healthcare system. The <strong>21st Century Cures Act</strong> was a law made to solve this problem.17 This law promotes the sharing of health information and makes it illegal for health networks, technology developers, and doctors to "block" information.17 The law requires that patients and their doctors get immediate electronic access to a large part of a patient's electronic health information (EHI) when they ask for it.17</p>
+                    <p>The most important part of this law is the rule that certified EHRs must be able to export all of a patient's EHI using standard application programming interfaces (APIs). This is a big change from a system where health institutions controlled the data to one where the patient is in charge of their own data.5 By requiring standard APIs, the government has created rules to force open the "data silos" that competing EHR companies created. This gives the patient more power over their health information, leading to a more connected and patient-centered healthcare system.</p>
+                    
+                    <h5 class="font-bold text-lg mt-4">4.2 The Growing Problem of Data Breaches</h5>
+                    <p>As healthcare has moved to a digital environment, the privacy concerns that were once limited to a single paper chart have become much bigger. The risk of a single hack exposing the data of thousands of patients is now a reality. Data from the Office for Civil Rights (OCR) shows a clear and growing trend in healthcare data breaches over the past 14 years, with a huge increase in hacking and ransomware incidents.18 Hacking incidents, in particular, now make up nearly 80% of all reported data breaches.18</p>
+                    <p>A clear example of this problem is the ransomware attack on Change Healthcare, which is the largest healthcare data breach ever.19 The incident, which happened in February 2024, is thought to have exposed the health information of 192.7 million people. The attack, which targeted a single old system that did not have multi-factor authentication, stopped claims processing and caused serious financial problems for providers across the country for months. This incident showed a major weakness in the modern healthcare system: putting a lot of sensitive data into one place creates a high-value target and a single point of failure. This means that while going digital has made things more efficient, it has also created a new level of risk where one cyberattack can harm a big part of the national healthcare system and expose the data of almost half the US population.</p>
+                    <p>The following table provides a summary of the largest data breaches in US healthcare history, showing the increasing size and number of these events.</p>
+                    <div class="overflow-x-auto">
+                        <table class="data-table w-full text-sm text-left text-gray-700">
+                            <thead class="text-xs text-gray-900 uppercase bg-gray-50">
+                                <tr>
+                                    <th scope="col" class="px-6 py-3">Rank</th>
+                                    <th scope="col" class="px-6 py-3">Year</th>
+                                    <th scope="col" class="px-6 py-3">Entity</th>
+                                    <th scope="col" class="px-6 py-3">Individuals Affected</th>
+                                    <th scope="col" class="px-6 py-3">Type of Breach</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr class="bg-white border-b">
+                                    <td class="px-6 py-4">1</td>
+                                    <td class="px-6 py-4">2024</td>
+                                    <td class="px-6 py-4">Change Healthcare, Inc.</td>
+                                    <td class="px-6 py-4">192,700,000</td>
+                                    <td class="px-6 py-4">Hacking/IT Incident 19</td>
+                                </tr>
+                                <tr class="bg-white border-b">
+                                    <td class="px-6 py-4">2</td>
+                                    <td class="px-6 py-4">2015</td>
+                                    <td class="px-6 py-4">Anthem Inc.</td>
+                                    <td class="px-6 py-4">78,800,000</td>
+                                    <td class="px-6 py-4">Hacking/IT Incident 19</td>
+                                </tr>
+                                <tr class="bg-white border-b">
+                                    <td class="px-6 py-4">3</td>
+                                    <td class="px-6 py-4">2023</td>
+                                    <td class="px-6 py-4">HCA Healthcare</td>
+                                    <td class="px-6 py-4">11,270,000</td>
+                                    <td class="px-6 py-4">Hacking/IT Incident 20</td>
+                                </tr>
+                                <tr class="bg-white">
+                                    <td class="px-6 py-4">4</td>
+                                    <td class="px-6 py-4">2023</td>
+                                    <td class="px-6 py-4">Regal Medical Group</td>
+                                    <td class="px-6 py-4">3,300,000</td>
+                                    <td class="px-6 py-4">Hacking/IT Incident 20</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <div class="content-block text-gray-700 mt-8">
+                    <h4 class="text-xl font-semibold mb-2">Chapter 5: The Next Step: AI, Predictive Analytics, and Blockchain</h4>
+                    <h5 class="font-bold text-lg mt-4">5.1 Using Unstructured Data: The Rise of NLP</h5>
+                    <p>A lot of the information in EHRs, such as doctor's notes, is unstructured free text. This kind of data is a key part of the semantic gap because it is hard for computers to understand. <strong>Natural Language Processing (NLP)</strong> is the technology that is now bridging this gap. NLP tools read and understand human language to find patterns and meaning, turning unstructured data into useful, structured insights.14</p>
+                    <p>NLP has many uses that can change healthcare. It can be used for voice-to-text, allowing doctors to speak their notes in real-time, which reduces the time they spend on documentation and increases their productivity.22 NLP also automates the summarization of clinical notes, so doctors can quickly review important patient details.21 In addition, it is a key part of advanced systems, such as those used for clinical trial recruitment, where it can analyze patient records to find people who fit specific criteria.21 By solving the problem of unstructured data, NLP is the key that turns a collection of text into a source of useful insights, thereby improving both a clinician's work and the quality of care.</p>
+                    
+                    <h5 class="font-bold text-lg mt-4">5.2 AI and Predictive Analytics: Moving Toward Proactive Care</h5>
+                    <p>The change of EHRs from a simple place to store data to a smart system using <strong>AI</strong> and <strong>predictive analytics</strong> is a big shift from reactive to proactive healthcare.23 These technologies, which analyze large datasets to guess what might happen in the future, are a natural extension of a clinical data warehouse's abilities.3 They allow healthcare providers to move beyond just reporting what has happened to predicting what is likely to happen, which allows for timely help and more efficient care.</p>
+                    <p>AI and predictive analytics can be used in many ways. In diagnosis, AI can look at a patient's history and symptoms to help doctors make a diagnosis.21 For public health, predictive analytics has been used to predict the spread of viruses and find patients who are at a high risk of developing diseases like diabetes.1 Predictive models are also used for managing resources, such as making hospital staff schedules better to reduce burnout and use rooms more efficiently.24 A very useful application is predicting hospital readmissions and missed appointments, which allows providers to send reminders or make other care plans, thereby improving patient health and saving money.24</p>
+                    
+                    <h5 class="font-bold text-lg mt-4">5.3 Blockchain: A New Way to Handle Security and Trust</h5>
+                    <p>The problems shown by big data breaches, like the one at Change Healthcare, have brought a new focus on <strong>blockchain</strong> as a possible solution for securing and managing health information.21 Blockchain technology, a shared digital record that provides an unchangeable history of transactions, offers a strong alternative to the problems of centralized EHR systems.26 The decentralized nature of a blockchain network means there is no single point of failure, which greatly reduces the risk of a catastrophic, large-scale data breach.26</p>
+                    <p>Blockchain also addresses key issues of data integrity and patient control. The unchangeable nature of the record means that information cannot be altered without a clear history of the change.26 Furthermore, its access systems can give patients the power to control who can see their health data, which is a major step forward for data privacy.21 Real-world pilot programs are already exploring this technology, such as projects to streamline the process of approving doctors' credentials and tracking drugs in the supply chain to stop fakes. While there are still big challenges, blockchain is not just a small improvement; it could be a complete change to the healthcare data system, replacing a vulnerable, centralized model with a more secure, transparent, and patient-focused one.</p>
+                </div>
+
+                <div class="content-block text-gray-700 mt-8">
+                    <h4 class="text-xl font-semibold mb-2">Chapter 6: Smart Ideas for a Strong and Smart Healthcare System</h4>
+                    <h5 class="font-bold text-lg mt-4">6.1 Getting More than Just Reimbursement</h5>
+                    <p>While the HITECH Act has greatly increased EHR use, getting a positive return on investment (ROI) is not an automatic result of implementation.27 The initial loss of productivity and the long-term annual costs can outweigh the financial benefits, especially after reimbursement programs end.27 Research found that some primary care clinics got their EHR investment back in about 10 months, but this was highly dependent on their ability to make changes to their processes to use the EHR effectively.27 A positive ROI requires a smart focus on workflow and a planned approach to change, which involves adapting habits and procedures to fully use the EHR's abilities.27 Policies that support these changes, like providing help with workflow optimization, are critical to helping practices get a good ROI.</p>
+                    
+                    <h5 class="font-bold text-lg mt-4">6.2 From Ease of Use to Real Usefulness: Changing Workflows for Success</h5>
+                    <p>The problems with adopting EHRs, including doctors' resistance and usability issues, show the need for a human-centered approach to how the technology is implemented. Many EHRs are not user-friendly, requiring too many clicks or illogical steps that get in the way of work. To fix this, organizations must rethink their processes and create a culture where everyone works together.29 Successful stories from organizations with high clinician satisfaction often involve including nurses and other clinicians in every step, from choosing the system to ongoing management.29 Continuous, high-quality training is also a critical part of success, as it helps staff adapt to new ways of working and learn to use the system efficiently. The following table shows the contradiction of digital medicine, comparing the planned benefits of CPOE and CDSS with their unplanned consequences.</p>
+                    <div class="overflow-x-auto">
+                        <table class="data-table w-full text-sm text-left text-gray-700">
+                            <thead class="text-xs text-gray-900 uppercase bg-gray-50">
+                                <tr>
+                                    <th scope="col" class="px-6 py-3">Functionality</th>
+                                    <th scope="col" class="px-6 py-3">Intended Benefits</th>
+                                    <th scope="col" class="px-6 py-3">Unintended Consequences</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr class="bg-white border-b">
+                                    <td class="px-6 py-4 font-bold">CPOE</td>
+                                    <td class="px-6 py-4">Reduces prescribing errors from bad handwriting and similar drug names.12 Works with decision support and reporting systems.12 Speeds up order processing.13</td>
+                                    <td class="px-6 py-4">Can introduce new types of errors.12 Increases the mental load and is less efficient if not designed well.12 May be avoided by workarounds.12</td>
+                                </tr>
+                                <tr class="bg-white">
+                                    <td class="px-6 py-4 font-bold">CDSS</td>
+                                    <td class="px-6 py-4">Provides real-time warnings for drug interactions and allergies.12 Helps with following clinical guidelines.12 Assists with diagnosis and public health alerts.</td>
+                                    <td class="px-6 py-4">Can lead to alert fatigue from too many irrelevant warnings.14 Clinicians may ignore alerts, including critical ones.14</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    
+                    <h5 class="font-bold text-lg mt-4">6.3 Securing the Future: Taking Action Against Cyber Threats</h5>
+                    <p>The growing trend of large-scale data breaches, especially from hacking and ransomware, shows that healthcare organizations must see cybersecurity as a core business priority, not just a technical problem.18 The Change Healthcare incident highlighted the huge risk from centralized, old systems that have a single point of failure. Organizations must take strong, proactive steps to protect patient data. This includes investing in modern, secure EHR systems with reliable backup plans.</p>
+                    <p>A smart approach to security means being continuously watchful and learning from the weak points shown in major breaches. This involves using multi-factor authentication on all systems, making sure old technology is updated or removed, and using new technologies like blockchain that can offer decentralized, tamper-proof data management.21 Simply following regulations like HIPAA is no longer enough; a culture of security and constant risk assessment is essential to building a strong healthcare system. The following table provides a clear overview of the largest healthcare data breaches, showing the scale of the threat and the increasing dominance of hacking incidents.</p>
+                    <div class="overflow-x-auto">
+                        <table class="data-table w-full text-sm text-left text-gray-700">
+                            <thead class="text-xs text-gray-900 uppercase bg-gray-50">
+                                <tr>
+                                    <th scope="col" class="px-6 py-3">Rank</th>
+                                    <th scope="col" class="px-6 py-3">Year</th>
+                                    <th scope="col" class="px-6 py-3">Entity</th>
+                                    <th scope="col" class="px-6 py-3">Individuals Affected</th>
+                                    <th scope="col" class="px-6 py-3">Type of Breach</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr class="bg-white border-b">
+                                    <td class="px-6 py-4">1</td>
+                                    <td class="px-6 py-4">2024</td>
+                                    <td class="px-6 py-4">Change Healthcare, Inc.</td>
+                                    <td class="px-6 py-4">192,700,000</td>
+                                    <td class="px-6 py-4">Hacking/IT Incident 19</td>
+                                </tr>
+                                <tr class="bg-white border-b">
+                                    <td class="px-6 py-4">2</td>
+                                    <td class="px-6 py-4">2015</td>
+                                    <td class="px-6 py-4">Anthem Inc.</td>
+                                    <td class="px-6 py-4">78,800,000</td>
+                                    <td class="px-6 py-4">Hacking/IT Incident 19</td>
+                                </tr>
+                                <tr class="bg-white border-b">
+                                    <td class="px-6 py-4">3</td>
+                                    <td class="px-6 py-4">2023</td>
+                                    <td class="px-6 py-4">HCA Healthcare</td>
+                                    <td class="px-6 py-4">11,270,000</td>
+                                    <td class="px-6 py-4">Hacking/IT Incident 20</td>
+                                </tr>
+                                <tr class="bg-white">
+                                    <td class="px-6 py-4">4</td>
+                                    <td class="px-6 py-4">2023</td>
+                                    <td class="px-6 py-4">Regal Medical Group</td>
+                                    <td class="px-6 py-4">3,300,000</td>
+                                    <td class="px-6 py-4">Hacking/IT Incident 20</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <div class="bg-white p-8 rounded-xl shadow-lg mt-8 border border-gray-200">
+                    <h4 class="text-xl font-semibold text-center mb-2">Anatomy of a Modern EHR</h4>
+                    <p class="text-center text-gray-600 mb-6">A modern EHR is a complex system of interconnected components. Click on a component below to learn more about its function.</p>
+                    <div class="grid grid-cols-2 md:grid-cols-5 gap-4 text-center">
+                        <div class="ehr-component p-4 border rounded-lg hover:border-[#2C6E49]" data-title="Clinical Documentation" data-text="Includes progress notes, problem lists, and encounter summaries detailing patient visits, symptoms, and provider observations.">
+                            <div class="text-3xl mb-2">📝</div><span class="font-semibold">Documentation</span>
+                        </div>
+                        <div class="ehr-component p-4 border rounded-lg hover:border-[#2C6E49]" data-title="Order Management (CPOE)" data-text="Allows clinicians to enter and manage orders for medications, tests, and procedures electronically, reducing handwriting errors.">
+                            <div class="text-3xl mb-2">➡️</div><span class="font-semibold">Order Entry</span>
+                        </div>
+                        <div class="ehr-component p-4 border rounded-lg hover:border-[#2C6E49]" data-title="Results Management" data-text="Manages and displays results from labs, imaging, and other tests, allowing for trend analysis over time.">
+                            <div class="text-3xl mb-2">📊</div><span class="font-semibold">Results</span>
+                        </div>
+                        <div class="ehr-component p-4 border rounded-lg hover:border-[#2C6E49]" data-title="Decision Support (CDS)" data-text="Provides reminders, alerts for drug interactions, and links to clinical guidelines to support evidence-based care.">
+                            <div class="text-3xl mb-2">💡</div><span class="font-semibold">Decision Support</span>
+                        </div>
+                         <div class="ehr-component p-4 border rounded-lg hover:border-[#2C6E49]" data-title="Patient Portal" data-text="A secure online access point for patients to view their health information, schedule appointments, and communicate with their care team.">
+                            <div class="text-3xl mb-2">👤</div><span class="font-semibold">Patient Portal</span>
+                        </div>
+                    </div>
+                    <div id="ehr-explanation" class="md:col-span-2 mt-6 p-6 bg-gray-50 rounded-lg min-h-[100px] border border-gray-200">
+                        <h5 id="ehr-title" class="font-bold text-lg mb-2 text-gray-800">Select a Component</h5>
+                        <p id="ehr-text" class="text-gray-600">Click on an icon above to see a description of that EHR component.</p>
+                    </div>
+                </div>
+
+                <div class="bg-white p-8 rounded-xl shadow-lg mt-8 border border-gray-200">
                     <h4 class="text-xl font-semibold text-center mb-2">EHR Adoption in the U.S.</h4>
                     <p class="text-center text-gray-600 mb-6">The HITECH Act of 2009 dramatically accelerated the adoption of EHRs in U.S. hospitals. Hover over the points to see key events.</p>
                     <div class="chart-container">
@@ -117,7 +439,7 @@
                     </div>
                 </div>
 
-                <div class="bg-white p-8 rounded-xl shadow-md mt-8">
+                <div class="bg-white p-8 rounded-xl shadow-lg mt-8 border border-gray-200">
                     <h4 class="text-xl font-semibold mb-4">Review Questions</h4>
                     <ul class="space-y-2 text-gray-700 list-decimal pl-5">
                         <li>Define EHRs and explain their key components, providing an example of how one component improves patient safety.</li>
@@ -131,15 +453,14 @@
                     </ul>
                 </div>
 
-                <div class="bg-white p-8 rounded-xl shadow-md mt-8">
+                <div class="bg-white p-8 rounded-xl shadow-lg mt-8 border border-gray-200">
                     <h4 class="text-xl font-semibold mb-4">Suggested Readings</h4>
                     <ul class="space-y-2 text-gray-700 list-disc pl-5">
-                        <li>"Electronic Health Record Implementation Guide 2025" by CleverDev Software.</li>
-                        <li>"Twenty-Five Years of Evolution and Hurdles in Electronic Health Records" (JMIR, 2025).</li>
-                        <li>"Effects of Electronic Health Record Implementation and Barriers" (PMC, 2020).</li>
-                        <li>"What are Electronic Health Records (EHR)? Best Practices" by Datavant (2024).</li>
-                        <li>"The Future of EMR: Key Trends Shaping Healthcare in 2025" by NCDS Inc.</li>
-                        <li>"How to Turn Around an EHR Disaster: Three Case Studies" (EHR in Practice, 2024).</li>
+                        <li><a href="https://www.jmir.org/2025/1/e59024/" class="text-[#2C6E49] hover:underline">Twenty-Five Years of Evolution and Hurdles in Electronic Health Records and Interoperability in Medical Research: Comprehensive Review (JMIR, 2025)</a></li>
+                        <li><a href="https://www.ncbi.nlm.nih.gov/pmc/articles/PMC7761950/" class="text-[#2C6E49] hover:underline">Effects of Electronic Health Record Implementation and Barriers to Adoption and Use (PMC, 2020)</a></li>
+                        <li><a href="https://www.ncdsinc.com/the-future-of-emr-key-trends-shaping-healthcare-in-2025/" class="text-[#2C6E49] hover:underline">The Future of EMR: Key Trends Shaping Healthcare in 2025 (NCDS Inc., 2025)</a></li>
+                        <li><a href="https://www.ncbi.nlm.nih.gov/pmc/articles/PMC12206486/" class="text-[#2C6E49] hover:underline">Usability Challenges in Electronic Health Records: Impact on Documentation Burden and Clinical Workflow (PMC, 2025)</a></li>
+                        <li><a href="https://www.ncbi.nlm.nih.gov/pmc/articles/PMC10787531/" class="text-[#2C6E49] hover:underline">Technology adoption of electronic medical records in developing economies: A systematic review on physicians' perspective (PMC, 2024)</a></li>
                     </ul>
                 </div>
             </section>
@@ -156,8 +477,8 @@ document.addEventListener('DOMContentLoaded', function() {
             datasets: [{
                 label: '% of Non-Federal Acute Care Hospitals with Basic EHR',
                 data: [9, 12, 28, 59, 84, 91, 96],
-                borderColor: '#4A7C59',
-                backgroundColor: 'rgba(74, 124, 89, 0.1)',
+                borderColor: '#2C6E49',
+                backgroundColor: 'rgba(44, 110, 73, 0.1)',
                 fill: true,
                 tension: 0.3,
                 pointRadius: 5,
@@ -181,20 +502,66 @@ document.addEventListener('DOMContentLoaded', function() {
                 },
                 legend: { position: 'bottom' }
             },
-            scales: { y: { beginAtZero: true, max: 100, title: { display: true, text: 'Adoption Percentage (%)' } } }
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    max: 100,
+                    title: { display: true, text: 'Adoption Percentage (%)' }
+                }
+            }
         }
     });
 
     const ehrComponents = document.querySelectorAll('.ehr-component');
+    const ehrExplanation = document.getElementById('ehr-explanation');
     const ehrTitle = document.getElementById('ehr-title');
     const ehrText = document.getElementById('ehr-text');
+
     ehrComponents.forEach(component => {
         component.addEventListener('click', () => {
+            // Remove active class from all components
+            ehrComponents.forEach(c => c.classList.remove('active'));
+
+            // Add active class to the clicked component
+            component.classList.add('active');
+
+            // Update the explanation box
             ehrTitle.textContent = component.dataset.title;
             ehrText.textContent = component.dataset.text;
-            ehrComponents.forEach(c => c.classList.remove('bg-green-100', 'border-green-400'));
-            component.classList.add('bg-green-100', 'border-green-400');
         });
+    });
+
+    const marketShareCtx = document.getElementById('ehrMarketShareChart').getContext('2d');
+    new Chart(marketShareCtx, {
+        type: 'pie',
+        data: {
+            labels: ['Epic', 'Oracle Health', 'Other Vendors'],
+            datasets: [{
+                data: [37.7, 21.7, 100 - (37.7 + 21.7)],
+                backgroundColor: ['#2C6E49', '#82B38F', '#CCCCCC'],
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                legend: {
+                    position: 'bottom',
+                },
+                tooltip: {
+                    callbacks: {
+                        label: function(context) {
+                            let label = context.label || '';
+                            if (label) {
+                                label += ': ';
+                            }
+                            label += context.raw.toFixed(1) + '%';
+                            return label;
+                        }
+                    }
+                }
+            }
+        }
     });
 });
 </script>
