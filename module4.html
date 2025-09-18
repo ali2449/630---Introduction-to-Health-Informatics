@@ -9,318 +9,613 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
-        body { font-family: 'Inter', sans-serif; background-color: #F8F7F4; color: #333333; }
-        .sidebar-link { transition: all 0.2s ease-in-out; }
-        .sidebar-link.active, .sidebar-link:hover { background-color: #4A7C59; color: #FFFFFF; transform: translateX(4px); }
-        .interactive-card { transition: transform 0.3s ease, box-shadow 0.3s ease; cursor: pointer; }
-        .interactive-card:hover { transform: translateY(-5px); box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05); }
-        .content-block { line-height: 1.7; }
-        .content-block h4 { font-size: 1.25rem; font-weight: 600; margin-top: 1.5rem; margin-bottom: 0.75rem; }
-        .content-block p, .content-block ul { margin-bottom: 1rem; }
-        .content-block ul { list-style-type: disc; padding-left: 1.5rem; }
-        .draggable { cursor: grab; }
-        .draggable:active { cursor: grabbing; }
-        .droppable { min-height: 100px; }
-        .correct { background-color: #d1fae5; border-color: #34d399; }
-        .incorrect { background-color: #fee2e2; border-color: #ef4444; }
-        /* Justify text for all paragraphs inside content blocks */
-        .content-block p { text-align: justify; }
+        body { 
+            font-family: 'Inter', sans-serif; 
+            background: linear-gradient(135deg, #F8F7F4 0%, #EAE7E1 100%);
+            color: #333333; 
+        }
+        .sidebar-link { 
+            transition: all 0.2s ease-in-out; 
+            border-radius: 0.5rem;
+        }
+        .sidebar-link.active, .sidebar-link:hover { 
+            background-color: #4A7C59; 
+            color: #FFFFFF; 
+            transform: translateX(4px); 
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+        }
+        .interactive-card { 
+            transition: transform 0.3s ease, box-shadow 0.3s ease; 
+            cursor: pointer; 
+            border-radius: 1rem;
+        }
+        .interactive-card:hover { 
+            transform: translateY(-8px) scale(1.02); 
+            box-shadow: 0 10px 20px -5px rgba(0, 0, 0, 0.2); 
+        }
+        .content-block { 
+            line-height: 1.7; 
+            padding: 2.5rem;
+            background-color: #ffffff;
+            border-radius: 1rem;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+        }
+        .content-block + .content-block {
+            margin-top: 2rem;
+        }
+        .content-block h4 { 
+            font-size: 1.5rem; 
+            font-weight: 700; 
+            margin-top: 0; 
+            margin-bottom: 1rem; 
+            color: #2F5D48;
+        }
+        .content-block h5 {
+            font-size: 1.25rem;
+            font-weight: 600;
+            margin-top: 1.5rem;
+            margin-bottom: 0.5rem;
+            color: #4A7C59;
+        }
+        .content-block p, .content-block ul { 
+            margin-bottom: 1.25rem; 
+            text-align: justify;
+        }
+        .content-block ul { 
+            list-style-type: none; 
+            padding-left: 0;
+        }
+        .content-block ul li {
+            position: relative;
+            padding-left: 1.5rem;
+            margin-bottom: 0.5rem;
+        }
+        .content-block ul li::before {
+            content: "•";
+            position: absolute;
+            left: 0;
+            color: #4A7C59;
+            font-weight: bold;
+        }
+
+        /* Interactive Elements */
+        .draggable { 
+            cursor: grab; 
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+        .draggable:active { 
+            cursor: grabbing; 
+            transform: scale(1.05);
+            box-shadow: 0 8px 16px rgba(0,0,0,0.2);
+        }
+        .droppable { 
+            min-height: 120px; 
+            border: 2px dashed #D1D5DB; 
+            transition: all 0.3s ease; 
+            position: relative;
+        }
+        .droppable.drag-over { 
+            border-color: #4A7C59; 
+            background-color: #F0FDF4; 
+        }
+        .droppable.correct { 
+            border-color: #10B981; 
+            background-color: #ECFDF5; 
+        }
+        .droppable.incorrect { 
+            border-color: #EF4444; 
+            background-color: #FEF2F2; 
+        }
+        .droppable .feedback-icon {
+            position: absolute;
+            top: 0.5rem;
+            right: 0.5rem;
+            font-size: 1.5rem;
+        }
+
+        /* New Visuals */
+        .card-with-icon {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            padding: 1.5rem;
+            border-radius: 1rem;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .card-with-icon:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+        }
+        .card-icon {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+
+        /* Animation Section */
+        #animation-container {
+            display: flex;
+            justify-content: space-around;
+            gap: 2rem;
+            padding: 2rem;
+            background-color: #F9FAFB;
+            border-radius: 1rem;
+            box-shadow: inset 0 2px 4px rgba(0,0,0,0.06);
+        }
+        .model-diagram {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 45%;
+        }
+        .model-diagram h6 {
+            font-weight: 600;
+            margin-bottom: 1rem;
+            color: #2F5D48;
+        }
+        .node {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            position: absolute;
+            z-index: 10;
+        }
+        .node.source {
+            background-color: #6C937A;
+        }
+        .node.central {
+            background-color: #2F5D48;
+        }
+        .flow-line {
+            position: absolute;
+            background-color: rgba(74, 124, 89, 0.7);
+            animation-duration: 2s;
+            animation-timing-function: ease-in-out;
+            animation-iteration-count: infinite;
+            border-radius: 2px;
+            opacity: 0;
+            z-index: 5;
+        }
+        
+        /* Centralized Animation */
+        .flow-line.central-flow-1 {
+            width: 1rem;
+            height: 1rem;
+            top: 2rem;
+            left: 20%;
+            animation-name: flow-to-center;
+        }
+        .flow-line.central-flow-2 {
+            width: 1rem;
+            height: 1rem;
+            top: 2rem;
+            left: 50%;
+            animation-name: flow-to-center;
+        }
+        .flow-line.central-flow-3 {
+            width: 1rem;
+            height: 1rem;
+            top: 2rem;
+            left: 80%;
+            animation-name: flow-to-center;
+        }
+        @keyframes flow-to-center {
+            0% { transform: translateY(0); opacity: 0; }
+            5% { opacity: 1; }
+            70% { transform: translateY(8rem); opacity: 1; }
+            100% { transform: translateY(8rem); opacity: 0; }
+        }
+
+        /* Federated Animation */
+        .flow-line.federated-ping {
+            width: 1rem;
+            height: 1rem;
+            top: 10rem;
+            left: 50%;
+            animation-name: ping;
+        }
+        @keyframes ping {
+            0%, 100% { transform: scale(1); opacity: 1; }
+            50% { transform: scale(3); opacity: 0; }
+        }
+
+        /* Table Styling */
+        table {
+            border-collapse: separate;
+            border-spacing: 0 0.75rem;
+        }
+        thead {
+            position: sticky;
+            top: 0;
+            z-index: 20;
+            background-color: #F9FAFB;
+        }
+        th, td {
+            padding: 0.75rem 1.5rem;
+            text-align: left;
+        }
+        th {
+            font-weight: 600;
+            color: #6B7280;
+            text-transform: uppercase;
+            font-size: 0.8rem;
+        }
+        tbody tr {
+            background-color: #FFFFFF;
+            border-radius: 0.5rem;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+            transition: transform 0.2s ease;
+        }
+        tbody tr:hover {
+            transform: scale(1.01);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+        }
+        /* Mobile-first table adjustments */
+        @media (max-width: 768px) {
+            table {
+                display: block;
+                width: 100%;
+                overflow-x: auto;
+                white-space: nowrap;
+            }
+            thead, tbody, tr, th, td {
+                display: block;
+            }
+            thead {
+                display: none;
+            }
+            tr {
+                margin-bottom: 1.5rem;
+            }
+            tr td {
+                text-align: right;
+                position: relative;
+                padding-left: 50%;
+            }
+            tr td::before {
+                content: attr(data-label);
+                position: absolute;
+                left: 1rem;
+                font-weight: bold;
+                white-space: nowrap;
+            }
+        }
     </style>
 </head>
 <body class="antialiased">
     <div class="min-h-screen lg:grid lg:grid-cols-12">
-        <aside class="lg:col-span-3 lg:block bg-[#EAE7E1] p-6 lg:fixed lg:h-full lg:w-1/4 xl:w-1/5">
+        <aside class="lg:col-span-3 lg:block bg-[#EAE7E1] p-6 lg:fixed lg:h-full lg:w-1/4 xl:w-1/5 shadow-xl z-20">
             <h1 class="text-2xl font-bold text-[#4A7C59]">Health Informatics</h1>
             <p class="text-sm text-gray-600 mb-8">Master's Course Overview</p>
             <nav id="sidebar-nav" class="space-y-2">
-                <a href="./index.html" class="sidebar-link block p-3 rounded-lg font-medium">Home</a>
-                <a href="./module1.html" class="sidebar-link block p-3 rounded-lg font-medium">1. Introduction</a>
-                <a href="./module2.html" class="sidebar-link block p-3 rounded-lg font-medium">2. EHR Ecosystem</a>
-                <a href="./module3.html" class="sidebar-link block p-3 rounded-lg font-medium">3. Data Standards</a>
-                <a href="./module4.html" class="sidebar-link active block p-3 rounded-lg font-medium">4. Health Information Exchange</a>
-                <a href="./module5.html" class="sidebar-link block p-3 rounded-lg font-medium">5. Health Data Analytics</a>
-                <a href="./module6.html" class="sidebar-link block p-3 rounded-lg font-medium">6. Clinical Decision Support</a>
-                <a href="./module7.html" class="sidebar-link block p-3 rounded-lg font-medium">7. Safety, Quality & Value</a>
-                <a href="./module8.html" class="sidebar-link block p-3 rounded-lg font-medium">8. Privacy & Security</a>
+                <a href="./index.html" class="sidebar-link block p-3 font-medium">Home</a>
+                <a href="./module1.html" class="sidebar-link block p-3 font-medium">1. Introduction</a>
+                <a href="./module2.html" class="sidebar-link block p-3 font-medium">2. EHR Ecosystem</a>
+                <a href="./module3.html" class="sidebar-link block p-3 font-medium">3. Data Standards</a>
+                <a href="./module4.html" class="sidebar-link active block p-3 font-medium">4. Health Information Exchange</a>
+                <a href="./module5.html" class="sidebar-link block p-3 font-medium">5. Health Data Analytics</a>
+                <a href="./module6.html" class="sidebar-link block p-3 font-medium">6. Clinical Decision Support</a>
+                <a href="./module7.html" class="sidebar-link block p-3 font-medium">7. Safety, Quality & Value</a>
+                <a href="./module8.html" class="sidebar-link block p-3 font-medium">8. Privacy & Security</a>
             </nav>
         </aside>
-
-        <main class="lg:col-span-9 lg:col-start-4 p-6 md:p-10">
-            <section id="module4">
-                <h3 class="text-3xl font-bold text-[#4A7C59] mb-4">Module 4: Health Information Exchange and Organization</h3>
-
-                <div class="content-block text-gray-700">
-                    <h4>4.1 Definition and Scope</h4>
-                    <p>
+        
+        <main class="lg:col-span-9 lg:col-start-4 p-6 md:p-10 z-10">
+            <section id="module4" class="space-y-8">
+                <div class="content-block">
+                    <h3 class="text-4xl font-extrabold text-[#4A7C59] mb-4">Module 4: Health Information Exchange and Organization</h3>
+                    <p class="text-gray-700">
                         <strong>Health Information Exchange (HIE)</strong> is the "electronic movement of health-related information among organizations according to nationally recognized standards" (<a href="https://www.healthit.gov/faq/what-health-information-exchange" target="_blank" class="text-blue-600 hover:underline">HealthIT.gov</a>). It is a critical component of modern healthcare, enabling doctors, nurses, pharmacists, and patients to securely and electronically access and share vital medical information. The primary goal is to ensure that a patient's health data is available when and where it's needed, improving the speed, quality, and safety of care.
                     </p>
-                    <p>
+                    <p class="text-gray-700">
                         The scope of HIE extends far beyond simple data transmission. It includes the <strong>governance models, policies, and organizational frameworks</strong> that ensure interoperability, privacy, and long-term sustainability. Without HIE, patient information often remains fragmented in "electronic silos," making it difficult to achieve coordinated care and improve population health outcomes. By 2025, HIE has expanded to integrate with emerging technologies like AI for predictive analytics and blockchain for enhanced security.
                     </p>
-                    
-                    <h4>4.1.1 The Strategic Imperative: Beyond Electronic Silos</h4>
-                    <p>
+                    <h4 class="mt-8">4.1.1 The Strategic Imperative: Beyond Electronic Silos</h4>
+                    <p class="text-gray-700">
                         The widespread adoption of Electronic Health Records (EHRs) was a critical first step in modernizing healthcare. However, in isolation, these systems merely replaced paper-based silos with electronic ones. Each hospital, clinic, and specialty practice had its own patient data, but the systems could not communicate with each other. This created a fragmented state where providers lacked a holistic view of a patient’s health history, undermining patient safety and care coordination.
                     </p>
-                    <p>
+                    <p class="text-gray-700">
                         The strategic motivation behind HIE is to dismantle these electronic silos. HIE acts as the essential infrastructure that connects disparate systems, ensuring that patient data can follow the patient, regardless of where they receive care. This is vital for comprehensive healthcare reform, as it allows for a more complete and accurate understanding of a patient's health at the local, state, and national levels.
                     </p>
-
-                    <h4>4.1.2 Use Cases and Examples</h4>
-                    <p>
+                    <h4 class="mt-8">4.1.2 Use Cases and Examples</h4>
+                    <p class="text-gray-700">
                         HIE is instrumental in real-world clinical scenarios, providing a comprehensive view of a patient's health history to support better-informed decisions.
                     </p>
-                    <ul>
-                        <li><strong>Emergency Care:</strong> An unconscious patient is brought to the emergency room with a suspected head injury. A provider can use a query-based HIE to immediately access the patient's medical history from outside health systems. This provides critical information on past conditions, allergies, and current medications, allowing the ER team to quickly and safely make treatment decisions without delaying care or ordering redundant tests. This real-time data access is crucial for preventing medical errors and improving patient outcomes in high-pressure situations (<a href="https://www.healthit.gov/topic/health-it-and-health-information-exchange-basics/what-hie" target="_blank" class="text-blue-600 hover:underline">HealthIT.gov</a>).</li>
+                    <ul class="space-y-4 text-gray-700">
+                        <li><strong>Emergency Care:</strong> An unconscious patient is brought to the emergency room with a suspected head injury. A provider can use a query-based HIE to immediately access the patient's medical history from outside health systems. This provides critical information on past conditions, allergies, and current medications, allowing the ER team to quickly and safely make treatment decisions without delaying care or ordering redundant tests. This real-time data access is crucial for preventing medical errors and improving patient outcomes in high-pressure situations (<a href="https://www.healthit.gov/topic/health-information-exchange" target="_blank" class="text-blue-600 hover:underline">HealthIT.gov</a>).</li>
                         <li><strong>Care Coordination:</strong> When a patient with a complex chronic condition, such as diabetes, is referred to a new endocrinologist, the specialist can use HIE to access the patient's full medical record from the primary care provider. This seamless data exchange ensures the specialist has a complete view of the patient's health, including lab trends, medication history, and past treatment plans, without having to rely on faxes, phone calls, or the patient's memory. This ensures continuity of care and helps them develop a more effective treatment plan.</li>
                         <li><strong>Public Health Reporting:</strong> In the event of an infectious disease outbreak, HIE allows public health agencies to rapidly and securely collect data on diagnoses, immunizations, and case counts from multiple providers across a region. This real-time, aggregated data is essential for effective surveillance, modeling the spread of the disease, and implementing targeted public health interventions to protect the community.</li>
                     </ul>
-                    
-                    <h4>4.1.3 Related Organizations and Terms</h4>
-                    <p>
+                    <h4 class="mt-8">4.1.3 Related Organizations and Terms</h4>
+                    <p class="text-gray-700">
                         The HIE ecosystem involves several key entities and concepts that are crucial to its function.
                     </p>
-                    <p>
+                    <p class="text-gray-700">
                         A central term is <strong>Health Information Organization (HIO)</strong>, which is an entity that "oversees and governs the exchange of health-related information among organizations according to nationally recognized standards" (Hersh & Hoyt, 2018). These organizations, whether non-profit or for-profit, act as the backbone of the HIE process.
                     </p>
-                    <p>
+                    <p class="text-gray-700">
                         A specific type of HIO is the <strong>Regional Health Information Organization (RHIO)</strong>. As the name suggests, an RHIO focuses on a defined geographic area. Its mission is to "bring together health care stakeholders within a defined geographic area and govern health information exchange among them for the purpose of improving health and care in that community." This localized approach helps to address the unique needs and challenges of a specific region, such as coordinating care for a rural population or managing public health initiatives in a large metropolitan area.
                     </p>
-                    <p>
+                    <p class="text-gray-700">
                         The technical foundation for HIE is <strong>interoperability</strong>, defined as "the ability of two or more systems or components to exchange information and to use the information that has been exchanged." This is the core principle that ensures that patient data can be shared and understood across different systems and platforms.
                     </p>
-                    
-                    <h4>4.1.4 Interoperability Levels</h4>
-                    <p>
+                    <h4 class="mt-8">4.1.4 Interoperability Levels</h4>
+                    <p class="text-gray-700">
                         Interoperability is not a single capability but a tiered concept, with each level building on the previous one. The goal is to move beyond the simple exchange of data to a state where the information can be seamlessly integrated and used in clinical workflows.
                     </p>
-                    <ul>
+                    <ul class="space-y-4 text-gray-700">
                         <li><strong>Foundational Interoperability:</strong> This is the most basic level. It refers to the technology and platform that enables the simple exchange of data between systems. Think of it as a set of pipes and wires that allow two systems to connect, like an electronic fax. While the data is transmitted, the receiving system may not be able to do anything with it automatically, leaving it up to a person to manually interpret the information and re-enter it into their own system.</li>
                         <li><strong>Syntactic Interoperability:</strong> This level means that messages have a recognizable structure and syntax. It ensures that the data is organized in a consistent way, often using common standards like XML and the HL7 family of standards. For example, a lab result would be sent in a structured format that identifies the test name, value, and units, making it easier for a computer to parse the information.</li>
                         <li><strong>Semantic Interoperability:</strong> This is the most advanced and critical level. It means that both the sending and receiving organizations use the same terminology and coding, ensuring that the exchanged data is not only received but is also fully understandable and usable by the new system. This is what makes data "computable." For instance, a blood pressure reading of "120/80 mmHg" from a clinic in one state is automatically recognized and understood by a hospital's EHR in another state as a normal reading, enabling a physician's system to trigger alerts or automatically update a patient's clinical summary without manual intervention.</li>
                     </ul>
                 </div>
 
-                <div class="content-block text-gray-700">
+                <div class="content-block">
                     <h4>4.2 Policy and Historical Evolution</h4>
-                    <p>The origins of HIE trace back to the early 1990s community health information networks (CHINs). A major catalyst was the 2009 HITECH Act, which funded over 100 regional HIEs. The COVID-19 pandemic further accelerated adoption. By 2022, TEFCA established a national exchange framework. Parallel to this, the <strong>Nationwide Health Information Network (NwHIN)</strong> emerged, evolving into the <strong>eHealth Exchange</strong> (2012) and later the <strong>Sequoia Project</strong>, which continues to shape governance of national exchange.</p>
-
-                    <h4>4.2.1 The 21st Century Cures Act: A Mandate for Exchange</h4>
-                    <p>
+                    <p class="text-gray-700">The origins of HIE trace back to the early 1990s community health information networks (CHINs). A major catalyst was the 2009 HITECH Act, which funded over 100 regional HIEs. The COVID-19 pandemic further accelerated adoption. By 2022, TEFCA established a national exchange framework. Parallel to this, the <strong>Nationwide Health Information Network (NwHIN)</strong> emerged, evolving into the <strong>eHealth Exchange</strong> (2012) and later the <strong>Sequoia Project</strong>, which continues to shape governance of national exchange.</p>
+                    <h4 class="mt-8">4.2.1 The 21st Century Cures Act: A Mandate for Exchange</h4>
+                    <p class="text-gray-700">
                         The 21st Century Cures Act of 2016 was a landmark piece of legislation that mandated interoperability and prohibited <strong>"information blocking"</strong>. It established a legal framework to prevent healthcare providers, HIEs, and health IT developers from intentionally interfering with the access, exchange, or use of electronic health information (EHI). After October 5, 2022, the rule was expanded to require that "actors" (the term for organizations and individuals subject to the law) make all EHI they possess available upon request, dramatically increasing the scope of data subject to the rule.
                     </p>
-
-                    <h4>4.2.2 The Trusted Exchange Framework and Common Agreement (TEFCA)</h4>
-                    <p>
+                    <h4 class="mt-8">4.2.2 The Trusted Exchange Framework and Common Agreement (TEFCA)</h4>
+                    <p class="text-gray-700">
                         TEFCA is a federally supported initiative under the 21st Century Cures Act designed to simplify nationwide interoperability. It operates as a <strong>"network of networks,"</strong> connecting various health information networks (HINs) through a central framework. The framework is overseen by a <strong>Recognized Coordinating Entity (RCE)</strong>, the Sequoia Project. The backbone of the system is the <strong>Qualified Health Information Network (QHIN)</strong>, which is a network that has signed the Common Agreement and can connect directly with other QHINs to facilitate nationwide exchange.
                     </p>
                 </div>
 
-                <div class="content-block text-gray-700">
+                <div class="content-block">
                     <h4>4.3 Types of HIE</h4>
-                    <p>HIE can be categorized into three primary types: Directed Exchange, Query-Based Exchange, and Consumer-Mediated Exchange. Each serves different data-sharing needs, from referrals to emergency care to patient-managed apps.</p>
-                    <div class="bg-white p-8 rounded-xl shadow-md mt-8">
-                        <h4 class="text-xl font-semibold text-center mb-6">Types of Health Information Exchange</h4>
-                        <div class="grid md:grid-cols-3 gap-8">
-                            <div class="text-center p-4 border rounded-lg shadow-sm">
-                                <div class="text-4xl mb-3">➡️</div>
-                                <h5 class="font-bold text-lg mb-2">Directed Exchange</h5>
-                                <p class="text-sm text-gray-600">Secure point-to-point sending of data between two known parties. Used for referrals and care transitions.</p>
-                            </div>
-                            <div class="text-center p-4 border rounded-lg shadow-sm">
-                                <div class="text-4xl mb-3">🔍</div>
-                                <h5 class="font-bold text-lg mb-2">Query-Based Exchange</h5>
-                                <p class="text-sm text-gray-600">Providers find and/or request information on a patient from other providers. Used for unplanned care.</p>
-                            </div>
-                            <div class="text-center p-4 border rounded-lg shadow-sm">
-                                <div class="text-4xl mb-3">👤</div>
-                                <h5 class="font-bold text-lg mb-2">Consumer-Mediated</h5>
-                                <p class="text-sm text-gray-600">Patients control the use of their health information among providers via portals or apps.</p>
-                            </div>
+                    <p class="text-gray-700">HIE can be categorized into three primary types: Directed Exchange, Query-Based Exchange, and Consumer-Mediated Exchange. Each serves different data-sharing needs, from referrals to emergency care to patient-managed apps.</p>
+                    <div class="grid md:grid-cols-3 gap-8 mt-8">
+                        <div class="interactive-card card-with-icon bg-blue-50 border-2 border-blue-200">
+                            <div class="card-icon text-blue-800">➡️</div>
+                            <h5 class="font-bold text-lg mb-2 text-blue-800">Directed Exchange</h5>
+                            <p class="text-sm text-gray-600">Secure point-to-point sending of data between two known parties. Used for referrals and care transitions.</p>
+                        </div>
+                        <div class="interactive-card card-with-icon bg-green-50 border-2 border-green-200">
+                            <div class="card-icon text-green-800">🔍</div>
+                            <h5 class="font-bold text-lg mb-2 text-green-800">Query-Based Exchange</h5>
+                            <p class="text-sm text-gray-600">Providers find and/or request information on a patient from other providers. Used for unplanned care.</p>
+                        </div>
+                        <div class="interactive-card card-with-icon bg-purple-50 border-2 border-purple-200">
+                            <div class="card-icon text-purple-800">👤</div>
+                            <h5 class="font-bold text-lg mb-2 text-purple-800">Consumer-Mediated</h5>
+                            <p class="text-sm text-gray-600">Patients control the use of their health information among providers via portals or apps.</p>
                         </div>
                     </div>
-                    
-                    <h4>4.3.1 HIE Data Domains</h4>
-                    <p>
+                    <h4 class="mt-8">4.3.1 HIE Data Domains</h4>
+                    <p class="text-gray-700">
                         A key function of HIE is the secure and timely sharing of a broad range of data. The following data domains, both clinical and administrative, are vital for providing a complete picture of a patient's health and enabling effective care coordination.
                     </p>
-                    <ul>
-                        <li><strong>Clinical Data:</strong> This is the core of HIE, including <strong>lab, pathology, and microbiology data</strong> and reports that provide a foundation for diagnosis and treatment. <strong>Allergies, immunizations, and medication history</strong> are also critical, helping to prevent dangerous drug interactions and ensure proper patient care.
-                        </li>
-                        <li><strong>Documents and Summaries:</strong> HIE enables the exchange of important narrative documents, such as <strong>office notes, discharge summaries, and emergency room notes</strong>. A particularly important document is the <strong>Continuity of Care Document (CCD)</strong>, an XML-based summary that standardizes and encapsulates a patient's health status at a specific point in time, facilitating smoother transitions of care between providers.
-                        </li>
-                        <li><strong>Financial and Administrative Data:</strong> HIE is not limited to clinical information. It also facilitates the exchange of <strong>claims data and eligibility checks</strong> to streamline financial processes. Sharing <strong>referral management</strong> data helps ensure patients see the right specialists in a timely manner.
-                        </li>
-                        <li><strong>Public Health Data:</strong> HIE provides a critical mechanism for public health. It enables the rapid sharing of <strong>infectious disease outbreak data and immunization records</strong>, which is essential for real-time surveillance, disease prevention, and response.
-                        </li>
-                        <li><strong>Performance and Case Management:</strong> Aggregated data from HIEs can be used to track and report on <strong>quality measures</strong> (e.g., blood pressure control rates in a population) and to support <strong>case management</strong> for high-utilization or underserved patients. This data-driven approach helps to improve quality and manage costs within the healthcare system.
-                        </li>
+                    <ul class="space-y-4 text-gray-700">
+                        <li><strong>Clinical Data:</strong> This is the core of HIE, including <strong>lab, pathology, and microbiology data</strong> and reports that provide a foundation for diagnosis and treatment. <strong>Allergies, immunizations, and medication history</strong> are also critical, helping to prevent dangerous drug interactions and ensure proper patient care.</li>
+                        <li><strong>Documents and Summaries:</strong> HIE enables the exchange of important narrative documents, such as <strong>office notes, discharge summaries, and emergency room notes</strong>. A particularly important document is the <strong>Continuity of Care Document (CCD)</strong>, an XML-based summary that standardizes and encapsulates a patient's health status at a specific point in time, facilitating smoother transitions of care between providers.</li>
+                        <li><strong>Financial and Administrative Data:</strong> HIE is not limited to clinical information. It also facilitates the exchange of <strong>claims data and eligibility checks</strong> to streamline financial processes. Sharing <strong>referral management</strong> data helps ensure patients see the right specialists in a timely manner.</li>
+                        <li><strong>Public Health Data:</strong> HIE provides a critical mechanism for public health. It enables the rapid sharing of <strong>infectious disease outbreak data and immunization records</strong>, which is essential for real-time surveillance, disease prevention, and response.</li>
+                        <li><strong>Performance and Case Management:</strong> Aggregated data from HIEs can be used to track and report on <strong>quality measures</strong> (e.g., blood pressure control rates in a population) and to support <strong>case management</strong> for high-utilization or underserved patients. This data-driven approach helps to improve quality and manage costs within the healthcare system.</li>
                     </ul>
                 </div>
 
-                <div class="content-block text-gray-700">
+                <div class="content-block">
                     <h4>4.4 Navigating the Business and Financial Challenges</h4>
-                    <p>
+                    <p class="text-gray-700">
                         One of the most significant barriers to the widespread adoption and sustainability of HIE has been the lack of a successful business model. Many early Health Information Organizations (HIOs) were launched with federal grant funding that is no longer available. This dependence on temporary funding created a precarious economic foundation, leading to a number of failures and stagnation within the sector. HIOs have often struggled to convince competitive healthcare organizations to pay for subscription or transaction fees, especially when the Return on Investment (ROI) was unclear.
                     </p>
-                    <p>
+                    <p class="text-gray-700">
                         However, a growing body of evidence now confirms that HIE participation can yield significant financial and operational returns. ROI in a healthcare context is the ratio of net financial returns from improvement actions to the financial investment. A ratio greater than or equal to 1 indicates a positive return.
                     </p>
                     <h5>ROI and Cost-Benefit Examples:</h5>
-                    <ul>
+                    <ul class="space-y-4 text-gray-700">
                         <li><strong>Cost Savings:</strong> HIE can dramatically reduce redundant and unnecessary procedures. Studies have found that HIE participation can reduce imaging tests by 27.9% and laboratory tests by 12.1%.</li>
                         <li><strong>Improved Revenue:</strong> HIE can also increase revenue by improving efficiency and accuracy. For a small three-physician practice, saving just 15 minutes per patient by using HIE to access medical information could lead to an additional $50 appointment per physician per day, totaling over $30,000 in annual revenue after implementation costs. Additionally, access to more complete clinical documentation can lead to more accurate coding, resulting in higher Case Mix Index (CMI) and Risk Adjustment Scores (RAF).</li>
                     </ul>
-                    <p>
+                    <p class="text-gray-700">
                         To achieve long-term sustainability, HIOs must move away from a single funding source. A more resilient model involves diversifying revenue streams by offering high-value services such as <strong>real-time data analytics</strong>, which helps organizations improve quality measures and manage population health. This approach positions the HIO as a strategic partner in value-based care, aligning its services with the financial and clinical goals of its participants.
                     </p>
                 </div>
 
-                <div class="content-block text-gray-700">
+                <div class="content-block">
                     <h4>4.5 The Contemporary Landscape of Health Information Networks</h4>
-                    <p>
+                    <p class="text-gray-700">
                         The HIE landscape is not a single, monolithic network but a complex system of interconnected networks. While many hospitals now have the technical ability to exchange data, a 2023 survey found that less than half (<strong>43%</strong>) do so on a routine basis. This disparity highlights that the primary barrier is often not technical but rather human and cultural, requiring a fundamental shift in mindset from <strong>data control</strong> to <strong>data utility</strong>. The following networks represent the major players in this contemporary, federated landscape.
                     </p>
-                    <p>
+                    <p class="text-gray-700">
                         <strong>eHealth Exchange</strong>
                         <br>
                         A non-profit, public-private partnership, eHealth Exchange is a network of networks that facilitates over 25 billion data exchanges annually. It serves more than 300 million patients and connects 75% of U.S. hospitals and key federal agencies. The network operates under a single legal agreement, but it does not store patient data itself; instead, it acts as a secure conduit for information flow. It is a designated <strong>Qualified Health Information Network (QHIN)</strong>, allowing its participants to opt into the TEFCA framework.
                     </p>
-                    <p>
+                    <p class="text-gray-700">
                         <strong>The Sequoia Project</strong>
                         <br>
                         As a non-profit, public-private consortium, The Sequoia Project serves as an independent advocate and manager for key interoperability initiatives in the United States. It is responsible for governing and managing the eHealth Exchange. Most notably, The Sequoia Project was designated as the <strong>Recognized Coordinating Entity (RCE)</strong> for TEFCA, making it the central body responsible for overseeing the implementation and governance of the entire TEFCA framework.
                     </p>
-                    <p>
+                    <p class="text-gray-700">
                         <strong>CommonWell Health Alliance</strong>
                         <br>
                         CommonWell is a member-driven, non-profit alliance that focuses on key services to enable data sharing, including a <strong>Master Person Index</strong> and a <strong>Record Locator Service</strong>. These services help to accurately identify patients and locate their records across different provider sites. With more than 50,000 provider sites and 104 million unique individuals connected, CommonWell is a major force in the HIE landscape and is an active <strong>Qualified Health Information Network (QHIN)</strong> in the TEFCA framework.
                     </p>
-                    <p>
+                    <p class="text-gray-700">
                         <strong>Epic Care Everywhere</strong>
                         <br>
                         Epic's Care Everywhere is a proprietary, vendor-driven network that facilitates data exchange between health systems using the Epic EHR. Its widespread adoption among Epic users makes it one of the largest and most used HIE networks in the world. Care Everywhere also exchanges with other networks, such as CommonWell and Carequality, allowing for broad interoperability even with non-Epic systems. This model demonstrates the power of a single vendor to drive data exchange and is a critical player in the contemporary HIE ecosystem.
                     </p>
                     <div class="bg-white p-8 rounded-xl shadow-md mt-8 overflow-x-auto">
                         <h4 class="text-xl font-semibold mb-4 text-center">Comparative Overview of National Networks</h4>
-                        <table class="min-w-full divide-y divide-gray-300">
+                        <table class="min-w-full">
                             <thead class="bg-gray-50">
                                 <tr>
-                                    <th scope="col" class="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900">Network Name</th>
-                                    <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Governance/Model</th>
-                                    <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Scale</th>
-                                    <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Relationship to TEFCA</th>
+                                    <th scope="col">Network Name</th>
+                                    <th scope="col">Governance/Model</th>
+                                    <th scope="col">Scale</th>
+                                    <th scope="col">Relationship to TEFCA</th>
                                 </tr>
                             </thead>
-                            <tbody class="divide-y divide-gray-200 bg-white">
+                            <tbody class="divide-y divide-gray-200">
                                 <tr>
-                                    <td class="whitespace-nowrap px-3 py-4 text-sm font-medium text-gray-900">eHealth Exchange</td>
-                                    <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">Non-profit, public-private partnership</td>
-                                    <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">25B+ data exchanges; 75% of U.S. hospitals</td>
-                                    <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">Designated as a QHIN; participants can opt-in to TEFCA exchange</td>
+                                    <td data-label="Network Name">eHealth Exchange</td>
+                                    <td data-label="Governance/Model">Non-profit, public-private partnership</td>
+                                    <td data-label="Scale">25B+ data exchanges; 75% of U.S. hospitals</td>
+                                    <td data-label="Relationship to TEFCA">Designated as a QHIN; participants can opt-in to TEFCA exchange</td>
                                 </tr>
                                 <tr>
-                                    <td class="whitespace-nowrap px-3 py-4 text-sm font-medium text-gray-900">The Sequoia Project</td>
-                                    <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">Non-profit, public-private consortium</td>
-                                    <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">Manages key initiatives like eHealth Exchange</td>
-                                    <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">Designated as the Recognized Coordinating Entity (RCE) for TEFCA</td>
+                                    <td data-label="Network Name">The Sequoia Project</td>
+                                    <td data-label="Governance/Model">Non-profit, public-private consortium</td>
+                                    <td data-label="Scale">Manages key initiatives like eHealth Exchange</td>
+                                    <td data-label="Relationship to TEFCA">Designated as the Recognized Coordinating Entity (RCE) for TEFCA</td>
                                 </tr>
                                 <tr>
-                                    <td class="whitespace-nowrap px-3 py-4 text-sm font-medium text-gray-900">CommonWell Health Alliance</td>
-                                    <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">Member-driven, non-profit alliance</td>
-                                    <td class="whitespace-now-wrap px-3 py-4 text-sm text-gray-500">50,000+ provider sites and 104M+ individuals</td>
-                                    <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">A QHIN actively participating in the TEFCA framework</td>
+                                    <td data-label="Network Name">CommonWell Health Alliance</td>
+                                    <td data-label="Governance/Model">Member-driven, non-profit alliance</td>
+                                    <td data-label="Scale">50,000+ provider sites and 104M+ individuals</td>
+                                    <td data-label="Relationship to TEFCA">A QHIN actively participating in the TEFCA framework</td>
                                 </tr>
                                 <tr>
-                                    <td class="whitespace-nowrap px-3 py-4 text-sm font-medium text-gray-900">Epic Care Everywhere</td>
-                                    <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">Proprietary network; vendor-driven</td>
-                                    <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">Widespread adoption within Epic health systems</td>
-                                    <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">Directly exchanges with other TEFCA-aligned networks</td>
+                                    <td data-label="Network Name">Epic Care Everywhere</td>
+                                    <td data-label="Governance/Model">Proprietary network; vendor-driven</td>
+                                    <td data-label="Scale">Widespread adoption within Epic health systems</td>
+                                    <td data-label="Relationship to TEFCA">Directly exchanges with other TEFCA-aligned networks</td>
                                 </tr>
                             </tbody>
                         </table>
                     </div>
                 </div>
 
-                <div class="content-block text-gray-700">
+                <div class="content-block">
                     <h4>4.6 The Technological Vanguard: Emerging Standards and Innovations</h4>
-                    <p>
+                    <p class="text-gray-700">
                         The development of new technologies is a critical component of advancing interoperability and addressing historical barriers. These innovations are not just technical fixes; they are catalysts for new business models and cultural shifts in how healthcare data is managed and shared.
                     </p>
-                    
                     <h5>FHIR: The Modern Standard</h5>
-                    <p>
+                    <p class="text-gray-700">
                         The <strong>Fast Healthcare Interoperability Resources (FHIR)</strong> standard is a modern, next-generation standard from HL7 that represents a major inflection point for HIE. Unlike older, more complex standards, FHIR leverages modern web technologies like <strong>RESTful APIs</strong> to enable rapid, flexible, and efficient data exchange. This shift has made interoperability a more practical and attainable goal. By 2025, FHIR's adoption has accelerated dramatically, with <strong>98%</strong> of U.S. hospitals expected to use it for interoperability, and <strong>92%</strong> of EHR vendors supporting it as their primary standard. FHIR makes it possible to exchange data at a "fraction of the implementation cost" compared to previous standards, simplifying the technical effort and making broad data exchange more feasible for a wider range of organizations.
                     </p>
-
                     <h5>Blockchain in Healthcare: A Decentralized Approach</h5>
-                    <p>
+                    <p class="text-gray-700">
                         Blockchain, the same technology that underpins cryptocurrencies, is being explored in healthcare as a potential new model for HIE. As a "distributed transaction ledger" that is difficult to hack, blockchain offers a decentralized approach to managing data. This technology has the potential to enhance data security and transparency, addressing a major concern for both patients and providers. For example, blockchain can be used to create a comprehensive, immutable log of a patient's medical information, giving patients greater agency and control over their data and enabling them to selectively share it with providers while providing non-identifiable data for research.
                     </p>
-
                     <h5>AI and Analytics: The Data-Driven Future</h5>
-                    <p>
+                    <p class="text-gray-700">
                         The widespread adoption of interoperability standards and networks is creating new opportunities for <strong>AI</strong> and advanced <strong>analytics</strong>. The ability to aggregate vast amounts of patient data from disparate sources into a unified, longitudinal record is the raw material that makes AI in healthcare truly powerful. HIE is no longer just a way to share patient information; it is the essential infrastructure that feeds data into AI-driven applications. This synergy enables a new wave of innovation, allowing for more accurate and personalized care, from more precise diagnostics and treatment plans to identifying at-risk populations and optimizing public health interventions.
                     </p>
                 </div>
 
-                <div class="bg-white p-8 rounded-xl shadow-md mt-8">
-                    <h4 class="text-xl font-semibold text-center mb-2">HIE Architectural Models</h4>
+                <div class="content-block">
+                    <h4>HIE Architectural Models</h4>
                     <p class="text-center text-gray-600 mb-6">The structure of an HIE reflects technical goals and trust relationships.</p>
-                    <div class="grid md:grid-cols-3 gap-6 text-center">
-                        <div class="interactive-card border-2 border-gray-200 p-6 rounded-lg bg-blue-50"><h5 class="font-bold text-lg mb-2 text-blue-800">Centralized</h5><p class="text-sm text-gray-600">Participants send data to a central repository for fast querying.</p></div>
-                        <div class="interactive-card border-2 border-gray-200 p-6 rounded-lg bg-green-50"><h5 class="font-bold text-lg mb-2 text-green-800">Federated</h5><p class="text-sm text-gray-600">Data remains local; HIE provides locator services.</p></div>
-                        <div class="interactive-card border-2 border-gray-200 p-6 rounded-lg bg-purple-50"><h5 class="font-bold text-lg mb-2 text-purple-800">Hybrid</h5><p class="text-sm text-gray-600">Combines centralized speed with federated control.</p></div>
+                    
+                    <div id="animation-container" class="relative">
+                        <!-- Centralized Diagram -->
+                        <div class="model-diagram">
+                            <h6>Centralized Model</h6>
+                            <div class="relative w-full h-40 flex flex-col items-center">
+                                <!-- Background lines -->
+                                <div class="absolute inset-0">
+                                    <div class="absolute w-2 h-full bg-gray-200 left-1/2 -translate-x-1/2"></div>
+                                    <div class="absolute w-2 h-full bg-gray-200 left-1/2 -translate-x-1/2 transform -rotate-45"></div>
+                                    <div class="absolute w-2 h-full bg-gray-200 left-1/2 -translate-x-1/2 transform rotate-45"></div>
+                                </div>
+                                <!-- Flowing data animation -->
+                                <div class="flow-line central-flow-1"></div>
+                                <div class="flow-line central-flow-2"></div>
+                                <div class="flow-line central-flow-3"></div>
+                                <!-- Nodes -->
+                                <div class="absolute top-0 left-1/2 -translate-x-1/2 node source"></div>
+                                <div class="absolute top-0 right-0 node source"></div>
+                                <div class="absolute top-0 left-0 node source"></div>
+                                <div class="absolute bottom-0 node central"></div>
+                                <div class="absolute bottom-1 right-0 text-sm mt-2">Central Repository</div>
+                            </div>
+                            <p class="text-sm text-gray-600 text-center mt-4">Participants send data to a central repository for fast querying.</p>
+                        </div>
+                        
+                        <!-- Federated Diagram -->
+                        <div class="model-diagram">
+                            <h6>Federated Model</h6>
+                            <div class="relative w-full h-40 flex flex-col items-center">
+                                <!-- Background lines -->
+                                <div class="absolute inset-0">
+                                    <div class="absolute w-2 h-full bg-gray-200 left-1/2 -translate-x-1/2 transform rotate-45"></div>
+                                    <div class="absolute w-2 h-full bg-gray-200 left-1/2 -translate-x-1/2 transform -rotate-45"></div>
+                                    <div class="absolute w-2 h-full bg-gray-200 left-1/2 -translate-x-1/2"></div>
+                                </div>
+                                <!-- Flowing data animation -->
+                                <div class="flow-line federated-ping"></div>
+                                <!-- Nodes -->
+                                <div class="absolute top-0 left-1/2 -translate-x-1/2 node source"></div>
+                                <div class="absolute top-0 right-0 node source"></div>
+                                <div class="absolute top-0 left-0 node source"></div>
+                                <div class="absolute bottom-0 node central"></div>
+                                <div class="absolute bottom-1 right-0 text-sm mt-2">Data Source</div>
+                            </div>
+                            <p class="text-sm text-gray-600 text-center mt-4">Data remains local. The HIE acts as a "record locator" service.</p>
+                        </div>
                     </div>
                 </div>
 
-                <!-- NEW INTERACTIVE SECTION -->
-                <div class="bg-white p-8 rounded-xl shadow-md mt-8">
+                <!-- NEW INTERACTIVE DRAG & DROP SECTION -->
+                <div class="content-block">
                     <h4 class="text-xl font-semibold text-center mb-6">Drag and Drop: Match the HIE Model</h4>
                     <p class="text-center text-gray-600 mb-6">Drag the model names to the correct definitions.</p>
-
                     <div id="drag-container" class="flex flex-wrap justify-center gap-4 mb-8">
-                        <!-- Draggable items -->
-                        <div id="centralized-drag" draggable="true" class="draggable cursor-grab bg-white p-4 rounded-lg shadow-md border border-gray-300 font-bold text-lg text-blue-800 hover:bg-gray-50 transition-colors">Centralized</div>
-                        <div id="federated-drag" draggable="true" class="draggable cursor-grab bg-white p-4 rounded-lg shadow-md border border-gray-300 font-bold text-lg text-green-800 hover:bg-gray-50 transition-colors">Federated</div>
-                        <div id="hybrid-drag" draggable="true" class="draggable cursor-grab bg-white p-4 rounded-lg shadow-md border border-gray-300 font-bold text-lg text-purple-800 hover:bg-gray-50 transition-colors">Hybrid</div>
+                        <div id="centralized-drag" draggable="true" class="draggable p-4 rounded-lg shadow-md border border-gray-300 font-bold text-lg text-blue-800 hover:bg-gray-50 transition-colors bg-white">Centralized</div>
+                        <div id="federated-drag" draggable="true" class="draggable p-4 rounded-lg shadow-md border border-gray-300 font-bold text-lg text-green-800 hover:bg-gray-50 transition-colors bg-white">Federated</div>
+                        <div id="hybrid-drag" draggable="true" class="draggable p-4 rounded-lg shadow-md border border-gray-300 font-bold text-lg text-purple-800 hover:bg-gray-50 transition-colors bg-white">Hybrid</div>
                     </div>
-
                     <div id="drop-container" class="grid md:grid-cols-3 gap-6">
-                        <!-- Droppable targets -->
-                        <div id="centralized-drop" class="droppable flex flex-col items-center justify-center p-6 border-2 border-dashed border-gray-400 rounded-lg transition-all duration-300">
+                        <div id="centralized-drop" class="droppable flex flex-col items-center justify-center p-6 rounded-lg transition-all duration-300">
                             <p class="text-sm text-gray-600 text-center">Participants send data copies to a single, central repository. Fast queries, but requires high trust.</p>
                         </div>
-                        <div id="federated-drop" class="droppable flex flex-col items-center justify-center p-6 border-2 border-dashed border-gray-400 rounded-lg transition-all duration-300">
+                        <div id="federated-drop" class="droppable flex flex-col items-center justify-center p-6 rounded-lg transition-all duration-300">
                             <p class="text-sm text-gray-600 text-center">Data remains at the source. The HIE acts as a "record locator." More complex, but participants retain control.</p>
                         </div>
-                        <div id="hybrid-drop" class="droppable flex flex-col items-center justify-center p-6 border-2 border-dashed border-gray-400 rounded-lg transition-all duration-300">
+                        <div id="hybrid-drop" class="droppable flex flex-col items-center justify-center p-6 rounded-lg transition-all duration-300">
                             <p class="text-sm text-gray-600 text-center">Combines elements of both, centralizing some data for speed while leaving other data at the source.</p>
                         </div>
                     </div>
-
                     <div id="message-box" class="mt-8 text-center text-lg font-semibold min-h-8"></div>
                     <div class="flex justify-center mt-4">
                         <button id="reset-button" class="px-6 py-2 bg-gray-200 text-gray-700 rounded-lg font-semibold hover:bg-gray-300 transition-colors hidden">Reset</button>
                     </div>
                 </div>
 
-                <div class="content-block text-gray-700">
+                <!-- NEW INTERACTIVE QUIZ SECTION -->
+                <div class="content-block">
+                    <h4 class="text-xl font-semibold mb-4 text-center">Knowledge Check: Multiple Choice</h4>
+                    <p class="text-center text-gray-600 mb-6">Test your understanding with a quick question.</p>
+                    <div id="quiz-question" class="mb-6">
+                        <p class="font-medium text-gray-800 text-lg mb-4">What is the most critical level of interoperability that allows data to be fully understandable and usable by a new system?</p>
+                        <div class="space-y-4">
+                            <div class="option-card p-4 rounded-lg border border-gray-200 cursor-pointer hover:bg-gray-50 transition-colors" data-answer="A">
+                                <span class="font-bold">A.</span> Foundational Interoperability
+                            </div>
+                            <div class="option-card p-4 rounded-lg border border-gray-200 cursor-pointer hover:bg-gray-50 transition-colors" data-answer="B">
+                                <span class="font-bold">B.</span> Syntactic Interoperability
+                            </div>
+                            <div class="option-card p-4 rounded-lg border border-gray-200 cursor-pointer hover:bg-gray-50 transition-colors" data-answer="C">
+                                <span class="font-bold">C.</span> Semantic Interoperability
+                            </div>
+                        </div>
+                    </div>
+                    <div id="quiz-feedback" class="text-center text-lg font-semibold min-h-8"></div>
+                </div>
+
+                <div class="content-block">
                     <h4>4.7 Key Takeaways</h4>
-                    <p>
+                    <p class="text-gray-700">
                         The evolution of Health Information Exchange in the United States has been a journey from a nascent, technology-driven concept to a federally mandated imperative. The legal and policy groundwork is now in place, particularly with the 21st Century Cures Act, and the technical infrastructure is rapidly standardizing around modern protocols like FHIR.
                     </p>
-                    <p>
+                    <p class="text-gray-700">
                         However, the final challenge to achieving a truly interoperable healthcare system is not technical, but rather <strong>economic and cultural</strong>. The persistent lack of a clear, sustainable business model has hindered adoption, and deeply ingrained competitive behaviors have created a fragmented landscape of networks. The future of HIE will depend on the industry's ability to shift its mindset from <strong>data control to data utility</strong>, recognizing that the value of information is maximized not by hoarding it, but by securely and efficiently sharing it to drive better patient outcomes and financial returns.
                     </p>
-                    <p>
+                    <p class="text-gray-700">
                         The vision for the future of HIE is not a singular, top-down national network but a <strong>federated system of interconnected networks</strong>, unified by common policies (TEFCA) and standards (FHIR). Success will ultimately hinge on a new mindset where secure data sharing is viewed as a strategic asset that drives both clinical quality and financial viability.
                     </p>
                 </div>
-
-                <div class="bg-white p-8 rounded-xl shadow-md mt-8">
-                    <h4 class="text-xl font-semibold mb-4">Review Questions</h4>
-                    <ul class="space-y-2 text-gray-700 list-decimal pl-5">
+                
+                <div class="content-block">
+                    <h4>Review Questions</h4>
+                    <ul class="space-y-4 text-gray-700 list-decimal pl-5">
                         <li><strong>Foundational Concepts:</strong> Define HIE, HIO, and RHIO, and explain their core differences. What are the three levels of interoperability, and what makes semantic interoperability the most critical?</li>
                         <li><strong>Policy and History:</strong> How did the 21st Century Cures Act and the concept of "information blocking" change the regulatory landscape for HIE? Describe the "network of networks" model and the roles of QHINs and the RCE within TEFCA.</li>
                         <li><strong>Use Cases and Data Domains:</strong> Provide two examples of how HIE is used in real-world clinical scenarios. What are the major data domains exchanged via HIE, and why is this breadth of information important for comprehensive care?</li>
@@ -329,16 +624,16 @@
                         <li><strong>Emerging Technologies:</strong> What is FHIR, and how does its use of modern web technologies address the shortcomings of earlier standards? How might blockchain and AI serve as catalysts for future HIE innovation?</li>
                     </ul>
                 </div>
-
-                <div class="bg-white p-8 rounded-xl shadow-md mt-8">
-                    <h4 class="text-xl font-semibold mb-4">Suggested Readings</h4>
-                    <ul class="space-y-2 text-gray-700 list-disc pl-5">
-                        <li><a href="https://www.healthit.gov/topic/health-it-and-health-information-exchange-basics/what-hie" target="_blank" class="text-blue-600 hover:underline">"Health Information Exchange | HealthIT.gov" (ONC, 2023)</a>.</li>
-                        <li><a href="https://www.chcf.org/publication/health-data-exchange-drives-efficiency-cuts-costs/" target="_blank" class="text-blue-600 hover:underline">"Health Data Exchange Drives Efficiency and Cuts Costs" (CHCF, 2025)</a>.</li>
+                
+                <div class="content-block">
+                    <h4>Suggested Readings</h4>
+                    <ul class="space-y-4 text-gray-700 list-disc pl-5">
+                        <li><a href="https://www.healthit.gov/topic/health-information-exchange" target="_blank" class="text-blue-600 hover:underline">"Health Information Exchange | HealthIT.gov" (ONC, 2023)</a>.</li>
+                        <li><a href="https://www.chcf.org/blog/health-data-exchange-drives-efficiency-cuts-costs/" target="_blank" class="text-blue-600 hover:underline">"Health Data Exchange Drives Efficiency and Cuts Costs" (CHCF, 2025)</a>.</li>
                         <li><a href="https://www.ncbi.nlm.nih.gov/pmc/articles/PMC6647249/" target="_blank" class="text-blue-600 hover:underline">"Health Information Exchange: Understanding the Policy Landscape" (PMC, 2023)</a>.</li>
-                        <li><a href="https://www.ehealthtechnologies.com/blog/the-history-of-health-information-exchange-hie/" target="_blank" class="text-blue-600 hover:underline">"The History of Health Information Exchange (HIE)" (eHealth Technologies, 2021)</a>.</li>
-                        <li><a href="https://1up.health/how-payers-will-transform-healthcare-data-exchange" target="_blank" class="text-blue-600 hover:underline">"How Payers Will Transform Healthcare Data Exchange" (1upHealth, 2025)</a>.</li>
-                        <li><a href="https://www.globenewswire.com/news-release/2021/04/27/2218041/0/en/Healthcare-Information-Exchange-Market-Trends-Analysis.html" target="_blank" class="text-blue-600 hover:underline">"Healthcare Information Exchange Market Trends" (GlobeNewswire, 2025)</a>.</li>
+                        <li><a href="https://www.ehealthtechnologies.com/blog/a-brief-history-of-health-information-exchange-hie/" target="_blank" class="text-blue-600 hover:underline">"The History of Health Information Exchange (HIE)" (eHealth Technologies, 2021)</a>.</li>
+                        <li><a href="https://1up.health/blog/how-payers-will-transform-healthcare-data-exchange" target="_blank" class="text-blue-600 hover:underline">"How Payers Will Transform Healthcare Data Exchange" (1upHealth, 2025)</a>.</li>
+                        <li><a href="https://www.himss.org/resources/health-information-exchange-hie-guide" target="_blank" class="text-blue-600 hover:underline">"Healthcare Information Exchange | HIMSS" (HIMSS, 2025)</a>.</li>
                     </ul>
                 </div>
             </section>
@@ -346,96 +641,117 @@
     </div>
 
     <script>
-        // Get all draggable and droppable elements
+        // Drag and Drop Logic
         const draggables = document.querySelectorAll('.draggable');
         const droppables = document.querySelectorAll('.droppable');
         const messageBox = document.getElementById('message-box');
         const resetButton = document.getElementById('reset-button');
-        
-        let draggedItem = null;
+        const correctAnswers = {
+            'centralized-drag': 'centralized-drop',
+            'federated-drag': 'federated-drop',
+            'hybrid-drag': 'hybrid-drop'
+        };
 
-        // Add event listeners for draggable items
         draggables.forEach(draggable => {
             draggable.addEventListener('dragstart', (e) => {
-                draggedItem = e.target;
                 e.dataTransfer.setData('text/plain', e.target.id);
-                e.target.classList.add('opacity-50');
+                e.target.classList.add('opacity-50', 'transform', 'scale-95');
             });
 
-            draggable.addEventListener('dragend', () => {
-                draggedItem.classList.remove('opacity-50');
-                draggedItem = null;
+            draggable.addEventListener('dragend', (e) => {
+                e.target.classList.remove('opacity-50', 'transform', 'scale-95');
             });
         });
 
-        // Add event listeners for droppable containers
         droppables.forEach(droppable => {
             droppable.addEventListener('dragover', (e) => {
-                e.preventDefault(); // Allow drop
-            });
-
-            droppable.addEventListener('dragenter', (e) => {
                 e.preventDefault();
-                droppable.classList.add('bg-gray-100');
+                droppable.classList.add('drag-over');
             });
 
             droppable.addEventListener('dragleave', () => {
-                droppable.classList.remove('bg-gray-100');
+                droppable.classList.remove('drag-over');
             });
 
             droppable.addEventListener('drop', (e) => {
                 e.preventDefault();
-                droppable.classList.remove('bg-gray-100');
-
-                // Get the ID of the dragged item
+                droppable.classList.remove('drag-over');
                 const draggedItemId = e.dataTransfer.getData('text/plain');
                 const draggedElement = document.getElementById(draggedItemId);
 
-                // Check if the drop is valid (container is empty)
-                if (!droppable.hasChildNodes() || droppable.children.length === 1) {
-                    // Append the dragged item to the drop target
+                if (!droppable.querySelector('.draggable')) {
                     droppable.appendChild(draggedElement);
                     checkSolution();
                 }
             });
         });
 
-        // Check the solution and provide feedback
         function checkSolution() {
-            const centralized = document.getElementById('centralized-drop').querySelector('#centralized-drag');
-            const federated = document.getElementById('federated-drop').querySelector('#federated-drag');
-            const hybrid = document.getElementById('hybrid-drop').querySelector('#hybrid-drag');
-            const totalCorrect = [centralized, federated, hybrid].filter(item => item !== null).length;
+            let allCorrect = true;
+            let correctCount = 0;
+            droppables.forEach(droppable => {
+                const draggedItem = droppable.querySelector('.draggable');
+                if (draggedItem) {
+                    if (correctAnswers[draggedItem.id] === droppable.id) {
+                        droppable.classList.add('correct');
+                        droppable.classList.remove('incorrect');
+                        correctCount++;
+                    } else {
+                        droppable.classList.add('incorrect');
+                        droppable.classList.remove('correct');
+                        allCorrect = false;
+                    }
+                } else {
+                    droppable.classList.remove('correct', 'incorrect');
+                    allCorrect = false;
+                }
+            });
 
-            if (totalCorrect === 3) {
-                messageBox.textContent = "Great job! All models are correctly matched. You can now reset the quiz.";
-                messageBox.classList.add('text-green-600');
+            if (allCorrect) {
+                messageBox.innerHTML = '<span class="text-green-600">Great job! All models are correctly matched!</span>';
                 resetButton.classList.remove('hidden');
             } else {
-                messageBox.textContent = "Keep going! You have " + totalCorrect + " out of 3 correct.";
-                messageBox.classList.remove('text-green-600');
+                messageBox.innerHTML = `<span class="text-yellow-600">Keep going! You have ${correctCount} out of 3 correct.</span>`;
                 resetButton.classList.add('hidden');
             }
         }
 
-        // Reset the quiz
         resetButton.addEventListener('click', () => {
             const dragContainer = document.getElementById('drag-container');
-            const dropContainer = document.getElementById('drop-container');
             const originalOrder = ['centralized-drag', 'federated-drag', 'hybrid-drag'];
-
-            // Move all draggable elements back to the drag container
             originalOrder.forEach(id => {
                 const el = document.getElementById(id);
                 if (el) {
                     dragContainer.appendChild(el);
+                    el.classList.remove('correct', 'incorrect');
                 }
             });
-
-            // Reset message box and button visibility
+            droppables.forEach(droppable => {
+                droppable.classList.remove('correct', 'incorrect', 'drag-over');
+            });
             messageBox.textContent = "";
-            messageBox.classList.remove('text-green-600');
             resetButton.classList.add('hidden');
+        });
+
+        // Multiple Choice Quiz Logic
+        const quizOptions = document.querySelectorAll('.option-card');
+        const quizFeedback = document.getElementById('quiz-feedback');
+        const correctAnswer = 'C';
+
+        quizOptions.forEach(option => {
+            option.addEventListener('click', () => {
+                const selectedAnswer = option.dataset.answer;
+                quizOptions.forEach(opt => opt.style.pointerEvents = 'none');
+
+                if (selectedAnswer === correctAnswer) {
+                    option.classList.add('bg-green-100', 'border-green-500');
+                    quizFeedback.innerHTML = '<span class="text-green-600">Correct! Semantic interoperability ensures data is fully understandable and usable.</span>';
+                } else {
+                    option.classList.add('bg-red-100', 'border-red-500');
+                    document.querySelector(`[data-answer="${correctAnswer}"]`).classList.add('bg-green-100', 'border-green-500');
+                    quizFeedback.innerHTML = '<span class="text-red-600">Incorrect. Semantic interoperability is the key to data being fully understood.</span>';
+                }
+            });
         });
     </script>
 </body>
