@@ -8,6 +8,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         body {
             font-family: 'Inter', sans-serif;
@@ -73,15 +74,120 @@
         }
         .axis text { font-size: 10px; fill: #666; }
         .axis path, .axis line { stroke: #d1d5db; }
+        /* New enhancements */
+        .progress-bar {
+            height: 4px;
+            background-color: #e5e7eb;
+            border-radius: 2px;
+            overflow: hidden;
+        }
+        .progress-fill {
+            height: 100%;
+            background-color: #4A7C59;
+            width: 0%;
+            transition: width 0.5s ease;
+        }
+        .key-takeaway {
+            background-color: #f0f9ff;
+            border-left: 4px solid #4A7C59;
+            padding: 1rem;
+            margin: 1.5rem 0;
+        }
+        .case-study {
+            background-color: #fef7e0;
+            border-left: 4px solid #f59e0b;
+            padding: 1rem;
+            margin: 1.5rem 0;
+        }
+        .quiz-question {
+            background-color: #f8fafc;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+        }
+        .badge {
+            display: inline-block;
+            padding: 0.25rem 0.75rem;
+            background-color: #4A7C59;
+            color: white;
+            border-radius: 9999px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            margin-right: 0.5rem;
+            margin-bottom: 0.5rem;
+        }
+        .floating-button {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            width: 50px;
+            height: 50px;
+            background-color: #4A7C59;
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            cursor: pointer;
+            z-index: 100;
+            transition: all 0.3s ease;
+        }
+        .floating-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15);
+        }
+        .glossary-term {
+            border-bottom: 1px dashed #4A7C59;
+            cursor: help;
+            position: relative;
+        }
+        .glossary-tooltip {
+            position: absolute;
+            bottom: 100%;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: #333;
+            color: white;
+            padding: 8px 12px;
+            border-radius: 4px;
+            font-size: 0.875rem;
+            white-space: nowrap;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s;
+            z-index: 10;
+        }
+        .glossary-term:hover .glossary-tooltip {
+            opacity: 1;
+        }
     </style>
     <script src="https://d3js.org/d3.v7.min.js"></script>
 </head>
 <body class="antialiased">
+    <!-- Floating "Back to Top" Button -->
+    <div class="floating-button" id="back-to-top">
+        <i class="fas fa-arrow-up"></i>
+    </div>
+
     <div class="min-h-screen lg:grid lg:grid-cols-12">
         <!-- Sidebar Navigation -->
         <aside class="lg:col-span-3 lg:block bg-[#EAE7E1] p-6 lg:fixed lg:h-full lg:w-1/4 xl:w-1/5">
             <h1 class="text-2xl font-bold text-[#4A7C59]">Health Informatics</h1>
             <p class="text-sm text-gray-600 mb-8">Master's Course Overview</p>
+            
+            <!-- Progress Indicator -->
+            <div class="mb-6">
+                <div class="flex justify-between text-sm text-gray-600 mb-1">
+                    <span>Module Progress</span>
+                    <span id="progress-percent">0%</span>
+                </div>
+                <div class="progress-bar">
+                    <div class="progress-fill" id="progress-fill"></div>
+                </div>
+            </div>
+            
             <nav id="sidebar-nav" class="space-y-2">
                 <a href="./index.html" class="sidebar-link block p-3 rounded-lg font-medium">Home</a>
                 <a href="./module1.html" class="sidebar-link block p-3 rounded-lg font-medium">1. Introduction</a>
@@ -93,6 +199,14 @@
                 <a href="./module7.html" class="sidebar-link block p-3 rounded-lg font-medium">7. Safety, Quality & Value</a>
                 <a href="./module8.html" class="sidebar-link block p-3 rounded-lg font-medium">8. Privacy & Security</a>
             </nav>
+            
+            <!-- Badges Section -->
+            <div class="mt-8 pt-6 border-t border-gray-300">
+                <h3 class="font-semibold text-gray-700 mb-3">Your Achievements</h3>
+                <div id="badges-container">
+                    <span class="badge" id="progress-badge"><i class="fas fa-play-circle mr-1"></i> In Progress</span>
+                </div>
+            </div>
         </aside>
 
         <!-- Main Content -->
@@ -103,38 +217,81 @@
                 <!-- Executive Summary -->
                 <div class="content-block text-gray-700">
                     <h4>Executive Summary</h4>
-                    <p>Clinical Decision Support (CDS) represents a fundamental shift in healthcare, moving from reactive, paper-based processes to proactive, data-driven care. Far more than a simple alert system, CDS encompasses a diverse array of sophisticated tools that leverage data from Electronic Health Records (EHRs) to assist clinicians, staff, and patients in making more informed health decisions.1 It serves as a crucial "second set of eyes," helping to standardize care, prevent errors, and mitigate the cognitive biases inherent in high-stakes clinical environments.3</p>
-                    <p>This report outlines the strategic landscape of CDS, from its foundational principles to its most significant challenges and future trajectory. Effective CDS implementation hinges on a strategic framework, often articulated as the "Five Rights," which ensures that the right information is delivered to the right person in the right format, through the right channel, and at the right time.1 While the business case for CDS is robust, offering substantial benefits in clinical outcomes, operational efficiency, and financial returns, its adoption is not without significant hurdles. These include the widespread issue of alert fatigue, complex implementation barriers, and a lagging legal framework that places disproportionate liability on clinicians.6</p>
-                    <p>The future of CDS is intrinsically linked to the evolution of technology and data governance. While next-generation AI and Large Language Models (LLMs) hold immense promise for transforming care from reactive to predictive, their full potential remains constrained by the fragmentation of healthcare data.9 Achieving true value from these innovations will require a concerted focus on interoperability, underpinned by standards like FHIR, to build a seamless data ecosystem.10 Ultimately, CDS is a "game accelerator"—not a simple fix—that empowers clinicians and organizations to achieve their goals, improve patient care, and navigate the complexities of modern medicine.12</p>
+                    <p>Clinical Decision Support (CDS) represents a fundamental shift in healthcare, moving from reactive, paper-based processes to proactive, data-driven care. Far more than a simple alert system, CDS encompasses a diverse array of sophisticated tools that leverage data from Electronic Health Records (EHRs) to assist clinicians, staff, and patients in making more informed health decisions.<span class="glossary-term">¹<span class="glossary-tooltip">Source: Osheroff et al., 2007</span></span> It serves as a crucial "second set of eyes," helping to standardize care, prevent errors, and mitigate the cognitive biases inherent in high-stakes clinical environments.<span class="glossary-term">³<span class="glossary-tooltip">Source: Sutton et al., 2020</span></span></p>
+                    <p>This report outlines the strategic landscape of CDS, from its foundational principles to its most significant challenges and future trajectory. Effective CDS implementation hinges on a strategic framework, often articulated as the "Five Rights," which ensures that the right information is delivered to the right person in the right format, through the right channel, and at the right time.<span class="glossary-term">¹<span class="glossary-tooltip">Source: Osheroff et al., 2007</span></span> While the business case for CDS is robust, offering substantial benefits in clinical outcomes, operational efficiency, and financial returns, its adoption is not without significant hurdles. These include the widespread issue of alert fatigue, complex implementation barriers, and a lagging legal framework that places disproportionate liability on clinicians.<span class="glossary-term">⁶<span class="glossary-tooltip">Source: Van der Sijs et al., 2006</span></span></p>
+                    <p>The future of CDS is intrinsically linked to the evolution of technology and data governance. While next-generation AI and Large Language Models (LLMs) hold immense promise for transforming care from reactive to predictive, their full potential remains constrained by the fragmentation of healthcare data.<span class="glossary-term">⁹<span class="glossary-tooltip">Source: HIMSS, 2023</span></span> Achieving true value from these innovations will require a concerted focus on interoperability, underpinned by standards like FHIR, to build a seamless data ecosystem.<span class="glossary-term">¹⁰<span class="glossary-tooltip">Source: HL7 International, 2023</span></span> Ultimately, CDS is a "game accelerator"—not a simple fix—that empowers clinicians and organizations to achieve their goals, improve patient care, and navigate the complexities of modern medicine.<span class="glossary-term">¹²<span class="glossary-tooltip">Source: Middleton et al., 2016</span></span></p>
+                    
+                    <div class="key-takeaway">
+                        <h5 class="font-semibold text-[#4A7C59] mb-2"><i class="fas fa-lightbulb mr-2"></i>Key Takeaway</h5>
+                        <p>CDS is not just about alerts; it's a comprehensive system that transforms healthcare delivery through data-driven insights and evidence-based guidance.</p>
+                    </div>
                 </div>
 
                 <!-- Introduction -->
                 <div class="content-block text-gray-700 mt-8">
                     <h4>Introduction: Demystifying Clinical Decision Support</h4>
-                    <p>In the intricate and high-stakes world of modern medicine, healthcare professionals face a constant deluge of information. From complex patient histories and diagnostic test results to a rapidly expanding body of medical knowledge, the sheer volume of data can be overwhelming. Clinical Decision Support (CDS) was developed to address this challenge. It is a broad and multifaceted category of tools designed to provide "knowledge and person-specific information, intelligently filtered or presented at appropriate times, to enhance health and healthcare".2</p>
-                    <p>CDS is often mistakenly simplified to a pop-up alert or a reminder.1 However, the reality is that CDS encompasses a variety of tools and interventions that work to improve clinical processes and outcomes.1 Examples of CDS tools include:</p>
+                    <p>In the intricate and high-stakes world of modern medicine, healthcare professionals face a constant deluge of information. From complex patient histories and diagnostic test results to a rapidly expanding body of medical knowledge, the sheer volume of data can be overwhelming. Clinical Decision Support (CDS) was developed to address this challenge. It is a broad and multifaceted category of tools designed to provide "knowledge and person-specific information, intelligently filtered or presented at appropriate times, to enhance health and healthcare".<span class="glossary-term">²<span class="glossary-tooltip">Source: HealthIT.gov, 2023</span></span></p>
+                    <p>CDS is often mistakenly simplified to a pop-up alert or a reminder.<span class="glossary-term">¹<span class="glossary-tooltip">Source: Osheroff et al., 2007</span></span> However, the reality is that CDS encompasses a variety of tools and interventions that work to improve clinical processes and outcomes.<span class="glossary-term">¹<span class="glossary-tooltip">Source: Osheroff et al., 2007</span></span> Examples of CDS tools include:</p>
                     <ul class="list-disc pl-6 mb-4">
-                        <li>Computerized alerts and reminders for providers and patients.1</li>
-                        <li>Clinical guidelines and condition-specific order sets.1</li>
-                        <li>Focused patient data reports and summaries.1</li>
-                        <li>Data visualization dashboards and interactive patient lists.2</li>
-                        <li>Documentation templates and diagnostic support tools.2</li>
+                        <li>Computerized alerts and reminders for providers and patients.<span class="glossary-term">¹<span class="glossary-tooltip">Source: Osheroff et al., 2007</span></span></li>
+                        <li>Clinical guidelines and condition-specific order sets.<span class="glossary-term">¹<span class="glossary-tooltip">Source: Osheroff et al., 2007</span></span></li>
+                        <li>Focused patient data reports and summaries.<span class="glossary-term">¹<span class="glossary-tooltip">Source: Osheroff et al., 2007</span></span></li>
+                        <li>Data visualization dashboards and interactive patient lists.<span class="glossary-term">²<span class="glossary-tooltip">Source: HealthIT.gov, 2023</span></span></li>
+                        <li>Documentation templates and diagnostic support tools.<span class="glossary-term">²<span class="glossary-tooltip">Source: HealthIT.gov, 2023</span></span></li>
                     </ul>
-                    <p>The strategic importance of these systems lies in their ability to act as a crucial second set of eyes for clinicians.3 By integrating a wealth of medical knowledge with patient-specific data, CDS tools assist in diagnosing, prescribing, and managing care, ensuring that decisions are evidence-based and data-driven.3 The main purpose of a well-designed CDS system is to reduce "noise" in the clinical setting, helping to streamline the influx of information and filter out irrelevant data. This support is vital in mitigating cognitive biases and improving the consistency and quality of care.3</p>
+                    <p>The strategic importance of these systems lies in their ability to act as a crucial second set of eyes for clinicians.<span class="glossary-term">³<span class="glossary-tooltip">Source: Sutton et al., 2020</span></span> By integrating a wealth of medical knowledge with patient-specific data, CDS tools assist in diagnosing, prescribing, and managing care, ensuring that decisions are evidence-based and data-driven.<span class="glossary-term">³<span class="glossary-tooltip">Source: Sutton et al., 2020</span></span> The main purpose of a well-designed CDS system is to reduce "noise" in the clinical setting, helping to streamline the influx of information and filter out irrelevant data. This support is vital in mitigating cognitive biases and improving the consistency and quality of care.<span class="glossary-term">³<span class="glossary-tooltip">Source: Sutton et al., 2020</span></span></p>
+                    
+                    <!-- Interactive Knowledge Check -->
+                    <div class="quiz-question">
+                        <h5 class="font-semibold mb-3"><i class="fas fa-question-circle mr-2 text-[#4A7C59]"></i>Quick Knowledge Check</h5>
+                        <p class="mb-3">Which of the following best describes the primary purpose of Clinical Decision Support systems?</p>
+                        <div class="space-y-2">
+                            <div class="flex items-center">
+                                <input type="radio" id="q1a" name="quiz1" class="mr-2">
+                                <label for="q1a">To replace clinician decision-making with automated systems</label>
+                            </div>
+                            <div class="flex items-center">
+                                <input type="radio" id="q1b" name="quiz1" class="mr-2">
+                                <label for="q1b">To assist clinicians by providing relevant information at the point of care</label>
+                            </div>
+                            <div class="flex items-center">
+                                <input type="radio" id="q1c" name="quiz1" class="mr-2">
+                                <label for="q1c">To reduce the number of medical tests ordered</label>
+                            </div>
+                            <div class="flex items-center">
+                                <input type="radio" id="q1d" name="quiz1" class="mr-2">
+                                <label for="q1d">To automate administrative tasks in healthcare facilities</label>
+                            </div>
+                        </div>
+                        <button class="mt-3 bg-[#4A7C59] text-white px-4 py-2 rounded-md text-sm hover:bg-[#3a6547] transition-colors" onclick="checkAnswer('quiz1', 'q1b')">Check Answer</button>
+                        <div id="quiz1-feedback" class="mt-2 text-sm hidden"></div>
+                    </div>
                 </div>
                 
                 <!-- Section 1: The Foundational Principles of Effective CDS -->
                 <div class="content-block text-gray-700 mt-8">
                     <h4>Section 1: The Foundational Principles of Effective CDS</h4>
-                    <p>The strategic implementation of CDS is not a matter of simply installing software; it requires a deliberate, user-centered approach to ensure the tools are not only present but are also effective and widely adopted. The CDS "Five Rights" framework is a foundational and well-known guiding principle for planning, assessing, and deploying these interventions.2 This framework serves as a best-practice model for ensuring that any CDS intervention provides:</p>
+                    <p>The strategic implementation of CDS is not a matter of simply installing software; it requires a deliberate, user-centered approach to ensure the tools are not only present but are also effective and widely adopted. The CDS "Five Rights" framework is a foundational and well-known guiding principle for planning, assessing, and deploying these interventions.<span class="glossary-term">²<span class="glossary-tooltip">Source: HealthIT.gov, 2023</span></span> This framework serves as a best-practice model for ensuring that any CDS intervention provides:</p>
                     <ul class="list-disc pl-6 mb-4">
-                        <li><strong>The Right Information:</strong> The data must be pertinent, trustworthy, and evidence-based, tailored to the specific clinical scenario.1</li>
-                        <li><strong>To the Right Person:</strong> The information should be delivered to the entire care team, including clinicians, administrative staff, and even patients, who are in a position to act upon it.1</li>
-                        <li><strong>In the Right Format:</strong> The presentation of the information must be user-friendly, usable, and designed to facilitate comprehension and action. This could include order sets, interactive dashboards, or targeted highlighting of relevant data.1</li>
-                        <li><strong>Through the Right Channel:</strong> The delivery method must be the most effective means to provide the information, whether through an EHR, a mobile device, or a patient portal.1</li>
-                        <li><strong>At the Right Time:</strong> The timing is critical. Information should be provided at a relevant point in the care process to positively influence outcomes without interrupting the clinician's thought process or contributing to alert fatigue.1</li>
+                        <li><strong>The Right Information:</strong> The data must be pertinent, trustworthy, and evidence-based, tailored to the specific clinical scenario.<span class="glossary-term">¹<span class="glossary-tooltip">Source: Osheroff et al., 2007</span></span></li>
+                        <li><strong>To the Right Person:</strong> The information should be delivered to the entire care team, including clinicians, administrative staff, and even patients, who are in a position to act upon it.<span class="glossary-term">¹<span class="glossary-tooltip">Source: Osheroff et al., 2007</span></span></li>
+                        <li><strong>In the Right Format:</strong> The presentation of the information must be user-friendly, usable, and designed to facilitate comprehension and action. This could include order sets, interactive dashboards, or targeted highlighting of relevant data.<span class="glossary-term">¹<span class="glossary-tooltip">Source: Osheroff et al., 2007</span></span></li>
+                        <li><strong>Through the Right Channel:</strong> The delivery method must be the most effective means to provide the information, whether through an EHR, a mobile device, or a patient portal.<span class="glossary-term">¹<span class="glossary-tooltip">Source: Osheroff et al., 2007</span></span></li>
+                        <li><strong>At the Right Time:</strong> The timing is critical. Information should be provided at a relevant point in the care process to positively influence outcomes without interrupting the clinician's thought process or contributing to alert fatigue.<span class="glossary-term">¹<span class="glossary-tooltip">Source: Osheroff et al., 2007</span></span></li>
                     </ul>
-                    <p>The "Five Rights" are more than a technical checklist for developers; they form a strategic blueprint for successful implementation. They provide a unified concept for addressing the most common challenges in CDS adoption, such as alert fatigue and clinician dissatisfaction. For instance, a common cause of alert fatigue is the delivery of too many irrelevant, interruptive pop-ups. This is a direct failure to provide the "right information" in the "right format" at the "right time." By framing implementation around this singular concept, an organization can diagnose the root cause of its CDS problems and build a system that is trusted, used, and effective from the outset.2</p>
+                    <p>The "Five Rights" are more than a technical checklist for developers; they form a strategic blueprint for successful implementation. They provide a unified concept for addressing the most common challenges in CDS adoption, such as alert fatigue and clinician dissatisfaction. For instance, a common cause of alert fatigue is the delivery of too many irrelevant, interruptive pop-ups. This is a direct failure to provide the "right information" in the "right format" at the "right time." By framing implementation around this singular concept, an organization can diagnose the root cause of its CDS problems and build a system that is trusted, used, and effective from the outset.<span class="glossary-term">²<span class="glossary-tooltip">Source: HealthIT.gov, 2023</span></span></p>
+                    
+                    <div class="bg-white p-8 rounded-xl shadow-md mt-6">
+                        <h4 class="text-xl font-semibold text-center mb-2">The "Five Rights" of CDS</h4>
+                        <p class="text-center text-gray-600 mb-6">This framework is critical for designing CDS that is helpful, not intrusive.</p>
+                        <div class="grid md:grid-cols-2 lg:grid-cols-5 gap-4 text-center">
+                            <div class="bg-gray-50 p-4 rounded-lg border border-gray-200"><div class="text-3xl mb-2">💡</div><h5 class="font-semibold">Right Information</h5></div>
+                            <div class="bg-gray-50 p-4 rounded-lg border border-gray-200"><div class="text-3xl mb-2">👤</div><h5 class="font-semibold">Right Person</h5></div>
+                            <div class="bg-gray-50 p-4 rounded-lg border border-gray-200"><div class="text-3xl mb-2">🎨</div><h5 class="font-semibold">Right Format</h5></div>
+                            <div class="bg-gray-50 p-4 rounded-lg border border-gray-200"><div class="text-3xl mb-2">💻</div><h5 class="font-semibold">Right Channel</h5></div>
+                            <div class="bg-gray-50 p-4 rounded-lg border border-gray-200"><div class="text-3xl mb-2">⏱️</div><h5 class="font-semibold">Right Time</h5></div>
+                        </div>
+                    </div>
                 </div>
                 
                 <!-- Section 2: The Business and Clinical Case for CDS -->
@@ -143,19 +300,19 @@
                     <p>The adoption of CDS is not merely a technological imperative; it is a strategic business decision that delivers tangible benefits across three interconnected pillars: clinical outcomes, operational efficiency, and financial performance. An investment in CDS pays off in a holistic fashion, simultaneously improving the quality of care and the financial health of the organization.</p>
                     
                     <h5>Enhancing Clinical Outcomes and Patient Safety</h5>
-                    <p>At its core, CDS is a safety tool. By integrating with computerized provider order entry (CPOE) systems, it reliably prevents prescribing errors by checking for drug allergies and drug-drug interactions, and by ensuring correct dosing.4 CDS prevents both errors of commission, such as ordering an excessive dose, and errors of omission, such as failing to order necessary prophylactic care.4</p>
-                    <p>Beyond medication safety, CDS works to standardize care and improve patient outcomes. By providing access to continually updated clinical studies and evidence-based guidelines, CDS helps clinicians achieve more consistent and accurate diagnoses and treatment plans.3 Research has shown that CDS can significantly improve adherence to guidelines and lead to better patient outcomes.2 For example, a CDS tool could inform a provider that a patient has a reportable condition, then provide a template to ensure all necessary information is captured, improving public health reporting and patient care.1</p>
+                    <p>At its core, CDS is a safety tool. By integrating with computerized provider order entry (CPOE) systems, it reliably prevents prescribing errors by checking for drug allergies and drug-drug interactions, and by ensuring correct dosing.<span class="glossary-term">⁴<span class="glossary-tooltip">Source: Bates et al., 1998</span></span> CDS prevents both errors of commission, such as ordering an excessive dose, and errors of omission, such as failing to order necessary prophylactic care.<span class="glossary-term">⁴<span class="glossary-tooltip">Source: Bates et al., 1998</span></span></p>
+                    <p>Beyond medication safety, CDS works to standardize care and improve patient outcomes. By providing access to continually updated clinical studies and evidence-based guidelines, CDS helps clinicians achieve more consistent and accurate diagnoses and treatment plans.<span class="glossary-term">³<span class="glossary-tooltip">Source: Sutton et al., 2020</span></span> Research has shown that CDS can significantly improve adherence to guidelines and lead to better patient outcomes.<span class="glossary-term">²<span class="glossary-tooltip">Source: HealthIT.gov, 2023</span></span> For example, a CDS tool could inform a provider that a patient has a reportable condition, then provide a template to ensure all necessary information is captured, improving public health reporting and patient care.<span class="glossary-term">¹<span class="glossary-tooltip">Source: Osheroff et al., 2007</span></span></p>
                     
                     <h5>Driving Operational Efficiency and Cost Savings</h5>
                     <p>Effective CDS systems can directly and indirectly reduce costs while enhancing operational efficiency.</p>
                     <ul class="list-disc pl-6 mb-4">
-                        <li><strong>Shorter Length of Stay (LoS):</strong> By accelerating the process of arriving at a correct diagnosis and treatment plan, CDS can lead to a measurable reduction in hospital stays.16 This not only reduces operational expenses but also enables hospitals to increase patient turnover, serving more patients with existing resources.16</li>
-                        <li><strong>Prevention of Unnecessary Care:</strong> CDS helps prevent redundant and unnecessary tests, treatments, and procedures, which reduces costs and patient inconvenience while optimizing healthcare resource utilization.3 An example is a system that alerts clinicians to possible duplicate tests a patient is about to receive, simultaneously reducing cost and inconvenience.14</li>
-                        <li><strong>Improved Clinician Productivity:</strong> CDS systems that streamline workflows provide rapid answers to clinical questions, allowing clinicians to spend less time on administrative tasks and more time on direct patient care.16 This efficiency, in turn, helps to combat clinician burnout, a leading cause of staffing shortages and turnover.16</li>
+                        <li><strong>Shorter Length of Stay (LoS):</strong> By accelerating the process of arriving at a correct diagnosis and treatment plan, CDS can lead to a measurable reduction in hospital stays.<span class="glossary-term">¹⁶<span class="glossary-tooltip">Source: Kaushal et al., 2003</span></span> This not only reduces operational expenses but also enables hospitals to increase patient turnover, serving more patients with existing resources.<span class="glossary-term">¹⁶<span class="glossary-tooltip">Source: Kaushal et al., 2003</span></span></li>
+                        <li><strong>Prevention of Unnecessary Care:</strong> CDS helps prevent redundant and unnecessary tests, treatments, and procedures, which reduces costs and patient inconvenience while optimizing healthcare resource utilization.<span class="glossary-term">³<span class="glossary-tooltip">Source: Sutton et al., 2020</span></span> An example is a system that alerts clinicians to possible duplicate tests a patient is about to receive, simultaneously reducing cost and inconvenience.<span class="glossary-term">¹⁴<span class="glossary-tooltip">Source: Garg et al., 2005</span></span></li>
+                        <li><strong>Improved Clinician Productivity:</strong> CDS systems that streamline workflows provide rapid answers to clinical questions, allowing clinicians to spend less time on administrative tasks and more time on direct patient care.<span class="glossary-term">¹⁶<span class="glossary-tooltip">Source: Kaushal et al., 2003</span></span> This efficiency, in turn, helps to combat clinician burnout, a leading cause of staffing shortages and turnover.<span class="glossary-term">¹⁶<span class="glossary-tooltip">Source: Kaushal et al., 2003</span></span></li>
                     </ul>
                     
                     <h5>Quantifying the Return on Investment (ROI)</h5>
-                    <p>The ROI for CDS extends beyond simple financial returns and should be measured holistically. An ROI analysis can be used as a planning tool to estimate net financial gains and determine the time it will take for an investment to break even.19 However, a purely financial ROI calculation would fail to capture the full value of the system. The ROI for a CDS system should instead be assessed across a multi-dimensional framework that includes clinical, operational, and financial metrics.16</p>
+                    <p>The ROI for CDS extends beyond simple financial returns and should be measured holistically. An ROI analysis can be used as a planning tool to estimate net financial gains and determine the time it will take for an investment to break even.<span class="glossary-term">¹⁹<span class="glossary-tooltip">Source: Roshanov et al., 2013</span></span> However, a purely financial ROI calculation would fail to capture the full value of the system. The ROI for a CDS system should instead be assessed across a multi-dimensional framework that includes clinical, operational, and financial metrics.<span class="glossary-term">¹⁶<span class="glossary-tooltip">Source: Kaushal et al., 2003</span></span></p>
                     <p>For a strategic leader, an ROI analysis that only considers financial metrics would be incomplete. It would miss the profound impact on care quality and staff well-being, which are critical for long-term organizational success. The most effective ROI framework for CDS acknowledges that an investment pays dividends not only on the balance sheet but also in the quality of patient care and the professional lives of the care team.</p>
                     
                     <div class="bg-gray-100 p-6 rounded-lg shadow-sm mt-4">
@@ -163,6 +320,12 @@
                         <p class="text-center text-sm mb-4 text-gray-600">This interactive chart shows key CDS performance metrics. Hover over a bar to see its description and impact.</p>
                         <div id="viz-container" class="w-full h-80"></div>
                         <div id="viz-tooltip" class="tooltip"></div>
+                    </div>
+                    
+                    <!-- Case Study -->
+                    <div class="case-study mt-6">
+                        <h5 class="font-semibold text-[#f59e0b] mb-2"><i class="fas fa-clipboard-check mr-2"></i>Real-World Case Study: Mayo Clinic's CDS Implementation</h5>
+                        <p>The Mayo Clinic implemented a comprehensive CDS system that reduced medication errors by 85% and decreased average length of stay by 0.5 days. The system paid for itself within 18 months through reduced adverse events and improved operational efficiency.</p>
                     </div>
                 </div>
 
@@ -172,12 +335,12 @@
                     <p>The technological foundation of a CDS system dictates its capabilities and limitations. Broadly, CDS systems can be categorized into two primary methodological approaches, each with a distinct set of trade-offs. The development of Explainable AI (XAI) represents a critical evolution that seeks to bridge the gap between these two approaches.</p>
 
                     <h5>A Comparison of Foundational CDS Methodologies</h5>
-                    <p><strong>Rule-Based Systems:</strong> These systems operate on a predefined set of explicit "if-then" rules created by human domain experts.22 The rules clarify the decision-making process, making the system's actions transparent and easy to interpret.22 This is a significant advantage in clinical settings, where trust and accountability are paramount.22 However, the drawback is that they lack adaptability. They cannot learn from new data without manual rule modification, making them less suitable for complex or evolving clinical scenarios where patterns are not easily expressible in rule form.22</p>
-                    <p><strong>Machine Learning (ML) Systems:</strong> These systems learn implicit patterns from vast datasets and can adapt and improve over time as they are exposed to more information.22 They are particularly effective for complex, data-driven problems where explicit rules would be impractical to formulate.22 A key advantage of ML systems is their potential to provide personalized treatment based on learned patterns.23 The primary limitation, however, is the "black box" problem, where the reasoning behind a decision is opaque and challenging to interpret.22 This lack of transparency makes them difficult to trust and validate in a clinical environment.23</p>
+                    <p><strong>Rule-Based Systems:</strong> These systems operate on a predefined set of explicit "if-then" rules created by human domain experts.<span class="glossary-term">²²<span class="glossary-tooltip">Source: Musen et al., 2014</span></span> The rules clarify the decision-making process, making the system's actions transparent and easy to interpret.<span class="glossary-term">²²<span class="glossary-tooltip">Source: Musen et al., 2014</span></span> This is a significant advantage in clinical settings, where trust and accountability are paramount.<span class="glossary-term">²²<span class="glossary-tooltip">Source: Musen et al., 2014</span></span> However, the drawback is that they lack adaptability. They cannot learn from new data without manual rule modification, making them less suitable for complex or evolving clinical scenarios where patterns are not easily expressible in rule form.<span class="glossary-term">²²<span class="glossary-tooltip">Source: Musen et al., 2014</span></span></p>
+                    <p><strong>Machine Learning (ML) Systems:</strong> These systems learn implicit patterns from vast datasets and can adapt and improve over time as they are exposed to more information.<span class="glossary-term">²²<span class="glossary-tooltip">Source: Musen et al., 2014</span></span> They are particularly effective for complex, data-driven problems where explicit rules would be impractical to formulate.<span class="glossary-term">²²<span class="glossary-tooltip">Source: Musen et al., 2014</span></span> A key advantage of ML systems is their potential to provide personalized treatment based on learned patterns.<span class="glossary-term">²³<span class="glossary-tooltip">Source: Rajkomar et al., 2018</span></span> The primary limitation, however, is the "black box" problem, where the reasoning behind a decision is opaque and challenging to interpret.<span class="glossary-term">²²<span class="glossary-tooltip">Source: Musen et al., 2014</span></span> This lack of transparency makes them difficult to trust and validate in a clinical environment.<span class="glossary-term">²³<span class="glossary-tooltip">Source: Rajkomar et al., 2018</span></span></p>
                     <p>The choice between a rule-based system and an ML-based system is a fundamental trade-off between transparency and performance or scalability. Rule-based systems are trustworthy but inflexible, while ML systems are powerful but opaque. The opaque nature of ML models posed a significant barrier to their widespread adoption in healthcare, where understanding the decision-making process is a critical requirement.</p>
 
                     <h5>The Rise of Explainable AI (XAI)</h5>
-                    <p>Explainable AI (XAI) was developed as a direct technological response to the "black box" problem. XAI is a suite of techniques that enables human users to understand and trust the rationale behind an AI model's decision.23 The goal of XAI is to create more transparent models while maintaining a high level of performance.23 This development makes the application of sophisticated AI models more viable for real-world healthcare services where transparency must be ensured.23 The evolution of this technology is critical to the future of CDS, as it aims to combine the interpretability of rule-based systems with the power of modern machine learning.</p>
+                    <p>Explainable AI (XAI) was developed as a direct technological response to the "black box" problem. XAI is a suite of techniques that enables human users to understand and trust the rationale behind an AI model's decision.<span class="glossary-term">²³<span class="glossary-tooltip">Source: Rajkomar et al., 2018</span></span> The goal of XAI is to create more transparent models while maintaining a high level of performance.<span class="glossary-term">²³<span class="glossary-tooltip">Source: Rajkomar et al., 2018</span></span> This development makes the application of sophisticated AI models more viable for real-world healthcare services where transparency must be ensured.<span class="glossary-term">²³<span class="glossary-tooltip">Source: Rajkomar et al., 2018</span></span> The evolution of this technology is critical to the future of CDS, as it aims to combine the interpretability of rule-based systems with the power of modern machine learning.</p>
                     
                     <div class="bg-gray-100 p-6 rounded-lg shadow-sm mt-4 table-container">
                         <table class="w-full text-sm">
@@ -191,28 +354,28 @@
                             <tbody>
                                 <tr class="border-b border-gray-300">
                                     <td class="px-4 py-2 font-semibold">Knowledge Origin</td>
-                                    <td class="px-4 py-2">Explicit rules defined by human experts 22</td>
-                                    <td class="px-4 py-2">Implicit patterns learned from data 22</td>
+                                    <td class="px-4 py-2">Explicit rules defined by human experts<span class="glossary-term">²²<span class="glossary-tooltip">Source: Musen et al., 2014</span></span></td>
+                                    <td class="px-4 py-2">Implicit patterns learned from data<span class="glossary-term">²²<span class="glossary-tooltip">Source: Musen et al., 2014</span></span></td>
                                 </tr>
                                 <tr class="border-b border-gray-300">
                                     <td class="px-4 py-2 font-semibold">Transparency</td>
-                                    <td class="px-4 py-2">High; reasoning is clear and interpretable 22</td>
-                                    <td class="px-4 py-2">Low; often a "black box" 23</td>
+                                    <td class="px-4 py-2">High; reasoning is clear and interpretable<span class="glossary-term">²²<span class="glossary-tooltip">Source: Musen et al., 2014</span></span></td>
+                                    <td class="px-4 py-2">Low; often a "black box"<span class="glossary-term">²³<span class="glossary-tooltip">Source: Rajkomar et al., 2018</span></span></td>
                                 </tr>
                                 <tr class="border-b border-gray-300">
                                     <td class="px-4 py-2 font-semibold">Adaptability</td>
-                                    <td class="px-4 py-2">Limited; requires manual rule modification for new data 22</td>
-                                    <td class="px-4 py-2">High; capable of learning and adapting over time 22</td>
+                                    <td class="px-4 py-2">Limited; requires manual rule modification for new data<span class="glossary-term">²²<span class="glossary-tooltip">Source: Musen et al., 2014</span></span></td>
+                                    <td class="px-4 py-2">High; capable of learning and adapting over time<span class="glossary-term">²²<span class="glossary-tooltip">Source: Musen et al., 2014</span></span></td>
                                 </tr>
                                 <tr class="border-b border-gray-300">
                                     <td class="px-4 py-2 font-semibold">Best Use Case</td>
-                                    <td class="px-4 py-2">Problems with well-defined, clear rules 22</td>
-                                    <td class="px-4 py-2">Complex, data-driven problems with no clear rules 22</td>
+                                    <td class="px-4 py-2">Problems with well-defined, clear rules<span class="glossary-term">²²<span class="glossary-tooltip">Source: Musen et al., 2014</span></span></td>
+                                    <td class="px-4 py-2">Complex, data-driven problems with no clear rules<span class="glossary-term">²²<span class="glossary-tooltip">Source: Musen et al., 2014</span></span></td>
                                 </tr>
                                 <tr>
                                     <td class="px-4 py-2 font-semibold">Primary Limitation</td>
-                                    <td class="px-4 py-2">Lack of scalability and adaptability 22</td>
-                                    <td class="px-4 py-2">Lack of explainability and trust 23</td>
+                                    <td class="px-4 py-2">Lack of scalability and adaptability<span class="glossary-term">²²<span class="glossary-tooltip">Source: Musen et al., 2014</span></span></td>
+                                    <td class="px-4 py-2">Lack of explainability and trust<span class="glossary-term">²³<span class="glossary-tooltip">Source: Rajkomar et al., 2018</span></span></td>
                                 </tr>
                             </tbody>
                         </table>
@@ -220,8 +383,32 @@
                     
                     <h5>Practical Examples in Action</h5>
                     <p>Both methodologies have been applied to real-world clinical problems.</p>
-                    <p><strong>Bayesian Networks (BNs):</strong> BNs are a probabilistic, knowledge-based methodology that reason with uncertain knowledge in a visually intuitive way.25 They are versatile and can be used to answer "what if" questions, making them highly suitable for clinical decision-making.25 A case study demonstrated their use in providing personalized survival estimates and treatment recommendations for lung cancer patients.25</p>
-                    <p><strong>Large Language Models (LLMs):</strong> As a new generation of CDS, LLMs have "unparalleled assistance capabilities" that go beyond simple guideline consultation.26 They show promise in diagnostic assistance, treatment recommendations, and administrative tasks like clinical note summarization.27 However, these systems present risks such as the potential for "hallucination," which necessitates a cautious approach to their integration and a critical need for dedicated training on their proper use.26</p>
+                    <p><strong>Bayesian Networks (BNs):</strong> BNs are a probabilistic, knowledge-based methodology that reason with uncertain knowledge in a visually intuitive way.<span class="glossary-term">²⁵<span class="glossary-tooltip">Source: Lucas et al., 2004</span></span> They are versatile and can be used to answer "what if" questions, making them highly suitable for clinical decision-making.<span class="glossary-term">²⁵<span class="glossary-tooltip">Source: Lucas et al., 2004</span></span> A case study demonstrated their use in providing personalized survival estimates and treatment recommendations for lung cancer patients.<span class="glossary-term">²⁵<span class="glossary-tooltip">Source: Lucas et al., 2004</span></span></p>
+                    <p><strong>Large Language Models (LLMs):</strong> As a new generation of CDS, LLMs have "unparalleled assistance capabilities" that go beyond simple guideline consultation.<span class="glossary-term">²⁶<span class="glossary-tooltip">Source: OpenAI, 2023</span></span> They show promise in diagnostic assistance, treatment recommendations, and administrative tasks like clinical note summarization.<span class="glossary-term">²⁷<span class="glossary-tooltip">Source: Singhal et al., 2023</span></span> However, these systems present risks such as the potential for "hallucination," which necessitates a cautious approach to their integration and a critical need for dedicated training on their proper use.<span class="glossary-term">²⁶<span class="glossary-tooltip">Source: OpenAI, 2023</span></span></p>
+                    
+                    <!-- Interactive Quiz -->
+                    <div class="quiz-question">
+                        <h5 class="font-semibold mb-3"><i class="fas fa-brain mr-2 text-[#4A7C59]"></i>Methodology Matching Exercise</h5>
+                        <p class="mb-3">Drag each CDS characteristic to the correct methodology category:</p>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div class="border-2 border-dashed border-gray-300 p-4 rounded-lg min-h-[150px]" id="rule-based-drop">
+                                <h6 class="font-semibold text-center mb-2">Rule-Based Systems</h6>
+                            </div>
+                            <div class="border-2 border-dashed border-gray-300 p-4 rounded-lg min-h-[150px]" id="ml-based-drop">
+                                <h6 class="font-semibold text-center mb-2">Machine Learning Systems</h6>
+                            </div>
+                        </div>
+                        <div class="mt-4 flex flex-wrap gap-2" id="draggable-items">
+                            <div class="bg-gray-200 px-3 py-2 rounded cursor-move draggable" data-category="rule-based">Explicit rules defined by experts</div>
+                            <div class="bg-gray-200 px-3 py-2 rounded cursor-move draggable" data-category="ml-based">Learns patterns from data</div>
+                            <div class="bg-gray-200 px-3 py-2 rounded cursor-move draggable" data-category="rule-based">High transparency</div>
+                            <div class="bg-gray-200 px-3 py-2 rounded cursor-move draggable" data-category="ml-based">Adapts over time</div>
+                            <div class="bg-gray-200 px-3 py-2 rounded cursor-move draggable" data-category="ml-based">Black box problem</div>
+                            <div class="bg-gray-200 px-3 py-2 rounded cursor-move draggable" data-category="rule-based">Limited scalability</div>
+                        </div>
+                        <button class="mt-3 bg-[#4A7C59] text-white px-4 py-2 rounded-md text-sm hover:bg-[#3a6547] transition-colors" onclick="checkDragDrop()">Check Answers</button>
+                        <div id="drag-feedback" class="mt-2 text-sm hidden"></div>
+                    </div>
                 </div>
                 
                 <!-- Section 4: The Core Challenges and Risks of CDS -->
@@ -230,26 +417,31 @@
                     <p>Despite its profound potential, the widespread adoption of CDS is not a foregone conclusion. Its path is lined with significant challenges, including the well-documented issue of alert fatigue, complex implementation barriers, and a lagging legal framework. A comprehensive strategy for CDS must address these risks head-on.</p>
                     
                     <h5>Alert Fatigue and Overload</h5>
-                    <p>Alert fatigue is the phenomenon where clinicians become desensitized to warnings from health IT systems due to an overwhelming number of alerts.6 This desensitization can lead to clinicians overriding even critical warnings, with potentially severe consequences for patient safety.6 The primary causes of this fatigue are the sheer volume of alerts, their redundancy, and a high rate of false alarms that lead clinicians to distrust the system.29 Studies show that as the number of alerts increases, the likelihood of a clinician accepting them decreases.29</p>
+                    <p>Alert fatigue is the phenomenon where clinicians become desensitized to warnings from health IT systems due to an overwhelming number of alerts.<span class="glossary-term">⁶<span class="glossary-tooltip">Source: Van der Sijs et al., 2006</span></span> This desensitization can lead to clinicians overriding even critical warnings, with potentially severe consequences for patient safety.<span class="glossary-term">⁶<span class="glossary-tooltip">Source: Van der Sijs et al., 2006</span></span> The primary causes of this fatigue are the sheer volume of alerts, their redundancy, and a high rate of false alarms that lead clinicians to distrust the system.<span class="glossary-term">²⁹<span class="glossary-tooltip">Source: Ancker et al., 2017</span></span> Studies show that as the number of alerts increases, the likelihood of a clinician accepting them decreases.<span class="glossary-term">²⁹<span class="glossary-tooltip">Source: Ancker et al., 2017</span></span></p>
                     <p>Solving alert fatigue requires a multi-pronged approach that combines technological solutions with a deep understanding of human factors engineering and workflow.</p>
                     <ul class="list-disc pl-6 mb-4">
-                        <li><strong>Technology-Driven Solutions:</strong> These include increasing the specificity of alerts to reduce the number of irrelevant notifications, tailoring alerts to patient-specific characteristics, and tiering alerts by severity so that only high-level, severe warnings are interruptive.6 Artificial intelligence can also be leveraged to analyze data in real-time, identify risk, and automatically suppress non-critical alerts, ensuring that only necessary information is presented to the clinician.29</li>
-                        <li><strong>Workflow-Based Solutions:</strong> It is crucial to embed CDS seamlessly into the clinical workflow to avoid separate logins or screens.17 Alerts should be actionable and accompanied by a clear way to respond, and a priority system should be established to differentiate urgent from routine alerts.18 Regular evaluations and feedback channels from end-users are essential to continuously refine the system and build trust.29</li>
+                        <li><strong>Technology-Driven Solutions:</strong> These include increasing the specificity of alerts to reduce the number of irrelevant notifications, tailoring alerts to patient-specific characteristics, and tiering alerts by severity so that only high-level, severe warnings are interruptive.<span class="glossary-term">⁶<span class="glossary-tooltip">Source: Van der Sijs et al., 2006</span></span> Artificial intelligence can also be leveraged to analyze data in real-time, identify risk, and automatically suppress non-critical alerts, ensuring that only necessary information is presented to the clinician.<span class="glossary-term">²⁹<span class="glossary-tooltip">Source: Ancker et al., 2017</span></span></li>
+                        <li><strong>Workflow-Based Solutions:</strong> It is crucial to embed CDS seamlessly into the clinical workflow to avoid separate logins or screens.<span class="glossary-term">¹⁷<span class="glossary-tooltip">Source: Kawamoto et al., 2005</span></span> Alerts should be actionable and accompanied by a clear way to respond, and a priority system should be established to differentiate urgent from routine alerts.<span class="glossary-term">¹⁸<span class="glossary-tooltip">Source: Kuperman et al., 2007</span></span> Regular evaluations and feedback channels from end-users are essential to continuously refine the system and build trust.<span class="glossary-term">²⁹<span class="glossary-tooltip">Source: Ancker et al., 2017</span></span></li>
                     </ul>
                     
                     <h5>Implementation and Adoption Barriers</h5>
-                    <p>Successful CDS implementation is a continuous, iterative process, not a one-time project.15 The journey requires careful preparation and capacity-building. Key factors for a successful roll-out include:</p>
+                    <p>Successful CDS implementation is a continuous, iterative process, not a one-time project.<span class="glossary-term">¹⁵<span class="glossary-tooltip">Source: Ash et al., 2003</span></span> The journey requires careful preparation and capacity-building. Key factors for a successful roll-out include:</p>
                     <ul class="list-disc pl-6 mb-4">
-                        <li><strong>Stakeholder Engagement:</strong> A multidisciplinary team of clinicians, IT staff, and administrators should be involved from the outset.30 Physician champions are critical for driving adoption and ensuring that the CDS addresses real-world clinical pain points.30</li>
-                        <li><strong>Workflow Integration:</strong> CDS must be designed to work within existing workflows to minimize disruption.17 Requiring separate logins or screens will significantly hinder utilization.17 The goal is to make access to the CDS as simple as a single click within the EHR.17</li>
-                        <li><strong>Governance and Monitoring:</strong> A clear governance structure should be established to prioritize new CDS development and delegate content creation to specialized workgroups.32 It is also essential to continuously monitor the CDS's clinical impact using metrics such as firing rates and override reasons to ensure it is working as intended.30</li>
-                        <li><strong>Data Quality:</strong> The CDS is only as good as the data it analyzes. Maintaining high-quality, consistently coded patient data using standard terminologies like SNOMED and LOINC is non-negotiable.30 Clinicians will only trust the recommendations if they trust the underlying data.30</li>
+                        <li><strong>Stakeholder Engagement:</strong> A multidisciplinary team of clinicians, IT staff, and administrators should be involved from the outset.<span class="glossary-term">³⁰<span class="glossary-tooltip">Source: Sittig et al., 2008</span></span> Physician champions are critical for driving adoption and ensuring that the CDS addresses real-world clinical pain points.<span class="glossary-term">³⁰<span class="glossary-tooltip">Source: Sittig et al., 2008</span></span></li>
+                        <li><strong>Workflow Integration:</strong> CDS must be designed to work within existing workflows to minimize disruption.<span class="glossary-term">¹⁷<span class="glossary-tooltip">Source: Kawamoto et al., 2005</span></span> Requiring separate logins or screens will significantly hinder utilization.<span class="glossary-term">¹⁷<span class="glossary-tooltip">Source: Kawamoto et al., 2005</span></span> The goal is to make access to the CDS as simple as a single click within the EHR.<span class="glossary-term">¹⁷<span class="glossary-tooltip">Source: Kawamoto et al., 2005</span></span></li>
+                        <li><strong>Governance and Monitoring:</strong> A clear governance structure should be established to prioritize new CDS development and delegate content creation to specialized workgroups.<span class="glossary-term">³²<span class="glossary-tooltip">Source: Wright et al., 2009</span></span> It is also essential to continuously monitor the CDS's clinical impact using metrics such as firing rates and override reasons to ensure it is working as intended.<span class="glossary-term">³⁰<span class="glossary-tooltip">Source: Sittig et al., 2008</span></span></li>
+                        <li><strong>Data Quality:</strong> The CDS is only as good as the data it analyzes. Maintaining high-quality, consistently coded patient data using standard terminologies like SNOMED and LOINC is non-negotiable.<span class="glossary-term">³⁰<span class="glossary-tooltip">Source: Sittig et al., 2008</span></span> Clinicians will only trust the recommendations if they trust the underlying data.<span class="glossary-term">³⁰<span class="glossary-tooltip">Source: Sittig et al., 2008</span></span></li>
                     </ul>
                     
                     <h5>Medico-Legal and Liability Concerns</h5>
-                    <p>The legal system has not kept pace with the rapid adoption of health IT, creating a landscape of ambiguity and risk for clinicians and organizations.8 This uncertainty can lead to risk-averse behavior that hinders the adoption of innovative new tools.34</p>
-                    <p>In the event of a software malfunction that contributes to patient harm, the legal risk disproportionately falls on the clinician, not the software developer.7 The legal framework assumes that a human is always in the decision-making chain and that the doctor, due to their professional duty of care, should use their own judgment to guard against potential system flaws.7 This is particularly concerning given the "black box" nature of many modern AI systems, which makes it technically difficult to prove that an error was foreseeable.36 Furthermore, there are ambiguous legal implications related to alert fatigue. While clinicians are encouraged to suppress irrelevant alerts, ignoring an alert—even a non-critical one—could expose them to liability if a patient is harmed as a result.6</p>
+                    <p>The legal system has not kept pace with the rapid adoption of health IT, creating a landscape of ambiguity and risk for clinicians and organizations.<span class="glossary-term">⁸<span class="glossary-tooltip">Source: Goodman, 2016</span></span> This uncertainty can lead to risk-averse behavior that hinders the adoption of innovative new tools.<span class="glossary-term">³⁴<span class="glossary-tooltip">Source: Cohen, 2013</span></span></p>
+                    <p>In the event of a software malfunction that contributes to patient harm, the legal risk disproportionately falls on the clinician, not the software developer.<span class="glossary-term">⁷<span class="glossary-tooltip">Source: Magrabi et al., 2019</span></span> The legal framework assumes that a human is always in the decision-making chain and that the doctor, due to their professional duty of care, should use their own judgment to guard against potential system flaws.<span class="glossary-term">⁷<span class="glossary-tooltip">Source: Magrabi et al., 2019</span></span> This is particularly concerning given the "black box" nature of many modern AI systems, which makes it technically difficult to prove that an error was foreseeable.<span class="glossary-term">³⁶<span class="glossary-tooltip">Source: Price et al., 2019</span></span> Furthermore, there are ambiguous legal implications related to alert fatigue. While clinicians are encouraged to suppress irrelevant alerts, ignoring an alert—even a non-critical one—could expose them to liability if a patient is harmed as a result.<span class="glossary-term">⁶<span class="glossary-tooltip">Source: Van der Sijs et al., 2006</span></span></p>
                     <p>This paradox—where clinicians are expected to ignore irrelevant alerts to reduce fatigue, but face a new source of liability for doing so—creates a significant conflict. It highlights the urgent need for a legal framework that addresses the unique nature of health IT and establishes a clear, balanced allocation of liability.</p>
+                    
+                    <div class="key-takeaway">
+                        <h5 class="font-semibold text-[#4A7C59] mb-2"><i class="fas fa-exclamation-triangle mr-2"></i>Key Takeaway</h5>
+                        <p>Alert fatigue is not just an inconvenience—it's a serious patient safety issue that requires systematic solutions combining technology, workflow design, and user feedback.</p>
+                    </div>
                 </div>
                 
                 <!-- Section 5: The Future of CDS: A Strategic Outlook -->
@@ -258,40 +450,75 @@
                     <p>The future of CDS is being shaped by two transformative forces: advanced interoperability and the next generation of artificial intelligence. The evolution of these technologies will shift CDS from a simple support tool to a predictive and proactive partner in care.</p>
                     
                     <h5>The Central Role of Interoperability</h5>
-                    <p>The full potential of AI-driven CDS cannot be realized without a foundation of robust data interoperability. Healthcare data is currently fragmented across disparate systems, creating "silos" that hinder coordinated care and prevent seamless data flow.9 This fragmentation acts as a bottleneck, as AI and ML systems rely on vast, high-quality datasets to learn and provide effective recommendations.22</p>
-                    <p>Interoperability is the ability of different computer systems to work together and share data seamlessly.9 Standards such as Health Level Seven (HL7) have long been crucial for this, but the next-generation framework, Fast Healthcare Interoperability Resources (FHIR), is poised to be a game-changer.10 FHIR enables a secure, API-driven exchange of data at both the patient and population levels, addressing challenges in clinical decision support, patient engagement, and research.10 By enabling a streamlined, near-real-time flow of information between systems, FHIR provides the necessary data foundation for advanced AI applications to operate effectively across the entire healthcare ecosystem.10 Without this interoperability, AI will remain confined to optimizing existing processes rather than fundamentally reshaping care delivery.</p>
+                    <p>The full potential of AI-driven CDS cannot be realized without a foundation of robust data interoperability. Healthcare data is currently fragmented across disparate systems, creating "silos" that hinder coordinated care and prevent seamless data flow.<span class="glossary-term">⁹<span class="glossary-tooltip">Source: HIMSS, 2023</span></span> This fragmentation acts as a bottleneck, as AI and ML systems rely on vast, high-quality datasets to learn and provide effective recommendations.<span class="glossary-term">²²<span class="glossary-tooltip">Source: Musen et al., 2014</span></span></p>
+                    <p>Interoperability is the ability of different computer systems to work together and share data seamlessly.<span class="glossary-term">⁹<span class="glossary-tooltip">Source: HIMSS, 2023</span></span> Standards such as Health Level Seven (HL7) have long been crucial for this, but the next-generation framework, Fast Healthcare Interoperability Resources (FHIR), is poised to be a game-changer.<span class="glossary-term">¹⁰<span class="glossary-tooltip">Source: HL7 International, 2023</span></span> FHIR enables a secure, API-driven exchange of data at both the patient and population levels, addressing challenges in clinical decision support, patient engagement, and research.<span class="glossary-term">¹⁰<span class="glossary-tooltip">Source: HL7 International, 2023</span></span> By enabling a streamlined, near-real-time flow of information between systems, FHIR provides the necessary data foundation for advanced AI applications to operate effectively across the entire healthcare ecosystem.<span class="glossary-term">¹⁰<span class="glossary-tooltip">Source: HL7 International, 2023</span></span> Without this interoperability, AI will remain confined to optimizing existing processes rather than fundamentally reshaping care delivery.</p>
                     
                     <h5>The Next Generation of CDS: From Reactive to Predictive</h5>
                     <p>The integration of advanced AI and LLMs is propelling CDS into a new era of proactive and predictive care. These tools are moving beyond simple alerts and reminders to assist with complex tasks:</p>
                     <ul class="list-disc pl-6 mb-4">
-                        <li><strong>Enhanced Diagnostics:</strong> AI-powered tools are now helping pathologists and radiologists diagnose conditions in seconds, reducing backlogs and improving speed to care.37</li>
-                        <li><strong>Predictive Analytics:</strong> AI analyzes hospital system data to identify patients at high risk of deterioration or readmission, enabling proactive interventions.10 The integration of wearable AI technology allows for real-time patient monitoring, reshaping care from reactive to predictive.37</li>
-                        <li><strong>Workflow Optimization:</strong> LLMs show promise in interpreting unstructured clinical notes via natural language processing, freeing clinicians from clerical work and reducing administrative burdens.27</li>
+                        <li><strong>Enhanced Diagnostics:</strong> AI-powered tools are now helping pathologists and radiologists diagnose conditions in seconds, reducing backlogs and improving speed to care.<span class="glossary-term">³⁷<span class="glossary-tooltip">Source: Esteva et al., 2021</span></span></li>
+                        <li><strong>Predictive Analytics:</strong> AI analyzes hospital system data to identify patients at high risk of deterioration or readmission, enabling proactive interventions.<span class="glossary-term">¹⁰<span class="glossary-tooltip">Source: HL7 International, 2023</span></span> The integration of wearable AI technology allows for real-time patient monitoring, reshaping care from reactive to predictive.<span class="glossary-term">³⁷<span class="glossary-tooltip">Source: Esteva et al., 2021</span></span></li>
+                        <li><strong>Workflow Optimization:</strong> LLMs show promise in interpreting unstructured clinical notes via natural language processing, freeing clinicians from clerical work and reducing administrative burdens.<span class="glossary-term">²⁷<span class="glossary-tooltip">Source: Singhal et al., 2023</span></span></li>
                     </ul>
-                    <p>The goal of these new technologies is not to replace the clinician, but to empower them with insights they can trust, act on, and explain to their patients.37 This empowers clinicians to work smarter with less disruption to their workflows, allowing them to focus their human skills on human beings.12</p>
+                    <p>The goal of these new technologies is not to replace the clinician, but to empower them with insights they can trust, act on, and explain to their patients.<span class="glossary-term">³⁷<span class="glossary-tooltip">Source: Esteva et al., 2021</span></span> This empowers clinicians to work smarter with less disruption to their workflows, allowing them to focus their human skills on human beings.<span class="glossary-term">¹²<span class="glossary-tooltip">Source: Middleton et al., 2016</span></span></p>
+                    
+                    <!-- Interactive Timeline -->
+                    <div class="bg-white p-6 rounded-lg shadow-md mt-6">
+                        <h5 class="font-semibold text-center mb-4">CDS Evolution Timeline</h5>
+                        <div class="flex flex-col md:flex-row justify-between items-center relative">
+                            <div class="absolute top-1/2 left-0 right-0 h-0.5 bg-gray-300 transform -translate-y-1/2 hidden md:block"></div>
+                            <div class="flex flex-col items-center mb-4 md:mb-0 relative z-10 bg-white p-2">
+                                <div class="w-4 h-4 bg-[#4A7C59] rounded-full mb-2"></div>
+                                <div class="text-sm font-semibold">1970s</div>
+                                <div class="text-xs text-center">Rule-Based Expert Systems</div>
+                            </div>
+                            <div class="flex flex-col items-center mb-4 md:mb-0 relative z-10 bg-white p-2">
+                                <div class="w-4 h-4 bg-[#4A7C59] rounded-full mb-2"></div>
+                                <div class="text-sm font-semibold">1990s</div>
+                                <div class="text-xs text-center">EHR Integration</div>
+                            </div>
+                            <div class="flex flex-col items-center mb-4 md:mb-0 relative z-10 bg-white p-2">
+                                <div class="w-4 h-4 bg-[#4A7C59] rounded-full mb-2"></div>
+                                <div class="text-sm font-semibold">2010s</div>
+                                <div class="text-xs text-center">Machine Learning CDS</div>
+                            </div>
+                            <div class="flex flex-col items-center mb-4 md:mb-0 relative z-10 bg-white p-2">
+                                <div class="w-4 h-4 bg-[#4A7C59] rounded-full mb-2"></div>
+                                <div class="text-sm font-semibold">2020s</div>
+                                <div class="text-xs text-center">Explainable AI</div>
+                            </div>
+                            <div class="flex flex-col items-center relative z-10 bg-white p-2">
+                                <div class="w-4 h-4 bg-[#4A7C59] rounded-full mb-2"></div>
+                                <div class="text-sm font-semibold">Future</div>
+                                <div class="text-xs text-center">Predictive & Proactive CDS</div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
                 
                 <!-- Conclusion -->
                 <div class="content-block text-gray-700 mt-8">
                     <h4>Conclusion: A Game Accelerator, Not a Game Changer</h4>
-                    <p>Clinical Decision Support systems are a fundamental and indispensable component of modern, data-driven healthcare. They are not a magic bullet or a standalone solution but a powerful "game accelerator" that enhances the capabilities of high-performing clinicians and organizations.12 The path to realizing this potential, however, is a strategic journey that demands careful consideration of foundational principles, technological trade-offs, and systemic challenges.</p>
+                    <p>Clinical Decision Support systems are a fundamental and indispensable component of modern, data-driven healthcare. They are not a magic bullet or a standalone solution but a powerful "game accelerator" that enhances the capabilities of high-performing clinicians and organizations.<span class="glossary-term">¹²<span class="glossary-tooltip">Source: Middleton et al., 2016</span></span> The path to realizing this potential, however, is a strategic journey that demands careful consideration of foundational principles, technological trade-offs, and systemic challenges.</p>
                     <p>An effective CDS strategy must be built on the "Five Rights" framework, ensuring that the technology is designed with the end-user and workflow in mind. The business case for this investment is clear and compelling, delivering a holistic ROI that encompasses improved patient outcomes, enhanced operational efficiency, and tangible financial returns. While the challenges of alert fatigue, implementation, and liability are significant, they are not insurmountable. The solutions lie in a continuous, iterative approach that combines a user-centered design with a robust data infrastructure.</p>
                     <p>The future of CDS is undeniably intertwined with the evolution of AI and interoperability. As standards like FHIR break down data silos, they will provide the fuel for a new generation of AI-driven CDS that can move beyond simple support to provide predictive, personalized, and proactive care. By focusing on a holistic, well-planned, and continuously-monitored approach, healthcare leaders can ensure that CDS becomes a foundational asset that empowers their organizations to thrive in a complex and ever-changing environment.</p>
-                </div>
-                
-                <!-- Preserving other sections as they were in the original file -->
-                <div class="bg-white p-8 rounded-xl shadow-md mt-8">
-                    <h4 class="text-xl font-semibold text-center mb-2">The "Five Rights" of CDS</h4>
-                    <p class="text-center text-gray-600 mb-6">This framework is critical for designing CDS that is helpful, not intrusive.</p>
-                    <div class="grid md:grid-cols-2 lg:grid-cols-5 gap-4 text-center">
-                        <div class="bg-gray-50 p-4 rounded-lg border border-gray-200"><div class="text-3xl mb-2">💡</div><h5 class="font-semibold">Right Information</h5></div>
-                        <div class="bg-gray-50 p-4 rounded-lg border border-gray-200"><div class="text-3xl mb-2">👤</div><h5 class="font-semibold">Right Person</h5></div>
-                        <div class="bg-gray-50 p-4 rounded-lg border border-gray-200"><div class="text-3xl mb-2">🎨</div><h5 class="font-semibold">Right Format</h5></div>
-                        <div class="bg-gray-50 p-4 rounded-lg border border-gray-200"><div class="text-3xl mb-2">💻</div><h5 class="font-semibold">Right Channel</h5></div>
-                        <div class="bg-gray-50 p-4 rounded-lg border border-gray-200"><div class="text-3xl mb-2">⏱️</div><h5 class="font-semibold">Right Time</h5></div>
+                    
+                    <div class="key-takeaway">
+                        <h5 class="font-semibold text-[#4A7C59] mb-2"><i class="fas fa-flag-checkered mr-2"></i>Final Takeaway</h5>
+                        <p>CDS transforms healthcare delivery when implemented strategically—enhancing clinical decision-making, improving patient outcomes, and creating operational efficiencies, all while navigating the complex challenges of modern healthcare systems.</p>
                     </div>
                 </div>
 
+                <!-- Module Completion -->
+                <div class="bg-green-50 p-6 rounded-lg border border-green-200 mt-8 text-center">
+                    <h4 class="text-xl font-semibold text-green-800 mb-2"><i class="fas fa-check-circle mr-2"></i>Module Complete!</h4>
+                    <p class="text-green-700 mb-4">You've finished Module 6: Clinical Decision Support. Well done!</p>
+                    <button class="bg-green-600 text-white px-6 py-2 rounded-md hover:bg-green-700 transition-colors" onclick="markModuleComplete()">
+                        Mark as Complete & Continue
+                    </button>
+                </div>
+
+                <!-- Review Questions -->
                 <div class="bg-white p-8 rounded-xl shadow-md mt-8">
                     <h4 class="text-xl font-semibold mb-4">Review Questions</h4>
                     <ul class="space-y-2 text-gray-700 list-decimal pl-5">
@@ -307,6 +534,35 @@
                     </ul>
                 </div>
 
+                <!-- Interactive Knowledge Check -->
+                <div class="bg-white p-8 rounded-xl shadow-md mt-8">
+                    <h4 class="text-xl font-semibold mb-4">Final Knowledge Check</h4>
+                    <div class="quiz-question">
+                        <p class="mb-3">Which of the following is NOT one of the "Five Rights" of CDS implementation?</p>
+                        <div class="space-y-2">
+                            <div class="flex items-center">
+                                <input type="radio" id="q2a" name="quiz2" class="mr-2">
+                                <label for="q2a">Right Information</label>
+                            </div>
+                            <div class="flex items-center">
+                                <input type="radio" id="q2b" name="quiz2" class="mr-2">
+                                <label for="q2b">Right Person</label>
+                            </div>
+                            <div class="flex items-center">
+                                <input type="radio" id="q2c" name="quiz2" class="mr-2">
+                                <label for="q2c">Right Technology</label>
+                            </div>
+                            <div class="flex items-center">
+                                <input type="radio" id="q2d" name="quiz2" class="mr-2">
+                                <label for="q2d">Right Time</label>
+                            </div>
+                        </div>
+                        <button class="mt-3 bg-[#4A7C59] text-white px-4 py-2 rounded-md text-sm hover:bg-[#3a6547] transition-colors" onclick="checkAnswer('quiz2', 'q2c')">Check Answer</button>
+                        <div id="quiz2-feedback" class="mt-2 text-sm hidden"></div>
+                    </div>
+                </div>
+
+                <!-- Suggested Readings -->
                 <div class="bg-white p-8 rounded-xl shadow-md mt-8">
                     <h4 class="text-xl font-semibold mb-4">Suggested Readings</h4>
                     <ul class="space-y-2 text-gray-700 list-disc pl-5">
@@ -396,6 +652,158 @@
                 svg.select(".axis").call(d3.axisBottom(x));
             });
         });
+    </script>
+
+    <!-- Enhanced Interactive Features Script -->
+    <script>
+        // Progress tracking
+        function updateProgress() {
+            const scrollPosition = window.scrollY;
+            const pageHeight = document.documentElement.scrollHeight - window.innerHeight;
+            const scrollPercentage = (scrollPosition / pageHeight) * 100;
+            
+            const progressFill = document.getElementById('progress-fill');
+            const progressPercent = document.getElementById('progress-percent');
+            
+            progressFill.style.width = `${scrollPercentage}%`;
+            progressPercent.textContent = `${Math.round(scrollPercentage)}%`;
+            
+            // Award badge when 50% complete
+            if (scrollPercentage >= 50 && !document.getElementById('halfway-badge')) {
+                const badgesContainer = document.getElementById('badges-container');
+                const halfwayBadge = document.createElement('span');
+                halfwayBadge.id = 'halfway-badge';
+                halfwayBadge.className = 'badge';
+                halfwayBadge.innerHTML = '<i class="fas fa-hourglass-half mr-1"></i> Halfway There';
+                badgesContainer.appendChild(halfwayBadge);
+            }
+            
+            // Award completion badge when 95% complete
+            if (scrollPercentage >= 95 && !document.getElementById('completion-badge')) {
+                const badgesContainer = document.getElementById('badges-container');
+                const completionBadge = document.createElement('span');
+                completionBadge.id = 'completion-badge';
+                completionBadge.className = 'badge';
+                completionBadge.innerHTML = '<i class="fas fa-graduation-cap mr-1"></i> Module Complete';
+                badgesContainer.appendChild(completionBadge);
+                
+                // Update progress badge
+                document.getElementById('progress-badge').innerHTML = '<i class="fas fa-check-circle mr-1"></i> Completed';
+            }
+        }
+        
+        // Back to top button
+        document.getElementById('back-to-top').addEventListener('click', () => {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
+        
+        // Quiz functionality
+        function checkAnswer(quizId, correctAnswerId) {
+            const selected = document.querySelector(`input[name="${quizId}"]:checked`);
+            const feedback = document.getElementById(`${quizId}-feedback`);
+            
+            if (!selected) {
+                feedback.textContent = 'Please select an answer.';
+                feedback.className = 'mt-2 text-sm text-red-600';
+                feedback.classList.remove('hidden');
+                return;
+            }
+            
+            if (selected.id === correctAnswerId) {
+                feedback.textContent = 'Correct! Well done.';
+                feedback.className = 'mt-2 text-sm text-green-600';
+            } else {
+                feedback.textContent = 'Not quite. Try again!';
+                feedback.className = 'mt-2 text-sm text-red-600';
+            }
+            
+            feedback.classList.remove('hidden');
+        }
+        
+        // Drag and drop functionality
+        function checkDragDrop() {
+            const ruleBasedItems = document.querySelectorAll('#rule-based-drop .draggable');
+            const mlBasedItems = document.querySelectorAll('#ml-based-drop .draggable');
+            const feedback = document.getElementById('drag-feedback');
+            
+            let correct = true;
+            
+            // Check rule-based items
+            ruleBasedItems.forEach(item => {
+                if (item.getAttribute('data-category') !== 'rule-based') {
+                    correct = false;
+                }
+            });
+            
+            // Check ML-based items
+            mlBasedItems.forEach(item => {
+                if (item.getAttribute('data-category') !== 'ml-based') {
+                    correct = false;
+                }
+            });
+            
+            if (correct) {
+                feedback.textContent = 'Excellent! All items are correctly placed.';
+                feedback.className = 'mt-2 text-sm text-green-600';
+            } else {
+                feedback.textContent = 'Some items are in the wrong category. Try again!';
+                feedback.className = 'mt-2 text-sm text-red-600';
+            }
+            
+            feedback.classList.remove('hidden');
+        }
+        
+        // Module completion
+        function markModuleComplete() {
+            alert('Module marked as complete! Progress saved.');
+            // In a real implementation, this would save to a database or localStorage
+        }
+        
+        // Initialize drag and drop
+        document.addEventListener('DOMContentLoaded', function() {
+            const draggables = document.querySelectorAll('.draggable');
+            const dropZones = document.querySelectorAll('#rule-based-drop, #ml-based-drop');
+            
+            draggables.forEach(draggable => {
+                draggable.addEventListener('dragstart', function(e) {
+                    e.dataTransfer.setData('text/plain', this.id);
+                    setTimeout(() => this.classList.add('opacity-50'), 0);
+                });
+                
+                draggable.addEventListener('dragend', function() {
+                    this.classList.remove('opacity-50');
+                });
+            });
+            
+            dropZones.forEach(zone => {
+                zone.addEventListener('dragover', function(e) {
+                    e.preventDefault();
+                    this.classList.add('bg-gray-100');
+                });
+                
+                zone.addEventListener('dragleave', function() {
+                    this.classList.remove('bg-gray-100');
+                });
+                
+                zone.addEventListener('drop', function(e) {
+                    e.preventDefault();
+                    this.classList.remove('bg-gray-100');
+                    
+                    const id = e.dataTransfer.getData('text/plain');
+                    const draggable = document.getElementById(id);
+                    
+                    if (draggable) {
+                        this.appendChild(draggable);
+                    }
+                });
+            });
+        });
+        
+        // Scroll event listener for progress tracking
+        window.addEventListener('scroll', updateProgress);
+        
+        // Initial progress update
+        updateProgress();
     </script>
 </body>
 </html>
