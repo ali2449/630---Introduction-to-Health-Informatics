@@ -3,20 +3,44 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>A Comprehensive Review of Health Information Privacy and Security</title>
+    <title>Module 8: Privacy & Security - Health Informatics</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        body { font-family: 'Inter', sans-serif; background-color: #F8F7F4; color: #333333; }
-        .sidebar-link { transition: all 0.2s ease-in-out; }
-        .sidebar-link.active, .sidebar-link:hover { background-color: #4A7C59; color: #FFFFFF; transform: translateX(4px); }
-        .content-block p { text-align: justify; margin-bottom: 1rem; }
-        .content-block h4 { font-size: 1.25rem; font-weight: 600; margin-top: 1.5rem; margin-bottom: 0.75rem; }
-        .accordion-header { cursor: pointer; }
-        .accordion-content { max-height: 0; overflow: hidden; transition: max-height 0.3s ease-out; }
+        body { 
+            font-family: 'Inter', sans-serif; 
+            background-color: #F8F7F4; 
+            color: #333333; 
+        }
+        .sidebar-link { 
+            transition: all 0.2s ease-in-out; 
+        }
+        .sidebar-link.active, .sidebar-link:hover { 
+            background-color: #4A7C59; 
+            color: #FFFFFF; 
+            transform: translateX(4px); 
+        }
+        .content-block p { 
+            text-align: justify; 
+            margin-bottom: 1rem; 
+        }
+        .content-block h4 { 
+            font-size: 1.25rem; 
+            font-weight: 600; 
+            margin-top: 1.5rem; 
+            margin-bottom: 0.75rem; 
+        }
+        .accordion-header { 
+            cursor: pointer; 
+        }
+        .accordion-content { 
+            max-height: 0; 
+            overflow: hidden; 
+            transition: max-height 0.3s ease-out; 
+        }
         .cia-icon {
             transform: rotate(45deg);
             width: 8rem;
@@ -37,13 +61,154 @@
         .cia-card:hover .cia-icon-text {
             transform: rotate(0deg);
         }
+        /* New enhancements */
+        .progress-bar {
+            height: 4px;
+            background-color: #e5e7eb;
+            border-radius: 2px;
+            overflow: hidden;
+        }
+        .progress-fill {
+            height: 100%;
+            background-color: #4A7C59;
+            width: 0%;
+            transition: width 0.5s ease;
+        }
+        .key-takeaway {
+            background-color: #f0f9ff;
+            border-left: 4px solid #4A7C59;
+            padding: 1rem;
+            margin: 1.5rem 0;
+        }
+        .case-study {
+            background-color: #fef7e0;
+            border-left: 4px solid #f59e0b;
+            padding: 1rem;
+            margin: 1.5rem 0;
+        }
+        .quiz-question {
+            background-color: #f8fafc;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+        }
+        .badge {
+            display: inline-block;
+            padding: 0.25rem 0.75rem;
+            background-color: #4A7C59;
+            color: white;
+            border-radius: 9999px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            margin-right: 0.5rem;
+            margin-bottom: 0.5rem;
+        }
+        .floating-button {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            width: 50px;
+            height: 50px;
+            background-color: #4A7C59;
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            cursor: pointer;
+            z-index: 100;
+            transition: all 0.3s ease;
+        }
+        .floating-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15);
+        }
+        .glossary-term {
+            border-bottom: 1px dashed #4A7C59;
+            cursor: help;
+            position: relative;
+        }
+        .glossary-tooltip {
+            position: absolute;
+            bottom: 100%;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: #333;
+            color: white;
+            padding: 8px 12px;
+            border-radius: 4px;
+            font-size: 0.875rem;
+            white-space: nowrap;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s;
+            z-index: 10;
+        }
+        .glossary-term:hover .glossary-tooltip {
+            opacity: 1;
+        }
+        .matching-exercise {
+            background-color: #f8fafc;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+        }
+        .match-item {
+            background-color: white;
+            border: 1px solid #e2e8f0;
+            border-radius: 6px;
+            padding: 0.75rem;
+            margin-bottom: 0.75rem;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+        .match-item:hover {
+            background-color: #f0f9ff;
+            border-color: #4A7C59;
+        }
+        .match-item.selected {
+            background-color: #4A7C59;
+            color: white;
+        }
+        .match-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+        @media (max-width: 768px) {
+            .match-container {
+                grid-template-columns: 1fr;
+            }
+        }
     </style>
 </head>
 <body class="antialiased">
+    <!-- Floating "Back to Top" Button -->
+    <div class="floating-button" id="back-to-top">
+        <i class="fas fa-arrow-up"></i>
+    </div>
+
     <div class="min-h-screen lg:grid lg:grid-cols-12">
+        <!-- Sidebar Navigation -->
         <aside class="lg:col-span-3 lg:block bg-[#EAE7E1] p-6 lg:fixed lg:h-full lg:w-1/4 xl:w-1/5">
             <h1 class="text-2xl font-bold text-[#4A7C59]">Health Informatics</h1>
             <p class="text-sm text-gray-600 mb-8">Master's Course Overview</p>
+            
+            <!-- Progress Indicator -->
+            <div class="mb-6">
+                <div class="flex justify-between text-sm text-gray-600 mb-1">
+                    <span>Module Progress</span>
+                    <span id="progress-percent">0%</span>
+                </div>
+                <div class="progress-bar">
+                    <div class="progress-fill" id="progress-fill"></div>
+                </div>
+            </div>
+            
             <nav id="sidebar-nav" class="space-y-2">
                 <a href="./index.html" class="sidebar-link block p-3 rounded-lg font-medium">Home</a>
                 <a href="./module1.html" class="sidebar-link block p-3 rounded-lg font-medium">1. Introduction</a>
@@ -55,20 +220,41 @@
                 <a href="./module7.html" class="sidebar-link block p-3 rounded-lg font-medium">7. Safety, Quality & Value</a>
                 <a href="./module8.html" class="sidebar-link active block p-3 rounded-lg font-medium">8. Privacy & Security</a>
             </nav>
+            
+            <!-- Badges Section -->
+            <div class="mt-8 pt-6 border-t border-gray-300">
+                <h3 class="font-semibold text-gray-700 mb-3">Your Achievements</h3>
+                <div id="badges-container">
+                    <span class="badge" id="progress-badge"><i class="fas fa-play-circle mr-1"></i> In Progress</span>
+                </div>
+            </div>
         </aside>
 
+        <!-- Main Content -->
         <main class="lg:col-span-9 lg:col-start-4 p-6 md:p-10">
             <section id="module8">
-                <h3 class="text-3xl font-bold text-[#4A7C59] mb-4">A Comprehensive Review of Health Information Privacy and Security</h3>
+                <h3 class="text-3xl font-bold text-[#4A7C59] mb-4">Module 8: A Comprehensive Review of Health Information Privacy and Security</h3>
                 
-                <div class="content-block text-gray-700">
-                    <h4 class="font-bold">1. Executive Summary</h4>
-                    <p class="mb-4">The protection of health information is a complex and evolving challenge that is central to the integrity and future success of the healthcare industry. This report provides a comprehensive examination of the foundational principles, regulatory frameworks, threat landscape, and strategic countermeasures essential for safeguarding patient data. The analysis begins with the core tenets of information security—Confidentiality, Integrity, and Availability (the CIA Triad)—and details their specific application in the high-stakes clinical environment. It then traces the evolution of the U.S. regulatory structure, from the foundational Health Insurance Portability and Accountability Act (HIPAA) of 1996 to the transformative Health Information Technology for Economic and Clinical Health (HITECH) Act of 2009.</p>
-                    <p class="mb-4">The report highlights the critical shift in cybersecurity threats, revealing how financially motivated cybercriminals, sophisticated nation-states, and even internal actors are now targeting healthcare organizations for their valuable data and low tolerance for operational disruption. Real-world case studies of major data breaches, such as the catastrophic Change Healthcare incident and the costly UCLA Health violation, illustrate the tangible consequences of security failures, from massive financial penalties to profound damage to public trust. The report concludes with an in-depth review of strategic countermeasures, including multi-factor authentication (MFA) and data encryption, explaining how these technical controls act as both practical security measures and strategic business shields. Ultimately, effective health information security is not a one-time compliance exercise but a dynamic, multi-layered, and ongoing strategic imperative that protects patient trust, organizational reputation, and the very foundation of the healthcare system.</p>
+                <!-- Executive Summary -->
+                <div class="bg-gray-100 p-6 rounded-xl shadow-inner mb-8">
+                    <div class="flex items-center justify-between cursor-pointer" onclick="toggleSection('executive-summary-content')">
+                        <h4 class="text-xl font-semibold text-[#4A7C59]">Executive Summary</h4>
+                        <span id="executive-summary-arrow" class="transform transition-transform duration-300">▼</span>
+                    </div>
+                    <div id="executive-summary-content" class="mt-4 content-block text-gray-700">
+                        <p class="mb-4">The protection of health information is a complex and evolving challenge that is central to the integrity and future success of the healthcare industry. This report provides a comprehensive examination of the foundational principles, regulatory frameworks, threat landscape, and strategic countermeasures essential for safeguarding patient data. The analysis begins with the core tenets of information security—Confidentiality, Integrity, and Availability (the CIA Triad)—and details their specific application in the high-stakes clinical environment. It then traces the evolution of the U.S. regulatory structure, from the foundational Health Insurance Portability and Accountability Act (HIPAA) of 1996 to the transformative Health Information Technology for Economic and Clinical Health (HITECH) Act of 2009.</p>
+                        <p class="mb-4">The report highlights the critical shift in cybersecurity threats, revealing how financially motivated cybercriminals, sophisticated nation-states, and even internal actors are now targeting healthcare organizations for their valuable data and low tolerance for operational disruption. Real-world case studies of major data breaches, such as the catastrophic Change Healthcare incident and the costly UCLA Health violation, illustrate the tangible consequences of security failures, from massive financial penalties to profound damage to public trust. The report concludes with an in-depth review of strategic countermeasures, including multi-factor authentication (MFA) and data encryption, explaining how these technical controls act as both practical security measures and strategic business shields. Ultimately, effective health information security is not a one-time compliance exercise but a dynamic, multi-layered, and ongoing strategic imperative that protects patient trust, organizational reputation, and the very foundation of the healthcare system.</p>
+                        
+                        <div class="key-takeaway">
+                            <h5 class="font-semibold text-[#4A7C59] mb-2"><i class="fas fa-lightbulb mr-2"></i>Key Takeaway</h5>
+                            <p>Health information security requires a multi-layered approach that balances confidentiality, integrity, and availability while adapting to evolving threats and regulations.</p>
+                        </div>
+                    </div>
                 </div>
-                
+
+                <!-- Section 1: The Foundational Principles -->
                 <div class="content-block text-gray-700">
-                    <h4 class="font-bold">2. The Foundational Principles of Information Security: The CIA Triad</h4>
+                    <h4 class="font-bold">1. The Foundational Principles of Information Security: The CIA Triad</h4>
                     <p>The framework for all modern information security is built upon three core pillars: Confidentiality, Integrity, and Availability. Known as the <strong>CIA Triad</strong>, this model provides a simple yet powerful structure for identifying vulnerabilities and developing robust security systems. In the healthcare sector, where the stakes involve patient safety and sensitive personal information, these principles are not merely abstract concepts but critical operational mandates.</p>
 
                     <div class="bg-white p-8 rounded-xl shadow-md mt-8">
@@ -95,14 +281,40 @@
                         </div>
                     </div>
                     
-                    <h5 class="font-bold mt-8">2.1. Confidentiality</h5>
-                    <p>Confidentiality is the principle that information should not be disclosed or made available to unauthorized individuals or processes. Within the healthcare context, this is a central concern, as it directly relates to the privacy of Protected Health Information (PHI) and is the security pillar most closely associated with HIPAA regulations. The primary goal is to prevent the unauthorized sharing of sensitive data, whether intentional or accidental. Measures to ensure confidentiality include implementing strict access controls, encrypting patient records, and using multi-factor authentication (MFA) to verify a user's identity. For example, a hospital may use encryption on electronic health records (EHRs) and require a username, password, and a biometric scan for access. Confidentiality can be compromised by direct attacks aimed at stealing data or by unintentional human errors, such as a user failing to protect a password or an unencrypted communication being intercepted. The strategic challenge in healthcare lies in balancing this need for privacy with the necessity of timely data access for clinical staff. Overly restrictive access protocols, while excellent for confidentiality, can impede a medical professional’s ability to quickly retrieve a patient’s critical information during an emergency, thereby creating a conflict between security and care delivery. The objective is not to maximize confidentiality at the expense of all else, but to achieve a secure equilibrium that enables efficient and safe patient care.</p>
+                    <h5 class="font-bold mt-8">1.1. Confidentiality</h5>
+                    <p>Confidentiality is the principle that information should not be disclosed or made available to unauthorized individuals or processes. Within the healthcare context, this is a central concern, as it directly relates to the privacy of Protected Health Information (PHI) and is the security pillar most closely associated with HIPAA regulations. The primary goal is to prevent the unauthorized sharing of sensitive data, whether intentional or accidental. Measures to ensure confidentiality include implementing strict access controls, encrypting patient records, and using multi-factor authentication (MFA) to verify a user's identity. For example, a hospital may use encryption on electronic health records (EHRs) and require a username, password, and a biometric scan for access. Confidentiality can be compromised by direct attacks aimed at stealing data or by unintentional human errors, such as a user failing to protect a password or an unencrypted communication being intercepted. The strategic challenge in healthcare lies in balancing this need for privacy with the necessity of timely data access for clinical staff. Overly restrictive access protocols, while excellent for confidentiality, can impede a medical professional's ability to quickly retrieve a patient's critical information during an emergency, thereby creating a conflict between security and care delivery. The objective is not to maximize confidentiality at the expense of all else, but to achieve a secure equilibrium that enables efficient and safe patient care.</p>
                     
-                    <h5 class="font-bold">2.2. Integrity</h5>
-                    <p>Integrity ensures the trustworthiness and permanence of data, guaranteeing that information has not been altered or destroyed in an unauthorized manner. This principle is vital in healthcare, where the accuracy of a patient's medical history, lab results, or prescription information is paramount. A lapse in integrity can be catastrophic. For instance, if a patient’s blood type were maliciously or accidentally changed in an electronic health record, it could lead to a fatal error during a blood transfusion. This underscores that a breach of integrity in a clinical setting moves beyond a financial or reputational problem to one that directly impacts patient health and safety. To maintain data integrity, organizations implement a range of technical countermeasures, including validation checks, cryptographic hashes, and digital signatures. Audit controls are also a key component, as they log and examine system activity, making it possible to detect unauthorized modifications. Integrity can be compromised by malicious actions, such as an unauthorized person altering a patient's record, or by accidental events, like a poorly designed process corrupting a database. These safeguards ensure that data remains consistent and accurate, whether it is being stored, transferred, or accessed.</p>
+                    <h5 class="font-bold">1.2. Integrity</h5>
+                    <p>Integrity ensures the trustworthiness and permanence of data, guaranteeing that information has not been altered or destroyed in an unauthorized manner. This principle is vital in healthcare, where the accuracy of a patient's medical history, lab results, or prescription information is paramount. A lapse in integrity can be catastrophic. For instance, if a patient's blood type were maliciously or accidentally changed in an electronic health record, it could lead to a fatal error during a blood transfusion. This underscores that a breach of integrity in a clinical setting moves beyond a financial or reputational problem to one that directly impacts patient health and safety. To maintain data integrity, organizations implement a range of technical countermeasures, including validation checks, cryptographic hashes, and digital signatures. Audit controls are also a key component, as they log and examine system activity, making it possible to detect unauthorized modifications. Integrity can be compromised by malicious actions, such as an unauthorized person altering a patient's record, or by accidental events, like a poorly designed process corrupting a database. These safeguards ensure that data remains consistent and accurate, whether it is being stored, transferred, or accessed.</p>
                     
-                    <h5 class="font-bold">2.3. Availability</h5>
-                    <p>Availability refers to the assurance that systems and information are accessible and usable by authorized personnel when needed. In healthcare, this principle is crucial for business continuity, as a disruption to a hospital’s systems can severely impede care and endanger patients. The focus is on ensuring reliable access even during unexpected events, such as power outages, natural disasters, or man-made scenarios like Denial of Service (DoS) attacks. Historically, availability challenges were primarily related to physical infrastructure, such as ensuring servers stayed online. However, the modern threat landscape has shifted, and availability is now a direct target of financially motivated cybercriminals. Ransomware attacks, which encrypt a network's data and hold it hostage, are a prime example. Attackers understand that hospitals have a limited tolerance for downtime, as every hour of an outage can affect patient care and operations. This low tolerance makes healthcare organizations more likely to pay large ransoms to restore critical systems and resume patient services, turning availability into a lucrative and exploitable vulnerability. Countermeasures to ensure availability include backup generators, redundant infrastructure, and comprehensive continuity of operations plans to ensure that clinical operations can continue under any conditions.</p>
+                    <h5 class="font-bold">1.3. Availability</h5>
+                    <p>Availability refers to the assurance that systems and information are accessible and usable by authorized personnel when needed. In healthcare, this principle is crucial for business continuity, as a disruption to a hospital's systems can severely impede care and endanger patients. The focus is on ensuring reliable access even during unexpected events, such as power outages, natural disasters, or man-made scenarios like Denial of Service (DoS) attacks. Historically, availability challenges were primarily related to physical infrastructure, such as ensuring servers stayed online. However, the modern threat landscape has shifted, and availability is now a direct target of financially motivated cybercriminals. Ransomware attacks, which encrypt a network's data and hold it hostage, are a prime example. Attackers understand that hospitals have a limited tolerance for downtime, as every hour of an outage can affect patient care and operations. This low tolerance makes healthcare organizations more likely to pay large ransoms to restore critical systems and resume patient services, turning availability into a lucrative and exploitable vulnerability. Countermeasures to ensure availability include backup generators, redundant infrastructure, and comprehensive continuity of operations plans to ensure that clinical operations can continue under any conditions.</p>
+                    
+                    <!-- Interactive Quiz -->
+                    <div class="quiz-question">
+                        <h5 class="font-semibold mb-3"><i class="fas fa-question-circle mr-2 text-[#4A7C59]"></i>Quick Knowledge Check</h5>
+                        <p class="mb-3">Which principle of the CIA Triad is most directly threatened by ransomware attacks?</p>
+                        <div class="space-y-2">
+                            <div class="flex items-center">
+                                <input type="radio" id="q1a" name="quiz1" class="mr-2">
+                                <label for="q1a">Confidentiality</label>
+                            </div>
+                            <div class="flex items-center">
+                                <input type="radio" id="q1b" name="quiz1" class="mr-2">
+                                <label for="q1b">Integrity</label>
+                            </div>
+                            <div class="flex items-center">
+                                <input type="radio" id="q1c" name="quiz1" class="mr-2">
+                                <label for="q1c">Availability</label>
+                            </div>
+                            <div class="flex items-center">
+                                <input type="radio" id="q1d" name="quiz1" class="mr-2">
+                                <label for="q1d">All three equally</label>
+                            </div>
+                        </div>
+                        <button class="mt-3 bg-[#4A7C59] text-white px-4 py-2 rounded-md text-sm hover:bg-[#3a6547] transition-colors" onclick="checkAnswer('quiz1', 'q1c')">Check Answer</button>
+                        <div id="quiz1-feedback" class="mt-2 text-sm hidden"></div>
+                    </div>
                 </div>
                 
                 <div class="bg-white p-8 rounded-xl shadow-md mt-8 overflow-x-auto">
@@ -143,15 +355,22 @@
                     </table>
                 </div>
                 
+                <!-- Section 2: The Regulatory Environment -->
                 <div class="content-block text-gray-700">
-                    <h4 class="font-bold">3. The Regulatory Environment: HIPAA, HITECH, and Beyond</h4>
+                    <h4 class="font-bold">2. The Regulatory Environment: HIPAA, HITECH, and Beyond</h4>
                     <p>The regulatory landscape is the primary driver of information privacy and security programs within the U.S. healthcare industry. The framework has evolved over time, adapting from a focus on administrative simplification to a more comprehensive approach to combating sophisticated cyber threats.</p>
                     
-                    <h5 class="font-bold">3.1. The Health Insurance Portability and Accountability Act (HIPAA) of 1996</h5>
-                    <p>The Health Insurance Portability and Accountability Act (HIPAA) was enacted to ensure the continued health insurance coverage for workers who changed jobs. While its initial intent was related to insurance portability, the act laid the critical foundation for patient privacy and security by requiring standards for electronic health transactions and by establishing rules to protect PHI. HIPAA is composed of several key rules that are integral to modern healthcare security: The Privacy Rule governs the use and disclosure of PHI by a broad range of entities, including health plans and most healthcare providers. This rule grants patients specific rights, such as the ability to request a copy of their health records and to seek an amendment to them. It mandates that covered entities notify patients about their privacy rights and how their information may be used or shared. The Security Rule specifically addresses the protection of electronic PHI (ePHI). It requires covered entities to implement three types of safeguards—administrative, physical, and technical—to ensure the confidentiality, integrity, and availability of ePHI. The Breach Notification Rule requires covered entities to report breaches of unsecured PHI to affected individuals, the media (if over 500 individuals are affected), and the Department of Health and Human Services’ Office for Civil Rights (OCR).</p>
+                    <h5 class="font-bold">2.1. The Health Insurance Portability and Accountability Act (HIPAA) of 1996</h5>
+                    <p>The Health Insurance Portability and Accountability Act (HIPAA) was enacted to ensure the continued health insurance coverage for workers who changed jobs. While its initial intent was related to insurance portability, the act laid the critical foundation for patient privacy and security by requiring standards for electronic health transactions and by establishing rules to protect PHI. HIPAA is composed of several key rules that are integral to modern healthcare security: The Privacy Rule governs the use and disclosure of PHI by a broad range of entities, including health plans and most healthcare providers. This rule grants patients specific rights, such as the ability to request a copy of their health records and to seek an amendment to them. It mandates that covered entities notify patients about their privacy rights and how their information may be used or shared. The Security Rule specifically addresses the protection of electronic PHI (ePHI). It requires covered entities to implement three types of safeguards—administrative, physical, and technical—to ensure the confidentiality, integrity, and availability of ePHI. The Breach Notification Rule requires covered entities to report breaches of unsecured PHI to affected individuals, the media (if over 500 individuals are affected), and the Department of Health and Human Services' Office for Civil Rights (OCR).</p>
                     
-                    <h5 class="font-bold">3.2. The HITECH Act of 2009</h5>
+                    <h5 class="font-bold">2.2. The HITECH Act of 2009</h5>
                     <p>The Health Information Technology for Economic and Clinical Health (HITECH) Act was a significant part of the American Recovery and Reinvestment Act (ARRA), an economic stimulus package. The HITECH Act was designed to promote economic recovery by investing in infrastructure and jobs, with a specific focus on encouraging the widespread adoption and "meaningful use" of electronic health records (EHRs). This legislation was not merely a regulatory update; it was a powerful economic lever that fundamentally reshaped the U.S. healthcare IT market. By providing billions of dollars in financial incentives for the meaningful use of certified EHRs, the government spurred a massive wave of digitization. HITECH significantly strengthened HIPAA in several ways, creating a crucial legal chain of accountability that extended beyond covered entities: <strong>Expanded Scope</strong>: The act made business associates, such as third-party billing companies or cloud storage providers that handle PHI, directly liable for HIPAA compliance. Prior to HITECH, these entities only had a contractual obligation to follow the rules, but the new law made them directly accountable and subject to civil and criminal penalties. <strong>Tougher Penalties</strong>: HITECH introduced a tiered penalty structure and substantially increased fines for HIPAA violations. Fines for "willful neglect" that are not corrected can reach up to $1.5 million per violation category, per year. <strong>Mandatory Breach Notification</strong>: The act codified the Breach Notification Rule and reversed the burden of proof. Under HITECH, organizations must assume that any unauthorized use or disclosure of PHI is a breach unless they can demonstrate otherwise through a risk assessment. The shift to electronic records, while improving efficiency and care coordination, also created new vulnerabilities that did not exist in a paper-based system. The same government policy that created an economic impetus for digitization and information exchange also created a vast, new, and interconnected attack surface for cybercriminals. However, HITECH simultaneously mandated and funded the development of the security countermeasures and legal structures needed to defend against these new risks.</p>
+                    
+                    <!-- Case Study -->
+                    <div class="case-study mt-6">
+                        <h5 class="font-semibold text-[#f59e0b] mb-2"><i class="fas fa-clipboard-check mr-2"></i>Real-World Case Study: Anthem Inc. Data Breach</h5>
+                        <p>In 2015, Anthem Inc. experienced a massive data breach that exposed the personal information of nearly 78.8 million individuals. The breach was caused by a sophisticated cyberattack that targeted Anthem's IT system. The company settled for $115 million, one of the largest data breach settlements in history, highlighting the severe financial consequences of security failures.</p>
+                    </div>
                 </div>
                 
                 <div class="bg-white p-8 rounded-xl shadow-md mt-8 overflow-x-auto">
@@ -182,14 +401,15 @@
                     </table>
                 </div>
 
+                <!-- Section 3: Defense in Depth -->
                 <div class="content-block text-gray-700">
-                    <h4 class="font-bold">4. Defense in Depth: A Multi-layered Approach to Safeguarding Data</h4>
+                    <h4 class="font-bold">3. Defense in Depth: A Multi-layered Approach to Safeguarding Data</h4>
                     <p>Effective cybersecurity is not achieved through a single safeguard but through a multi-layered strategy known as <strong>defense in depth</strong>. This approach acknowledges that a single control is unlikely to be sufficient and requires the implementation of overlapping administrative, physical, and technical safeguards to protect health information from diverse threats.</p>
                     
                     <div class="space-y-4">
                         <div class="border rounded-lg">
                             <div class="accordion-header bg-blue-100 p-4 flex justify-between items-center rounded-lg">
-                                <h5 class="font-bold text-blue-800 text-lg">4.1. Administrative Safeguards</h5>
+                                <h5 class="font-bold text-blue-800 text-lg">3.1. Administrative Safeguards</h5>
                                 <span class="text-blue-800 transform transition-transform duration-300">&plus;</span>
                             </div>
                             <div class="accordion-content bg-white p-4 border-t border-gray-200">
@@ -198,7 +418,7 @@
                         </div>
                         <div class="border rounded-lg">
                             <div class="accordion-header bg-green-100 p-4 flex justify-between items-center rounded-lg">
-                                <h5 class="font-bold text-green-800 text-lg">4.2. Physical Safeguards</h5>
+                                <h5 class="font-bold text-green-800 text-lg">3.2. Physical Safeguards</h5>
                                 <span class="text-green-800 transform transition-transform duration-300">&plus;</span>
                             </div>
                             <div class="accordion-content bg-white p-4 border-t border-gray-200">
@@ -207,7 +427,7 @@
                         </div>
                         <div class="border rounded-lg">
                             <div class="accordion-header bg-purple-100 p-4 flex justify-between items-center rounded-lg">
-                                <h5 class="font-bold text-purple-800 text-lg">4.3. Technical Safeguards</h5>
+                                <h5 class="font-bold text-purple-800 text-lg">3.3. Technical Safeguards</h5>
                                 <span class="text-purple-800 transform transition-transform duration-300">&plus;</span>
                             </div>
                             <div class="accordion-content bg-white p-4 border-t border-gray-200">
@@ -215,25 +435,59 @@
                             </div>
                         </div>
                     </div>
+                    
+                    <!-- Matching Exercise -->
+                    <div class="matching-exercise">
+                        <h5 class="font-semibold mb-3"><i class="fas fa-brain mr-2 text-[#4A7C59]"></i>Safeguard Matching Exercise</h5>
+                        <p class="mb-3">Match each type of safeguard with its correct description:</p>
+                        
+                        <div class="match-container">
+                            <div>
+                                <h6 class="font-semibold mb-2 text-center">Safeguard Types</h6>
+                                <div class="match-item" data-type="administrative">Administrative Safeguards</div>
+                                <div class="match-item" data-type="physical">Physical Safeguards</div>
+                                <div class="match-item" data-type="technical">Technical Safeguards</div>
+                            </div>
+                            <div>
+                                <h6 class="font-semibold mb-2 text-center">Descriptions</h6>
+                                <div class="match-item" data-description="administrative">Policies, procedures, and workforce training</div>
+                                <div class="match-item" data-description="physical">Controls for physical access to facilities and devices</div>
+                                <div class="match-item" data-description="technical">Technology-based controls like encryption and access controls</div>
+                                <div class="match-item" data-description="administrative">Comprises more than half of HIPAA's safeguards</div>
+                                <div class="match-item" data-description="physical">Includes locks, alarms, and secure workstation positioning</div>
+                                <div class="match-item" data-description="technical">Includes encryption, audit controls, and authentication systems</div>
+                            </div>
+                        </div>
+                        
+                        <button class="mt-3 bg-[#4A7C59] text-white px-4 py-2 rounded-md text-sm hover:bg-[#3a6547] transition-colors" onclick="checkMatching()">Check Answers</button>
+                        <div id="matching-feedback" class="mt-2 text-sm hidden"></div>
+                    </div>
                 </div>
                 
+                <!-- Section 4: The Evolving Threat Landscape -->
                 <div class="content-block text-gray-700">
-                    <h4 class="font-bold">5. The Evolving Threat Landscape in Healthcare</h4>
+                    <h4 class="font-bold">4. The Evolving Threat Landscape in Healthcare</h4>
                     <p>Healthcare organizations are increasingly attractive targets for cyber threats due to the value of their data and the critical nature of their services. The motivation and sophistication of these threat actors vary, but their collective impact has led to a dramatic increase in attacks and data breaches.</p>
-                    <h5 class="font-bold">5.1. Types of Threat Actors</h5>
+                    <h5 class="font-bold">4.1. Types of Threat Actors</h5>
                     <p>Cybercriminals: These are the most common actors, motivated by financial gain. They use ransomware, phishing scams, and data theft to exploit vulnerabilities and monetize sensitive PHI, which can be sold on the black market for a higher price than credit card information. Nation-States: These are highly sophisticated and well-funded actors who engage in cyber warfare or espionage. They may target healthcare organizations to steal intellectual property like drug formulas, gather intelligence on national health policies, or disrupt critical infrastructure. Hacktivists: These groups use hacking techniques to promote political or social agendas, often by exposing sensitive information or disrupting services to make a public statement. Insiders: These can be malicious, such as a disgruntled employee seeking revenge or monetary gain, or accidental, as in the case of a staff member who unknowingly installs malware or loses a device containing PHI.</p>
-                    <h5 class="font-bold">5.2. Common Attack Types and Methods</h5>
-                    <p>Social Engineering: This is the most common attack type and involves manipulating individuals into revealing confidential information or performing actions that compromise security. A primary vector is phishing, where attackers send deceptive emails or text messages to trick recipients into clicking a malicious link or revealing their credentials. Ransomware: This form of malicious software encrypts an organization’s data, rendering systems unusable until a ransom is paid. Ransomware attacks are particularly effective against hospitals, which have a low tolerance for downtime due to the immediate impact on patient care and safety. Denial of Service (DoS): This attack floods a network with traffic, causing it to shut down or become inoperable. While it directly impacts availability, it can also be used as a diversion to cover a more serious data theft. Brute Force Attacks: These involve rapidly and repeatedly attempting to guess passwords or access credentials to gain unauthorized entry to a system. The healthcare industry has inherent vulnerabilities that make it a uniquely attractive target. The vast stores of highly valuable PHI, the low tolerance for operational disruption, and the increasing complexity of interconnected systems—including a proliferation of Internet of Medical Things (IoMT) devices—create a perfect storm of opportunity for malicious actors. This complexity introduces numerous entry points and new failure points that are difficult to secure, creating a hidden weakness that sophisticated hackers are increasingly exploiting.</p>
+                    <h5 class="font-bold">4.2. Common Attack Types and Methods</h5>
+                    <p>Social Engineering: This is the most common attack type and involves manipulating individuals into revealing confidential information or performing actions that compromise security. A primary vector is phishing, where attackers send deceptive emails or text messages to trick recipients into clicking a malicious link or revealing their credentials. Ransomware: This form of malicious software encrypts an organization's data, rendering systems unusable until a ransom is paid. Ransomware attacks are particularly effective against hospitals, which have a low tolerance for downtime due to the immediate impact on patient care and safety. Denial of Service (DoS): This attack floods a network with traffic, causing it to shut down or become inoperable. While it directly impacts availability, it can also be used as a diversion to cover a more serious data theft. Brute Force Attacks: These involve rapidly and repeatedly attempting to guess passwords or access credentials to gain unauthorized entry to a system. The healthcare industry has inherent vulnerabilities that make it a uniquely attractive target. The vast stores of highly valuable PHI, the low tolerance for operational disruption, and the increasing complexity of interconnected systems—including a proliferation of Internet of Medical Things (IoMT) devices—create a perfect storm of opportunity for malicious actors. This complexity introduces numerous entry points and new failure points that are difficult to secure, creating a hidden weakness that sophisticated hackers are increasingly exploiting.</p>
+                    
+                    <div class="key-takeaway">
+                        <h5 class="font-semibold text-[#4A7C59] mb-2"><i class="fas fa-exclamation-triangle mr-2"></i>Key Takeaway</h5>
+                        <p>Healthcare organizations face a diverse range of threats from multiple actors, making a comprehensive defense strategy essential for protecting sensitive patient data.</p>
+                    </div>
                 </div>
                 
+                <!-- Section 5: The Impact of Data Breaches -->
                 <div class="content-block text-gray-700">
-                    <h4 class="font-bold">6. The Impact of Data Breaches and Penalties</h4>
+                    <h4 class="font-bold">5. The Impact of Data Breaches and Penalties</h4>
                     <p>The consequences of security failures are severe and escalating. Healthcare data breaches have shown a dramatic upward trend in recent years, with a massive increase in hacking and ransomware incidents. In 2023, the number of exposed records reached a record-breaking total of over 133 million. This trend highlights the critical need for robust defense and a clear understanding of the regulatory requirements and penalties that follow a breach.</p>
                     
-                    <h5 class="font-bold">6.1. The HIPAA Breach Notification Rule</h5>
-                    <p>The HIPAA Breach Notification Rule outlines the mandatory procedures that covered entities and their business associates must follow after a breach of unsecured PHI. Notifications must be sent to affected individuals within 60 days of the breach’s discovery, providing a description of what happened, the type of PHI that was breached, steps the individual can take to protect themselves, and what the entity is doing to investigate and mitigate the harm. If a breach affects more than 500 individuals, the entity must also notify the media and the OCR.</p>
+                    <h5 class="font-bold">5.1. The HIPAA Breach Notification Rule</h5>
+                    <p>The HIPAA Breach Notification Rule outlines the mandatory procedures that covered entities and their business associates must follow after a breach of unsecured PHI. Notifications must be sent to affected individuals within 60 days of the breach's discovery, providing a description of what happened, the type of PHI that was breached, steps the individual can take to protect themselves, and what the entity is doing to investigate and mitigate the harm. If a breach affects more than 500 individuals, the entity must also notify the media and the OCR.</p>
                     
-                    <h5 class="font-bold">6.2. Major Breach Case Studies</h5>
+                    <h5 class="font-bold">5.2. Major Breach Case Studies</h5>
                     <p>Examining real-world data breaches provides a powerful illustration of the threats and consequences discussed throughout this report.</p>
                     
                     <div class="bg-white p-8 rounded-xl shadow-md mt-8">
@@ -273,51 +527,319 @@
                         </div>
                     </div>
                     
-                    <h5 class="font-bold">6.3. Civil and Criminal Penalties</h5>
+                    <h5 class="font-bold">5.3. Civil and Criminal Penalties</h5>
                     <p>Failing to comply with HIPAA can result in severe financial and legal penalties. The OCR imposes civil money penalties (CMPs) based on a tiered structure that reflects the level of culpability. <strong>Unknowing Violations</strong>: Fines range from $100 to $50,000 per violation, with an annual maximum of $25,000 for repeat violations. <strong>Willful Neglect</strong>: For violations due to willful neglect that are not corrected, the penalty is $50,000 per violation, with an annual maximum of $1.5 million. Criminal penalties, handled by the Department of Justice (DOJ), are even more severe. For offenses committed with the intent to sell, transfer, or use PHI for commercial advantage, personal gain, or malicious harm, an individual can face fines of up to $250,000 and imprisonment for up to 10 years. The DOJ's interpretation of "knowingly" only requires knowledge of the actions that constitute the offense, not that the actions are in violation of HIPAA itself.</p>
                 </div>
                 
+                <!-- Section 6: Strategic Countermeasures -->
                 <div class="content-block text-gray-700">
-                    <h4 class="font-bold">7. Strategic Countermeasures and Emerging Technologies</h4>
+                    <h4 class="font-bold">6. Strategic Countermeasures and Emerging Technologies</h4>
                     <p>A robust security posture requires the implementation of advanced countermeasures that go beyond basic compliance. These technical and procedural controls are designed to address the most common and damaging attack vectors.</p>
                     
-                    <h5 class="font-bold">7.1. Authentication and Identity Management</h5>
+                    <h5 class="font-bold">6.1. Authentication and Identity Management</h5>
                     <p>Authentication is the process of verifying that a user attempting to access a system is who they claim to be. While a simple username and password remain common, they are increasingly vulnerable to social engineering and brute force attacks. A more secure and strategic approach is to use multi-factor authentication (MFA). Multi-factor authentication is a layered approach that requires a user to provide a combination of two or more credentials to verify their identity. This creates a robust defense against compromised passwords, as an attacker who steals a password will still be unable to access the system without the second authentication factor. The three categories of authentication factors are: <strong>Knowledge Factor</strong>: Something the user knows, such as a password or a PIN. <strong>Possession Factor</strong>: Something the user has, such as a smartphone that receives a one-time code via SMS, a physical hardware token, or a smart card. <strong>Inherence Factor</strong>: Something the user is, such as biometric data from a fingerprint scan, retina scan, or voice imprint. By implementing MFA, healthcare organizations directly address the most common vulnerability: human error and compromised credentials obtained through social engineering. Requiring a second factor renders stolen credentials useless, providing a practical and powerful layer of defense that is now considered a best practice for all sensitive systems.</p>
                     
-                    <h5 class="font-bold">7.2. Data Encryption</h5>
+                    <h5 class="font-bold">6.2. Data Encryption</h5>
                     <p>Data encryption is the process of converting sensitive information into a format that can only be read with a specific decryption key. This is a fundamental technical safeguard that protects against unauthorized access, even if a threat actor gains possession of the data. Encryption should be applied to data in two states: <strong>Data at Rest</strong>: Information that is stored on a server, hard drive, or other storage medium. Recommended standards for data at rest include AES-256. <strong>Data in Transit</strong>: Information that is being transmitted across networks, such as during an email exchange or a data transfer. Recommended protocols for data in transit include TLS 1.3, which provides a secure connection for data transmission. The importance of encryption extends beyond a technical control; it is a strategic business imperative. While HIPAA lists encryption as an "addressable" safeguard, not a mandatory requirement, the HITECH Act introduced a crucial "safe harbor" provision. If a data breach occurs but the data was encrypted in a manner that aligns with federal standards (such as FIPS 140-2), the organization may not be required to issue a breach notification. This single provision transforms encryption from a technical recommendation into a powerful financial and reputational shield, providing a strong incentive for organizations to make it a central part of their security strategy.</p>
                 </div>
                 
+                <!-- Section 7: Conclusions -->
                 <div class="content-block text-gray-700">
-                    <h4 class="font-bold">8. Conclusions and Future Outlook</h4>
+                    <h4 class="font-bold">7. Conclusions and Future Outlook</h4>
                     <p>The security of health information is a critical and continuous challenge, central to the future success of healthcare. The analysis in this report demonstrates that a robust defense requires a holistic approach built on foundational principles, driven by clear regulatory mandates, and supported by a multi-layered strategy. The evolution of the regulatory environment, from the foundational HIPAA to the transformative HITECH Act, reflects the increasing importance of data protection in a digital world. While this framework provides a strong legal and financial impetus for compliance, the threat landscape continues to evolve with the increasing sophistication of cybercriminals and nation-states. The case studies of major breaches illustrate the tangible and severe consequences of security failures, reinforcing that a failure to protect patient data can result in catastrophic financial penalties, legal action, and a profound erosion of public trust. The most effective countermeasures, such as multi-factor authentication and data encryption, are not merely compliance items but strategic tools that directly address the most common vulnerabilities and provide significant protection. Moving forward, the healthcare industry must remain vigilant. Emerging risks, such as the proliferation of Internet of Medical Things (IoMT) devices and the integration of artificial intelligence into clinical workflows, will introduce new entry points for attackers and new complexities to secure. A steadfast commitment to protecting patient data is not just a regulatory obligation; it is a moral and operational imperative that ensures the safety of individuals and the resilience of the entire healthcare system.</p>
+                    
+                    <div class="key-takeaway">
+                        <h5 class="font-semibold text-[#4A7C59] mb-2"><i class="fas fa-flag-checkered mr-2"></i>Final Takeaway</h5>
+                        <p>Effective health information security requires a continuous, multi-layered approach that balances protection with accessibility, adapts to evolving threats, and recognizes that security is both a technical challenge and a human responsibility.</p>
+                    </div>
+                </div>
+
+                <!-- Module Completion -->
+                <div class="bg-green-50 p-6 rounded-lg border border-green-200 mt-8 text-center">
+                    <h4 class="text-xl font-semibold text-green-800 mb-2"><i class="fas fa-check-circle mr-2"></i>Module Complete!</h4>
+                    <p class="text-green-700 mb-4">You've finished Module 8: Privacy & Security. Well done!</p>
+                    <button class="bg-green-600 text-white px-6 py-2 rounded-md hover:bg-green-700 transition-colors" onclick="markModuleComplete()">
+                        Mark as Complete & Continue
+                    </button>
+                </div>
+
+                <!-- Interactive Knowledge Check -->
+                <div class="bg-white p-8 rounded-xl shadow-md mt-8">
+                    <h4 class="text-xl font-semibold mb-4">Final Knowledge Check</h4>
+                    <div class="quiz-question">
+                        <p class="mb-3">Which of the following best describes the "safe harbor" provision introduced by the HITECH Act?</p>
+                        <div class="space-y-2">
+                            <div class="flex items-center">
+                                <input type="radio" id="q2a" name="quiz2" class="mr-2">
+                                <label for="q2a">It provides immunity from all penalties if an organization experiences a data breach</label>
+                            </div>
+                            <div class="flex items-center">
+                                <input type="radio" id="q2b" name="quiz2" class="mr-2">
+                                <label for="q2b">It exempts small healthcare providers from HIPAA compliance</label>
+                            </div>
+                            <div class="flex items-center">
+                                <input type="radio" id="q2c" name="quiz2" class="mr-2">
+                                <label for="q2c">It may exempt organizations from breach notification if data was properly encrypted</label>
+                            </div>
+                            <div class="flex items-center">
+                                <input type="radio" id="q2d" name="quiz2" class="mr-2">
+                                <label for="q2d">It allows organizations to avoid penalties if they self-report violations</label>
+                            </div>
+                        </div>
+                        <button class="mt-3 bg-[#4A7C59] text-white px-4 py-2 rounded-md text-sm hover:bg-[#3a6547] transition-colors" onclick="checkAnswer('quiz2', 'q2c')">Check Answer</button>
+                        <div id="quiz2-feedback" class="mt-2 text-sm hidden"></div>
+                    </div>
+                </div>
+
+                <!-- Review Questions -->
+                <div class="bg-white p-8 rounded-xl shadow-md mt-8">
+                    <h4 class="text-xl font-semibold mb-4">Review Questions</h4>
+                    <ul class="space-y-2 text-gray-700 list-decimal pl-5">
+                        <li>Define the three components of the CIA Triad and explain their importance in healthcare.</li>
+                        <li>Compare and contrast HIPAA and the HITECH Act, highlighting key differences in scope and enforcement.</li>
+                        <li>Describe the three types of safeguards required by HIPAA and provide examples of each.</li>
+                        <li>Explain why healthcare organizations are attractive targets for cybercriminals.</li>
+                        <li>Discuss the potential consequences of a major data breach for a healthcare organization.</li>
+                        <li>Describe how multi-factor authentication enhances security beyond traditional passwords.</li>
+                        <li>Explain the strategic importance of data encryption in healthcare information security.</li>
+                        <li>Analyze a real-world healthcare data breach and identify the security failures that contributed to it.</li>
+                        <li>What emerging technologies pose new security challenges for healthcare organizations?</li>
+                    </ul>
+                </div>
+
+                <!-- Suggested Readings -->
+                <div class="bg-white p-8 rounded-xl shadow-md mt-8">
+                    <h4 class="text-xl font-semibold mb-4">Suggested Readings</h4>
+                    <ul class="space-y-2 text-gray-700 list-disc pl-5">
+                        <li>"HIPAA Privacy Rule and Its Impacts on Research" (PMC)</li>
+                        <li>"The HITECH Act: A Comprehensive Review and Analysis" (Health Affairs)</li>
+                        <li>"Cybersecurity in Healthcare: A Systematic Review of Modern Threats and Trends" (Journal of Medical Systems)</li>
+                        <li>"Data Encryption in Healthcare: Best Practices and Implementation Challenges" (Journal of Healthcare Information Management)</li>
+                        <li>"The Economics of Healthcare Data Breaches" (Health Security Journal)</li>
+                        <li>"Emerging Threats to Health Information Security" (IEEE Security & Privacy)</li>
+                    </ul>
                 </div>
             </section>
         </main>
     </div>
 
-<script>
-    document.addEventListener('DOMContentLoaded', function() {
-        // Accordion functionality for sub-sections
-        const accordions = document.querySelectorAll('.accordion-header');
-        accordions.forEach(accordion => {
-            accordion.addEventListener('click', () => {
-                const content = accordion.nextElementSibling;
-                const icon = accordion.querySelector('span');
-                const isExpanded = content.style.maxHeight;
-
-                accordions.forEach(otherAccordion => {
-                    otherAccordion.nextElementSibling.style.maxHeight = null;
-                    otherAccordion.querySelector('span').classList.remove('rotate-45');
+    <!-- Enhanced Interactive Features Script -->
+    <script>
+        // Progress tracking
+        function updateProgress() {
+            const scrollPosition = window.scrollY;
+            const pageHeight = document.documentElement.scrollHeight - window.innerHeight;
+            const scrollPercentage = (scrollPosition / pageHeight) * 100;
+            
+            const progressFill = document.getElementById('progress-fill');
+            const progressPercent = document.getElementById('progress-percent');
+            
+            progressFill.style.width = `${scrollPercentage}%`;
+            progressPercent.textContent = `${Math.round(scrollPercentage)}%`;
+            
+            // Award badge when 50% complete
+            if (scrollPercentage >= 50 && !document.getElementById('halfway-badge')) {
+                const badgesContainer = document.getElementById('badges-container');
+                const halfwayBadge = document.createElement('span');
+                halfwayBadge.id = 'halfway-badge';
+                halfwayBadge.className = 'badge';
+                halfwayBadge.innerHTML = '<i class="fas fa-hourglass-half mr-1"></i> Halfway There';
+                badgesContainer.appendChild(halfwayBadge);
+            }
+            
+            // Award completion badge when 95% complete
+            if (scrollPercentage >= 95 && !document.getElementById('completion-badge')) {
+                const badgesContainer = document.getElementById('badges-container');
+                const completionBadge = document.createElement('span');
+                completionBadge.id = 'completion-badge';
+                completionBadge.className = 'badge';
+                completionBadge.innerHTML = '<i class="fas fa-graduation-cap mr-1"></i> Module Complete';
+                badgesContainer.appendChild(completionBadge);
+                
+                // Update progress badge
+                document.getElementById('progress-badge').innerHTML = '<i class="fas fa-check-circle mr-1"></i> Completed';
+            }
+        }
+        
+        // Back to top button
+        document.getElementById('back-to-top').addEventListener('click', () => {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
+        
+        // Quiz functionality
+        function checkAnswer(quizId, correctAnswerId) {
+            const selected = document.querySelector(`input[name="${quizId}"]:checked`);
+            const feedback = document.getElementById(`${quizId}-feedback`);
+            
+            if (!selected) {
+                feedback.textContent = 'Please select an answer.';
+                feedback.className = 'mt-2 text-sm text-red-600';
+                feedback.classList.remove('hidden');
+                return;
+            }
+            
+            if (selected.id === correctAnswerId) {
+                feedback.textContent = 'Correct! Well done.';
+                feedback.className = 'mt-2 text-sm text-green-600';
+            } else {
+                feedback.textContent = 'Not quite. Try again!';
+                feedback.className = 'mt-2 text-sm text-red-600';
+            }
+            
+            feedback.classList.remove('hidden');
+        }
+        
+        // Matching exercise functionality
+        let selectedType = null;
+        let selectedDescription = null;
+        
+        function setupMatching() {
+            const typeItems = document.querySelectorAll('.match-item[data-type]');
+            const descriptionItems = document.querySelectorAll('.match-item[data-description]');
+            
+            typeItems.forEach(item => {
+                item.addEventListener('click', function() {
+                    // Remove selection from other types
+                    typeItems.forEach(i => i.classList.remove('selected'));
+                    // Select this type
+                    this.classList.add('selected');
+                    selectedType = this.getAttribute('data-type');
+                    
+                    // Check if we have both selections
+                    checkForMatch();
                 });
-
-                if (!isExpanded) {
-                    content.style.maxHeight = content.scrollHeight + "px";
-                    icon.classList.add('rotate-45');
+            });
+            
+            descriptionItems.forEach(item => {
+                item.addEventListener('click', function() {
+                    // Remove selection from other descriptions
+                    descriptionItems.forEach(i => i.classList.remove('selected'));
+                    // Select this description
+                    this.classList.add('selected');
+                    selectedDescription = this.getAttribute('data-description');
+                    
+                    // Check if we have both selections
+                    checkForMatch();
+                });
+            });
+        }
+        
+        function checkForMatch() {
+            if (selectedType && selectedDescription) {
+                if (selectedType === selectedDescription) {
+                    // Correct match
+                    const typeItem = document.querySelector(`.match-item[data-type="${selectedType}"].selected`);
+                    const descriptionItem = document.querySelector(`.match-item[data-description="${selectedDescription}"].selected`);
+                    
+                    typeItem.style.backgroundColor = '#4A7C59';
+                    typeItem.style.color = 'white';
+                    descriptionItem.style.backgroundColor = '#4A7C59';
+                    descriptionItem.style.color = 'white';
+                    
+                    // Reset selections
+                    selectedType = null;
+                    selectedDescription = null;
+                    
+                    // Remove selection classes
+                    document.querySelectorAll('.match-item.selected').forEach(item => {
+                        item.classList.remove('selected');
+                    });
+                } else {
+                    // Incorrect match
+                    setTimeout(() => {
+                        document.querySelectorAll('.match-item.selected').forEach(item => {
+                            item.classList.remove('selected');
+                        });
+                        selectedType = null;
+                        selectedDescription = null;
+                    }, 1000);
+                }
+            }
+        }
+        
+        function checkMatching() {
+            const feedback = document.getElementById('matching-feedback');
+            const typeItems = document.querySelectorAll('.match-item[data-type]');
+            
+            let allCorrect = true;
+            
+            typeItems.forEach(item => {
+                const type = item.getAttribute('data-type');
+                const correspondingDescriptions = document.querySelectorAll(`.match-item[data-description="${type}"]`);
+                
+                let hasMatch = false;
+                correspondingDescriptions.forEach(desc => {
+                    if (desc.style.backgroundColor === 'rgb(74, 124, 89)') { // #4A7C59
+                        hasMatch = true;
+                    }
+                });
+                
+                if (!hasMatch) {
+                    allCorrect = false;
                 }
             });
+            
+            if (allCorrect) {
+                feedback.textContent = 'Excellent! All matches are correct.';
+                feedback.className = 'mt-2 text-sm text-green-600';
+            } else {
+                feedback.textContent = 'Some matches are incorrect. Try again!';
+                feedback.className = 'mt-2 text-sm text-red-600';
+            }
+            
+            feedback.classList.remove('hidden');
+        }
+        
+        // Module completion
+        function markModuleComplete() {
+            alert('Module marked as complete! Progress saved.');
+            // In a real implementation, this would save to a database or localStorage
+        }
+        
+        // Toggle section function
+        function toggleSection(id) {
+            const content = document.getElementById(id);
+            const arrow = document.getElementById(id.replace('-content', '-arrow'));
+            if (content.classList.contains('hidden')) {
+                content.classList.remove('hidden');
+                arrow.classList.add('rotate-180');
+            } else {
+                content.classList.add('hidden');
+                arrow.classList.remove('rotate-180');
+            }
+        }
+        
+        // Accordion functionality for sub-sections
+        function setupAccordions() {
+            const accordions = document.querySelectorAll('.accordion-header');
+            accordions.forEach(accordion => {
+                accordion.addEventListener('click', () => {
+                    const content = accordion.nextElementSibling;
+                    const icon = accordion.querySelector('span');
+                    const isExpanded = content.style.maxHeight;
+
+                    if (!isExpanded) {
+                        content.style.maxHeight = content.scrollHeight + "px";
+                        icon.classList.add('rotate-45');
+                    } else {
+                        content.style.maxHeight = null;
+                        icon.classList.remove('rotate-45');
+                    }
+                });
+            });
+        }
+        
+        // Initialize interactive elements
+        document.addEventListener('DOMContentLoaded', function() {
+            setupMatching();
+            setupAccordions();
         });
-    });
-</script>
+        
+        // Scroll event listener for progress tracking
+        window.addEventListener('scroll', updateProgress);
+        
+        // Initial progress update
+        updateProgress();
+    </script>
 </body>
 </html>
