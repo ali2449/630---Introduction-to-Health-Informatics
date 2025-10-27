@@ -1,0 +1,398 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Final Project Option: MIMIC-IV Clinical Data Analysis</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 20px;
+            color: #333;
+        }
+        h1 {
+            color: #2c3e50;
+            border-bottom: 2px solid #3498db;
+            padding-bottom: 10px;
+        }
+        h2 {
+            color: #34495e;
+            margin-top: 25px;
+        }
+        h3 {
+            color: #16a085;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 12px;
+            text-align: left;
+        }
+        th {
+            background-color: #f2f2f2;
+            font-weight: bold;
+        }
+        code {
+            background-color: #f8f9fa;
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-family: 'Courier New', monospace;
+        }
+        .highlight {
+            background-color: #fff3cd;
+            padding: 15px;
+            border-left: 4px solid #ffc107;
+            margin: 15px 0;
+        }
+        .section {
+            margin-bottom: 30px;
+        }
+        .project-idea {
+            background-color: #f8f9fa;
+            padding: 15px;
+            margin: 10px 0;
+            border-left: 4px solid #3498db;
+        }
+        .code-block {
+            background-color: #f5f5f5;
+            padding: 15px;
+            border-radius: 5px;
+            overflow-x: auto;
+            margin: 15px 0;
+            border-left: 4px solid #2ecc71;
+        }
+    </style>
+</head>
+<body>
+
+<h1>Final Project Option: MIMIC-IV Clinical Data Analysis</h1>
+<p><strong>Points:</strong> 100 &nbsp; | &nbsp; <strong>Due:</strong> November 25, 2025 at 11:59 PM</p>
+<hr />
+
+<h2>Overview</h2>
+<p>Apply health informatics concepts by analyzing real clinical data from the MIMIC-IV database. This project option allows you to explore clinical questions using the MIMIC-IV dataset and demonstrate your analytical skills.</p>
+
+<div class="highlight">
+    <strong>Prerequisite:</strong> Students must have completed MIMIC-IV data access approval and have working access to the database.
+</div>
+
+<h2>Project Structure Template</h2>
+
+<div class="code-block">
+<pre><code># MIMIC-IV Project Structure Template
+# File: LastName_FirstName_Analysis.ipynb
+
+# 1. IMPORT LIBRARIES AND SETUP
+import pandas as pd
+import numpy as np
+import matplotlib.pyplot as plt
+import seaborn as sns
+from sklearn.model_selection import train_test_split
+from sklearn.ensemble import RandomForestClassifier
+from sklearn.metrics import classification_report, roc_auc_score
+
+# 2. DATA LOADING
+def load_mimic_data():
+    """Load required MIMIC-IV tables"""
+    patients = pd.read_csv('patients.csv')
+    admissions = pd.read_csv('admissions.csv')
+    diagnoses = pd.read_csv('diagnoses_icd.csv')
+    labevents = pd.read_csv('labevents.csv')
+    chartevents = pd.read_csv('chartevents.csv')
+    return patients, admissions, diagnoses, labevents, chartevents
+
+# 3. COHORT DEFINITION
+def define_cohort(patients, admissions, diagnoses):
+    """Define study population with inclusion/exclusion criteria"""
+    # Example: Adult patients with specific conditions
+    cohort = pd.merge(patients, admissions, on='subject_id')
+    # Add your cohort logic here
+    return cohort
+
+# 4. FEATURE ENGINEERING
+def create_features(cohort, labevents, chartevents):
+    """Create analytical features from raw data"""
+    # Add your feature engineering logic here
+    features = cohort.copy()
+    return features
+
+# 5. ANALYSIS AND MODELING
+def perform_analysis(features):
+    """Main analytical workflow"""
+    # Add your analysis logic here
+    results = {}
+    return results
+
+# 6. VISUALIZATION AND RESULTS
+def visualize_results(results, features):
+    """Create plots and summary statistics"""
+    # Add your visualization logic here
+    pass
+
+# EXECUTION PIPELINE
+if __name__ == "__main__":
+    # Run complete analysis
+    patients, admissions, diagnoses, labevents, chartevents = load_mimic_data()
+    cohort = define_cohort(patients, admissions, diagnoses)
+    features = create_features(cohort, labevents, chartevents)
+    results = perform_analysis(features)
+    visualize_results(results, features)
+</code></pre>
+</div>
+
+<h2>Project Options</h2>
+
+<div class="section">
+    <h3>Option A: Choose from Pre-defined Projects</h3>
+    
+    <div class="project-idea">
+        <h4>1. Mortality Prediction System</h4>
+        <p><strong>Focus:</strong> Predict in-hospital mortality using clinical data from the first 24 hours of ICU stay</p>
+        <p><strong>Data Sources:</strong> patients, admissions, icustays, chartevents, labevents</p>
+        
+        <div class="code-block">
+<pre><code># Sample Code Structure for Mortality Prediction
+def create_mortality_dataset():
+    # Load data
+    patients = pd.read_csv('patients.csv')
+    admissions = pd.read_csv('admissions.csv')
+    
+    # Create target variable
+    mortality_data = pd.merge(patients[['subject_id', 'anchor_age', 'gender']],
+                             admissions[['subject_id', 'hadm_id', 'hospital_expire_flag']],
+                             on='subject_id')
+    
+    # Feature engineering example
+    mortality_data['age_group'] = pd.cut(mortality_data['anchor_age'],
+                                        bins=[0, 40, 60, 80, 120],
+                                        labels=['Young', 'Middle', 'Senior', 'Elderly'])
+    
+    return mortality_data
+
+def train_mortality_model(data):
+    # Prepare features and target
+    X = pd.get_dummies(data[['anchor_age', 'gender', 'age_group']])
+    y = data['hospital_expire_flag']
+    
+    # Split and train
+    X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.3, random_state=42)
+    
+    model = RandomForestClassifier(n_estimators=100, random_state=42)
+    model.fit(X_train, y_train)
+    
+    # Evaluate
+    y_pred = model.predict(X_test)
+    print(classification_report(y_test, y_pred))
+    print(f"AUC-ROC: {roc_auc_score(y_test, y_pred):.3f}")
+    
+    return model
+</code></pre>
+        </div>
+    </div>
+
+    <div class="project-idea">
+        <h4>2. Hospital Readmission Analysis</h4>
+        <p><strong>Focus:</strong> Identify risk factors for 30-day hospital readmissions</p>
+        
+        <div class="code-block">
+<pre><code># Sample Code Structure for Readmission Analysis
+def calculate_readmission_rates():
+    admissions = pd.read_csv('admissions.csv')
+    admissions['admittime'] = pd.to_datetime(admissions['admittime'])
+    admissions['dischtime'] = pd.to_datetime(admissions['dischtime'])
+    
+    # Sort by patient and admission time
+    admissions_sorted = admissions.sort_values(['subject_id', 'admittime'])
+    
+    # Calculate time between admissions
+    admissions_sorted['next_admit'] = admissions_sorted.groupby('subject_id')['admittime'].shift(-1)
+    admissions_sorted['days_to_readmit'] = (admissions_sorted['next_admit'] - admissions_sorted['dischtime']).dt.days
+    
+    # Define 30-day readmission
+    admissions_sorted['readmission_30d'] = (admissions_sorted['days_to_readmit'] <= 30).astype(int)
+    
+    return admissions_sorted
+
+def analyze_readmission_factors(data):
+    # Basic analysis
+    readmission_rate = data['readmission_30d'].mean()
+    print(f"Overall 30-day readmission rate: {readmission_rate:.2%}")
+    
+    # By admission type
+    readmission_by_type = data.groupby('admission_type')['readmission_30d'].mean()
+    print("\nReadmission rates by admission type:")
+    print(readmission_by_type)
+</code></pre>
+        </div>
+    </div>
+
+    <div class="project-idea">
+        <h4>3. Lab Value Trends Analysis</h4>
+        <p><strong>Focus:</strong> Analyze laboratory value patterns and their clinical significance</p>
+        
+        <div class="code-block">
+<pre><code># Sample Code Structure for Lab Analysis
+def analyze_lab_trends():
+    labevents = pd.read_csv('labevents.csv')
+    d_labitems = pd.read_csv('d_labitems.csv')
+    
+    # Merge with item descriptions
+    labs_with_names = pd.merge(labevents, d_labitems[['itemid', 'label', 'fluid']], on='itemid')
+    
+    # Focus on common labs
+    common_labs = ['Creatinine', 'Hemoglobin', 'White Blood Cells']
+    filtered_labs = labs_with_names[labs_with_names['label'].isin(common_labs)]
+    
+    # Basic statistics
+    lab_stats = filtered_labs.groupby('label').agg({
+        'valuenum': ['count', 'mean', 'std', 'min', 'max']
+    }).round(2)
+    
+    return lab_stats
+
+def create_lab_summary_plot(data):
+    plt.figure(figsize=(10, 6))
+    for lab_name in data['label'].unique():
+        lab_data = data[data['label'] == lab_name]['valuenum'].dropna()
+        plt.hist(lab_data, alpha=0.7, label=lab_name, bins=30)
+    
+    plt.xlabel('Lab Value')
+    plt.ylabel('Frequency')
+    plt.title('Distribution of Common Lab Values')
+    plt.legend()
+    plt.show()
+</code></pre>
+        </div>
+    </div>
+</div>
+
+<div class="section">
+    <h3>Option B: Propose Your Own Project</h3>
+    <p>Students may propose their own MIMIC-IV analysis project. Your proposal should include:</p>
+    <ul>
+        <li>Clear clinical research question</li>
+        <li>Specific MIMIC-IV tables required</li>
+        <li>Analytical approach and methods</li>
+        <li>Expected outcomes and clinical relevance</li>
+    </ul>
+</div>
+
+<h2>Jupyter Notebook Structure Requirements</h2>
+
+<div class="code-block">
+<pre><code># REQUIRED NOTEBOOK SECTIONS:
+
+# 1. Project Overview
+# - Title and student information
+# - Clinical problem statement
+# - Research questions
+
+# 2. Data Loading and Exploration
+# - Load necessary MIMIC-IV tables
+# - Basic data exploration (shape, columns, missing values)
+# - Data quality assessment
+
+# 3. Cohort Definition
+# - Inclusion/exclusion criteria
+# - Sample size calculation
+# - Cohort characteristics summary
+
+# 4. Data Preprocessing
+# - Handling missing values
+# - Data type conversions
+# - Feature engineering
+
+# 5. Analytical Methods
+# - Statistical tests used
+# - Machine learning models (if applicable)
+# - Validation approach
+
+# 6. Results and Visualization
+# - Key findings with supporting visualizations
+# - Statistical summaries
+# - Model performance metrics
+
+# 7. Clinical Interpretation
+# - Meaning of results in clinical context
+# - Limitations and biases
+# - Potential applications
+
+# 8. Conclusion
+# - Summary of key insights
+# - Recommendations for practice
+# - Future work
+</code></pre>
+</div>
+
+<h2>Essential Analysis Functions</h2>
+
+<div class="code-block">
+<pre><code># Utility functions for MIMIC-IV analysis
+def describe_cohort(cohort):
+    """Generate descriptive statistics for study cohort"""
+    print(f"Cohort size: {len(cohort)} patients")
+    print(f"Age range: {cohort['anchor_age'].min()} - {cohort['anchor_age'].max()} years")
+    print(f"Gender distribution:\n{cohort['gender'].value_counts()}")
+    
+def calculate_comorbidity_index(diagnoses_df, subject_list):
+    """Calculate simple comorbidity count"""
+    patient_diagnoses = diagnoses_df[diagnoses_df['subject_id'].isin(subject_list)]
+    comorbidity_count = patient_diagnoses.groupby('subject_id').size()
+    return comorbidity_count
+
+def create_clinical_summary(cohort, lab_data, vital_data):
+    """Create comprehensive clinical summary"""
+    summary = {
+        'n_patients': len(cohort['subject_id'].unique()),
+        'avg_age': cohort['anchor_age'].mean(),
+        'common_labs': lab_data['label'].value_counts().head(5),
+        'vital_ranges': vital_data.groupby('itemid')['valuenum'].agg(['min', 'max', 'mean'])
+    }
+    return summary
+</code></pre>
+</div>
+
+<h2>Deliverables</h2>
+<ol>
+    <li><strong>Technical Report (PDF)</strong> — 6–10 pages including references and appendices. Filename: <code>LastName_FirstName_MIMICProject.pdf</code></li>
+    <li><strong>Jupyter Notebook (.ipynb)</strong> — Complete analysis code and documentation</li>
+    <li><strong>Presentation Recording</strong> — 10-minute recorded presentation</li>
+</ol>
+
+<h2>Required Report Sections & Scoring</h2>
+<ol>
+    <li><strong>Clinical Problem & Objectives (15 pts)</strong></li>
+    <li><strong>Data Methods (20 pts)</strong></li>
+    <li><strong>Analytical Approach (20 pts)</strong></li>
+    <li><strong>Results & Clinical Insights (20 pts)</strong></li>
+    <li><strong>Health Informatics Application (15 pts)</strong></li>
+    <li><strong>Code Quality & Reproducibility (10 pts)</strong></li>
+</ol>
+
+<h2>Submission Requirements</h2>
+<ul>
+    <li><strong>PDF Report:</strong> <code>LastName_FirstName_MIMICProject.pdf</code></li>
+    <li><strong>Jupyter Notebook:</strong> <code>LastName_FirstName_Analysis.ipynb</code></li>
+    <li><strong>Presentation:</strong> 10-minute recorded presentation</li>
+</ul>
+
+<div class="highlight">
+    <strong>Code Quality Expectations:</strong> 
+    <ul>
+        <li>Well-documented functions with docstrings</li>
+        <li>Clear variable names</li>
+        <li>Proper error handling</li>
+        <li>Reproducible analysis pipeline</li>
+        <li>Comments explaining complex logic</li>
+        <li>Clean visualization code</li>
+    </ul>
+</div>
+
+</body>
+</html>
