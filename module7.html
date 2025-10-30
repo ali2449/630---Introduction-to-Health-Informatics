@@ -49,7 +49,11 @@
             padding-left: 1.5rem; 
             margin-bottom: 1rem; 
         }
-        /* Custom styles for Swiss cheese model */
+        /* Enhanced Swiss cheese model */
+        .cheese-model-container {
+            perspective: 1000px;
+            margin: 2rem 0;
+        }
         .cheese-slice {
             background-color: rgba(255, 230, 150, 0.9);
             border-radius: 20px;
@@ -58,6 +62,11 @@
             margin-bottom: 1rem;
             border: 2px solid #D4B04C;
             box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.1);
+            transition: transform 0.5s ease;
+            transform-style: preserve-3d;
+        }
+        .cheese-slice:hover {
+            transform: rotateY(5deg);
         }
         .cheese-hole {
             background-color: rgba(255, 255, 255, 0.1);
@@ -65,6 +74,11 @@
             border-radius: 50%;
             position: absolute;
             box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.2);
+            transition: all 0.3s ease;
+        }
+        .cheese-hole:hover {
+            background-color: rgba(255, 255, 255, 0.3);
+            transform: scale(1.1);
         }
         .hole1 { width: 30px; height: 30px; top: 20%; left: 30%; }
         .hole2 { width: 40px; height: 40px; top: 60%; left: 50%; }
@@ -83,35 +97,67 @@
             font-weight: bold;
             margin-top: 2rem;
             animation: pulse 1.5s infinite;
+            box-shadow: 0 4px 6px rgba(239, 68, 68, 0.3);
         }
         @keyframes pulse {
             0%, 100% { transform: scale(1); }
             50% { transform: scale(1.05); }
         }
-        /* New enhancements */
+        /* Enhanced progress tracking */
         .progress-bar {
-            height: 4px;
+            height: 6px;
             background-color: #e5e7eb;
-            border-radius: 2px;
+            border-radius: 3px;
             overflow: hidden;
+            position: relative;
         }
         .progress-fill {
             height: 100%;
-            background-color: #4A7C59;
+            background: linear-gradient(90deg, #4A7C59, #6B9C7A);
             width: 0%;
             transition: width 0.5s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        .progress-fill::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            bottom: 0;
+            right: 0;
+            background-image: linear-gradient(
+                -45deg,
+                rgba(255, 255, 255, 0.2) 25%,
+                transparent 25%,
+                transparent 50%,
+                rgba(255, 255, 255, 0.2) 50%,
+                rgba(255, 255, 255, 0.2) 75%,
+                transparent 75%,
+                transparent
+            );
+            background-size: 20px 20px;
+            animation: move 1s linear infinite;
+        }
+        @keyframes move {
+            0% { background-position: 0 0; }
+            100% { background-position: 20px 0; }
         }
         .key-takeaway {
             background-color: #f0f9ff;
             border-left: 4px solid #4A7C59;
-            padding: 1rem;
+            padding: 1.5rem;
             margin: 1.5rem 0;
+            border-radius: 0 8px 8px 0;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
         }
         .case-study {
             background-color: #fef7e0;
             border-left: 4px solid #f59e0b;
-            padding: 1rem;
+            padding: 1.5rem;
             margin: 1.5rem 0;
+            border-radius: 0 8px 8px 0;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
         }
         .quiz-question {
             background-color: #f8fafc;
@@ -119,17 +165,19 @@
             border-radius: 8px;
             padding: 1.5rem;
             margin: 1.5rem 0;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
         }
         .badge {
             display: inline-block;
             padding: 0.25rem 0.75rem;
-            background-color: #4A7C59;
+            background: linear-gradient(135deg, #4A7C59, #6B9C7A);
             color: white;
             border-radius: 9999px;
             font-size: 0.75rem;
             font-weight: 600;
             margin-right: 0.5rem;
             margin-bottom: 0.5rem;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
         }
         .floating-button {
             position: fixed;
@@ -137,7 +185,7 @@
             right: 2rem;
             width: 50px;
             height: 50px;
-            background-color: #4A7C59;
+            background: linear-gradient(135deg, #4A7C59, #6B9C7A);
             color: white;
             border-radius: 50%;
             display: flex;
@@ -152,36 +200,13 @@
             transform: translateY(-2px);
             box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15);
         }
-        .glossary-term {
-            border-bottom: 1px dashed #4A7C59;
-            cursor: help;
-            position: relative;
-        }
-        .glossary-tooltip {
-            position: absolute;
-            bottom: 100%;
-            left: 50%;
-            transform: translateX(-50%);
-            background-color: #333;
-            color: white;
-            padding: 8px 12px;
-            border-radius: 4px;
-            font-size: 0.875rem;
-            white-space: nowrap;
-            opacity: 0;
-            pointer-events: none;
-            transition: opacity 0.3s;
-            z-index: 10;
-        }
-        .glossary-term:hover .glossary-tooltip {
-            opacity: 1;
-        }
         .matching-exercise {
             background-color: #f8fafc;
             border: 1px solid #e2e8f0;
             border-radius: 8px;
             padding: 1.5rem;
             margin: 1.5rem 0;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
         }
         .match-item {
             background-color: white;
@@ -206,9 +231,80 @@
             gap: 1rem;
             margin-top: 1rem;
         }
+        /* Enhanced section headers */
+        .section-header {
+            background: linear-gradient(135deg, #4A7C59, #6B9C7A);
+            color: white;
+            padding: 1.5rem;
+            border-radius: 8px;
+            margin: 2rem 0 1rem 0;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            position: relative;
+            overflow: hidden;
+        }
+        .section-header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: rgba(255, 255, 255, 0.3);
+        }
+        .section-header h4 {
+            margin: 0;
+            font-size: 1.5rem;
+        }
+        /* Enhanced table styling */
+        .enhanced-table {
+            border-collapse: separate;
+            border-spacing: 0;
+            width: 100%;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+        }
+        .enhanced-table th {
+            background: linear-gradient(135deg, #4A7C59, #6B9C7A);
+            color: white;
+            padding: 1rem;
+            text-align: left;
+            font-weight: 600;
+        }
+        .enhanced-table td {
+            padding: 1rem;
+            border-bottom: 1px solid #e5e7eb;
+        }
+        .enhanced-table tr:nth-child(even) {
+            background-color: #f9fafb;
+        }
+        .enhanced-table tr:hover {
+            background-color: #f0f9ff;
+        }
+        /* Visual indicator for interactive elements */
+        .interactive-indicator {
+            position: relative;
+            padding-left: 1.5rem;
+        }
+        .interactive-indicator::before {
+            content: '▶';
+            position: absolute;
+            left: 0;
+            color: #4A7C59;
+            transition: transform 0.2s ease;
+        }
+        .interactive-indicator:hover::before {
+            transform: translateX(3px);
+        }
         @media (max-width: 768px) {
             .match-container {
                 grid-template-columns: 1fr;
+            }
+            .section-header {
+                padding: 1rem;
+            }
+            .section-header h4 {
+                font-size: 1.25rem;
             }
         }
     </style>
@@ -283,10 +379,12 @@
 
                 <!-- Section 1: The Basics -->
                 <div class="content-block text-gray-700">
-                    <h4 class="text-xl font-bold text-[#4A7C59] mb-4">Section 1: The Basics: What Are Patient Safety, Quality, and Value?</h4>
+                    <div class="section-header">
+                        <h4>Section 1: The Basics: What Are Patient Safety, Quality, and Value?</h4>
+                    </div>
                     <p>To understand how to improve healthcare, it is important to first have a clear and simple understanding of its most important terms.</p>
                     
-                    <h5 class="text-lg font-semibold mt-6">1.1 Defining Quality: Doing the Right Thing</h5>
+                    <h5 class="text-lg font-semibold mt-6 interactive-indicator">1.1 Defining Quality: Doing the Right Thing</h5>
                     <p>Quality in healthcare is defined as "doing the right thing at the right time for the right person and having the best possible result". The Institute of Medicine (IOM) explains that a high-quality health system should meet six main goals:</p>
                     <ul class="list-disc pl-6 space-y-2">
                         <li><strong>Safe:</strong> Care should protect patients from harm that could have been prevented.</li>
@@ -297,7 +395,7 @@
                         <li><strong>Equitable:</strong> The quality of care should not change based on a person's gender, race, or income.</li>
                     </ul>
                     
-                    <h5 class="text-lg font-semibold mt-6">1.2 Defining Patient Safety: Preventing Harm</h5>
+                    <h5 class="text-lg font-semibold mt-6 interactive-indicator">1.2 Defining Patient Safety: Preventing Harm</h5>
                     <p>Patient safety is a key part of quality. The World Health Organization (WHO) defines it as "the absence of preventable harm to a patient" and "the reduction of risk of unnecessary harm". It is also simply described as "the prevention of errors and adverse effects to patients".</p>
                     <p>Here are a few other important terms related to patient safety:</p>
                     <ul class="list-disc pl-6 space-y-2">
@@ -308,10 +406,10 @@
                         <li><strong>Noxious Episode:</strong> A complication or a bad outcome caused by a test or treatment. For example, a patient with a serious injury dies because they were delayed for a long time to get an imaging study instead of going straight to surgery.</li>
                     </ul>
                     
-                    <h5 class="text-lg font-semibold mt-6">1.3 Defining Value: Results for the Cost</h5>
+                    <h5 class="text-lg font-semibold mt-6 interactive-indicator">1.3 Defining Value: Results for the Cost</h5>
                     <p>Value in healthcare is a different way of thinking about cost. It is defined as "the measured improvement in a person's health outcomes for the cost of achieving that improvement". This means it is not about how many services are provided, but about the total benefit to the patient for the money spent. Value-based care models aim to improve a person's overall health and their personal health goals by having doctors and other providers work together to coordinate care.</p>
                     
-                    <h5 class="text-lg font-semibold mt-6">1.4 The Triad of Overuse, Underuse, and Misuse</h5>
+                    <h5 class="text-lg font-semibold mt-6 interactive-indicator">1.4 The Triad of Overuse, Underuse, and Misuse</h5>
                     <p>The IOM's goal of effective care is tied to a common triad of failures in healthcare:</p>
                     <ul class="list-disc pl-6 space-y-2">
                         <li><strong>Overuse:</strong> Giving a patient care that is not needed, especially when the risk is greater than the benefits. For example, giving antibiotics for a virus that would go away on its own. This is not just a waste of money; it can also cause patient harm.</li>
@@ -346,16 +444,16 @@
                     </div>
                     
                     <div class="mt-8 overflow-x-auto">
-                        <table class="min-w-full bg-white rounded-lg shadow-md">
+                        <table class="enhanced-table">
                             <thead>
-                                <tr class="bg-[#4A7C59] text-white text-left text-sm font-semibold uppercase tracking-wider">
+                                <tr>
                                     <th class="py-3 px-4 rounded-tl-lg">Term</th>
                                     <th class="py-3 px-4">Definition</th>
                                     <th class="py-3 px-4 rounded-tr-lg">Example</th>
                                 </tr>
                             </thead>
-                            <tbody class="divide-y divide-gray-200">
-                                <tr class="bg-gray-50">
+                            <tbody>
+                                <tr>
                                     <td class="py-3 px-4">Quality</td>
                                     <td class="py-3 px-4">Doing the right thing at the right time for the right person with the best possible result.</td>
                                     <td class="py-3 px-4">A hospital that provides care that is safe, effective, patient-centered, timely, efficient, and fair to all patients.</td>
@@ -365,7 +463,7 @@
                                     <td class="py-3 px-4">Avoiding harm that can be prevented and reducing the risk of unnecessary harm to a patient.</td>
                                     <td class="py-3 px-4">A hospital puts a system in place to prevent infections that patients get while they are there.</td>
                                 </tr>
-                                <tr class="bg-gray-50">
+                                <tr>
                                     <td class="py-3 px-4">Value</td>
                                     <td class="py-3 px-4">The improvement in a patient's health for the money spent to get that improvement.</td>
                                     <td class="py-3 px-4">A care plan that helps a patient manage their whole health, including their social needs, instead of just treating one problem at a time.</td>
@@ -375,7 +473,7 @@
                                     <td class="py-3 px-4">An injury that happens because of a medical treatment.</td>
                                     <td class="py-3 px-4">A patient gets a blood clot after surgery.</td>
                                 </tr>
-                                <tr class="bg-gray-50">
+                                <tr>
                                     <td class="py-3 px-4">Preventable AE</td>
                                     <td class="py-3 px-4">An injury that could have been avoided.</td>
                                     <td class="py-3 px-4">A patient falls in the hospital because a nurse did not answer their call for help.</td>
@@ -385,7 +483,7 @@
                                     <td class="py-3 px-4">Giving a patient unnecessary care.</td>
                                     <td class="py-3 px-4">Giving antibiotics for a sinus infection caused by a virus.</td>
                                 </tr>
-                                <tr class="bg-gray-50">
+                                <tr>
                                     <td class="py-3 px-4">Underuse</td>
                                     <td class="py-3 px-4">Not giving a patient the care they need.</td>
                                     <td class="py-3 px-4">Not giving a patient a beta-blocker after a heart attack.</td>
@@ -402,10 +500,12 @@
 
                 <!-- Section 2: The Problem -->
                 <div class="content-block text-gray-700 mt-8">
-                    <h4 class="text-xl font-bold text-[#4A7C59] mb-4">Section 2: The Problem: Understanding Medical Errors and Patient Harm</h4>
+                    <div class="section-header">
+                        <h4>Section 2: The Problem: Understanding Medical Errors and Patient Harm</h4>
+                    </div>
                     <p>Medical errors are a big problem in healthcare that can cause serious harm to patients and cost a lot of money. To solve this, we need to understand that most errors are not about one person's mistake but about problems with the entire system.</p>
                     
-                    <h5 class="text-lg font-semibold mt-6">2.1 A Systems Approach to Errors: Active and Latent Failures</h5>
+                    <h5 class="text-lg font-semibold mt-6 interactive-indicator">2.1 A Systems Approach to Errors: Active and Latent Failures</h5>
                     <p>It's important to know the difference between two types of errors:</p>
                     <ul class="list-disc pl-6 space-y-2">
                         <li><strong>Active Errors:</strong> These are mistakes that happen right at the time of care, like a nurse giving the wrong dose of medicine or a surgeon making a mistake during a procedure. These errors are easy to see.</li>
@@ -413,32 +513,34 @@
                     </ul>
                     <p>The "Swiss cheese model" is a good way to think about this. It shows that mistakes happen when multiple system flaws—like holes in slices of Swiss cheese—line up, allowing a mistake to reach the patient. This model shows that we should not just focus on one mistake but on the deeper problems that allow the mistakes to happen in the first place.</p>
                     
-                    <!-- Visual representation of the Swiss cheese model -->
-                    <div class="flex flex-col items-center space-y-4 mt-8">
-                        <div class="cheese-slice">
-                            <p class="font-bold text-center">Slice 1: Flawed Policy</p>
-                            <div class="cheese-hole hole1"></div>
-                            <div class="cheese-hole hole2"></div>
-                            <div class="cheese-hole hole3"></div>
-                        </div>
-                        <div class="cheese-slice">
-                            <p class="font-bold text-center">Slice 2: Technology Glitch</p>
-                            <div class="cheese-hole hole4"></div>
-                            <div class="cheese-hole hole5"></div>
-                            <div class="cheese-hole hole6"></div>
-                        </div>
-                        <div class="cheese-slice">
-                            <p class="font-bold text-center">Slice 3: Human Error (Fatigue)</p>
-                            <div class="cheese-hole hole7"></div>
-                            <div class="cheese-hole hole8"></div>
-                            <div class="cheese-hole hole2"></div> <!-- Aligned hole -->
-                        </div>
-                        <div class="final-harm">
-                            PATIENT HARM
+                    <!-- Enhanced Visual representation of the Swiss cheese model -->
+                    <div class="cheese-model-container">
+                        <div class="flex flex-col items-center space-y-4 mt-8">
+                            <div class="cheese-slice">
+                                <p class="font-bold text-center">Slice 1: Flawed Policy</p>
+                                <div class="cheese-hole hole1"></div>
+                                <div class="cheese-hole hole2"></div>
+                                <div class="cheese-hole hole3"></div>
+                            </div>
+                            <div class="cheese-slice">
+                                <p class="font-bold text-center">Slice 2: Technology Glitch</p>
+                                <div class="cheese-hole hole4"></div>
+                                <div class="cheese-hole hole5"></div>
+                                <div class="cheese-hole hole6"></div>
+                            </div>
+                            <div class="cheese-slice">
+                                <p class="font-bold text-center">Slice 3: Human Error (Fatigue)</p>
+                                <div class="cheese-hole hole7"></div>
+                                <div class="cheese-hole hole8"></div>
+                                <div class="cheese-hole hole2"></div> <!-- Aligned hole -->
+                            </div>
+                            <div class="final-harm">
+                                PATIENT HARM
+                            </div>
                         </div>
                     </div>
                     
-                    <h5 class="text-lg font-semibold mt-6">2.2 The Most Common Types of Errors</h5>
+                    <h5 class="text-lg font-semibold mt-6 interactive-indicator">2.2 The Most Common Types of Errors</h5>
                     <p>Medical errors can happen in many different ways and have a huge impact on patients.</p>
                     <ul class="list-disc pl-6 space-y-2">
                         <li><strong>Medication Errors:</strong> These are the most common type of medical mistake. They can happen for many reasons, such as a doctor prescribing the wrong medicine or dose, a nurse giving the medicine incorrectly, or a patient not getting full instructions on how to use it. These errors lead to more than 7 million patient visits each year and cost close to $40 billion annually in the U.S.</li>
@@ -446,10 +548,10 @@
                         <li><strong>Surgical Errors:</strong> These errors have the highest risk of causing serious injury or death to a patient. Examples include operating on the wrong person or the wrong part of the body, or leaving a foreign object inside a patient. Errors during surgery are the main cause of 75% of malpractice claims against surgeons.</li>
                     </ul>
                     
-                    <h5 class="text-lg font-semibold mt-6">2.3 Patient Harm Beyond the Hospital</h5>
+                    <h5 class="text-lg font-semibold mt-6 interactive-indicator">2.3 Patient Harm Beyond the Hospital</h5>
                     <p>While we often hear about patient harm in hospitals, a lot of harm also happens in outpatient settings like clinics, doctor's offices, and day surgeries. A study found that 7% of patients experienced at least one adverse event in an outpatient setting, and 1.9% experienced a preventable adverse event. The most common problem was adverse drug events, which were found to be highly preventable. The study also found that almost half of all adverse events happen in a doctor's office.</p>
                     
-                    <h5 class="text-lg font-semibold mt-6">2.4 The Impact on Healthcare Workers</h5>
+                    <h5 class="text-lg font-semibold mt-6 interactive-indicator">2.4 The Impact on Healthcare Workers</h5>
                     <p>Medical errors also have a deep effect on the healthcare professionals involved. Doctors and nurses who are part of an error, even if they didn't cause it, can feel anger, guilt, sadness, or even have thoughts of suicide. The fear of being sued only makes this stress worse. This is another reason to move away from a culture of blame and toward a system that supports people and helps prevent errors from happening.</p>
                     
                     <!-- Case Study -->
@@ -461,10 +563,12 @@
 
                 <!-- Section 3: How We Measure and Improve -->
                 <div class="content-block text-gray-700 mt-8">
-                    <h4 class="text-xl font-bold text-[#4A7C59] mb-4">Section 3: How We Measure and Improve: A Systems-Based Approach</h4>
+                    <div class="section-header">
+                        <h4>Section 3: How We Measure and Improve: A Systems-Based Approach</h4>
+                    </div>
                     <p>The best way to improve patient safety is to move away from blaming individuals and toward a structured, system-based approach that can measure and learn from mistakes.</p>
                     
-                    <h5 class="text-lg font-semibold mt-6">3.1 The Problem with Reporting</h5>
+                    <h5 class="text-lg font-semibold mt-6 interactive-indicator">3.1 The Problem with Reporting</h5>
                     <p>For a long time, healthcare relied on staff to voluntarily report errors and near-misses. But this has many problems:</p>
                     <ul class="list-disc pl-6 space-y-2">
                         <li><strong>Fear of Punishment:</strong> Healthcare workers are afraid of being sued, losing their job, or losing their medical license if they report a mistake. This fear prevents them from speaking up.</li>
@@ -473,17 +577,17 @@
                         <li><strong>Lack of Trust:</strong> When staff report a problem and never hear back about what was done to fix it, they lose trust and stop reporting in the future.</li>
                     </ul>
                     
-                    <h5 class="text-lg font-semibold mt-6">3.2 Finding the Cause: Root Cause Analysis (RCA)</h5>
+                    <h5 class="text-lg font-semibold mt-6 interactive-indicator">3.2 Finding the Cause: Root Cause Analysis (RCA)</h5>
                     <p>Root Cause Analysis (RCA) is a detailed method used to study a serious adverse event that has already happened. The process involves a team of people who repeatedly ask "why" an error happened until they find the underlying problems in the system. The main goal of RCA is to fix the system, not to blame the person who made the mistake.</p>
                     <p>However, RCA has been criticized because it often suggests weak solutions, like more training, instead of real changes to the system.</p>
                     
-                    <h5 class="text-lg font-semibold mt-6">3.3 A Proactive Method: The Global Trigger Tool</h5>
+                    <h5 class="text-lg font-semibold mt-6 interactive-indicator">3.3 A Proactive Method: The Global Trigger Tool</h5>
                     <p>The Global Trigger Tool is a newer and more proactive way to find patient harm. This method uses "triggers," or clues in patient records (like a certain medicine or a lab result), to find adverse events that may not have been reported. This tool is very effective because it finds more adverse events than voluntary reporting systems. By using this method, a hospital can systematically track measures like the number of adverse events per patient day or per admission, giving them a much clearer picture of patient harm.</p>
                     
                     <div class="mt-8 overflow-x-auto">
-                        <table class="min-w-full bg-white rounded-lg shadow-md">
+                        <table class="enhanced-table">
                             <thead>
-                                <tr class="bg-[#4A7C59] text-white text-left text-sm font-semibold uppercase tracking-wider">
+                                <tr>
                                     <th class="py-3 px-4 rounded-tl-lg">Method</th>
                                     <th class="py-3 px-4">How it Works</th>
                                     <th class="py-3 px-4">Purpose</th>
@@ -491,8 +595,8 @@
                                     <th class="py-3 px-4 rounded-tr-lg">Limitations</th>
                                 </tr>
                             </thead>
-                            <tbody class="divide-y divide-gray-200">
-                                <tr class="bg-gray-50">
+                            <tbody>
+                                <tr>
                                     <td class="py-3 px-4">Voluntary Reporting</td>
                                     <td class="py-3 px-4">Clinicians and staff report incidents and near-misses on their own.</td>
                                     <td class="py-3 px-4">To learn from mistakes and keep a record of safety issues.</td>
@@ -506,7 +610,7 @@
                                     <td class="py-3 px-4">Focuses on the system, not on blaming a person.</td>
                                     <td class="py-3 px-4">Often leads to weak solutions and can be a slow process.</td>
                                 </tr>
-                                <tr class="bg-gray-50">
+                                <tr>
                                     <td class="py-3 px-4">Global Trigger Tool</td>
                                     <td class="py-3 px-4">A team looks back at random patient records for "triggers" that point to an adverse event.</td>
                                     <td class="py-3 px-4">To measure the total level of harm in a hospital and find patterns.</td>
@@ -546,24 +650,26 @@
 
                 <!-- Section 4: The Technology Solution -->
                 <div class="content-block text-gray-700 mt-8">
-                    <h4 class="text-xl font-bold text-[#4A7C59] mb-4">Section 4: The Technology Solution: EHRs and Beyond</h4>
+                    <div class="section-header">
+                        <h4>Section 4: The Technology Solution: EHRs and Beyond</h4>
+                    </div>
                     <p>Health information technology (HIT) is a main driver of patient safety improvements. The Electronic Health Record (EHR) is the main tool that has created a safety net to prevent errors at different stages of care.</p>
                     
-                    <h5 class="text-lg font-semibold mt-6">4.1 Foundational Safety Tools</h5>
+                    <h5 class="text-lg font-semibold mt-6 interactive-indicator">4.1 Foundational Safety Tools</h5>
                     <p>The EHR provides the foundation for several key safety processes:</p>
                     <ul class="list-disc pl-6 space-y-2">
                         <li><strong>Medication Reconciliation:</strong> This is the process of creating a complete and accurate list of all medicines a patient is taking when they are admitted, transferred, or discharged. This helps prevent errors that often happen when patients move from one care setting to another. An electronic system for medication reconciliation has been shown to reduce potential adverse drug events by 80% and almost completely stop transcription errors.</li>
                         <li><strong>Patient Identification:</strong> Making sure a patient is correctly identified is crucial for safety. The EHR helps prevent mistakes like duplicate patient records or mixing up patient information, which can have serious consequences.</li>
                     </ul>
                     
-                    <h5 class="text-lg font-semibold mt-6">4.2 Reducing Medication Errors with CPOE and eMAR</h5>
+                    <h5 class="text-lg font-semibold mt-6 interactive-indicator">4.2 Reducing Medication Errors with CPOE and eMAR</h5>
                     <p>Two key technologies work together to reduce medication errors:</p>
                     <ul class="list-disc pl-6 space-y-2">
                         <li><strong>Computerized Provider Order Entry (CPOE):</strong> CPOE systems allow doctors to enter and send treatment instructions for medications, labs, and X-rays electronically instead of writing them on paper. This is safer because it makes sure orders are easy to read and complete. CPOE also has built-in tools that automatically check for problems, such as if a new medicine would interact with a patient's other medicines or allergies.</li>
                         <li><strong>Electronic Medication Administration Record (eMAR):</strong> The eMAR is a digital record of all the medicines a patient has been given. It is connected to the EHR and the pharmacy's system, so all authorized healthcare workers have access to the most recent information. This helps prevent giving a patient a duplicate treatment and ensures that everyone on the care team has the same information.</li>
                     </ul>
                     
-                    <h5 class="text-lg font-semibold mt-6">4.3 Preventing Harm at the Bedside: Barcode Technology</h5>
+                    <h5 class="text-lg font-semibold mt-6 interactive-indicator">4.3 Preventing Harm at the Bedside: Barcode Technology</h5>
                     <p>Barcode Medication Administration (BCMA) provides a final safety check at the patient's bedside. This system requires a nurse to scan the patient's wristband and the medication's barcode before giving the medicine. This is designed to ensure the "5 rights" of medication safety: the right patient, right drug, right dose, right time, and right route.</p>
                     <p>However, studies show that nurses often bypass this process by not scanning the patient or the medicine. These "workarounds" happen for several reasons, such as broken scanners, unreadable barcodes, or the nurse feeling they do not have enough time. These workarounds create a gap between how the technology is supposed to work and how it is used in the real world.</p>
                     
@@ -575,7 +681,9 @@
 
                 <!-- Section 5: The Rules and The Players -->
                 <div class="content-block text-gray-700 mt-8">
-                    <h4 class="text-xl font-bold text-[#4A7C59] mb-4">Section 5: The Rules and The Players: Government and Organizations</h4>
+                    <div class="section-header">
+                        <h4>Section 5: The Rules and The Players: Government and Organizations</h4>
+                    </div>
                     <p>Improving patient safety is a team effort involving many different government agencies and organizations that each play a specific role.</p>
                     <p><strong>The Agency for Healthcare Research and Quality (AHRQ):</strong> AHRQ is the main federal agency in charge of improving patient safety. It invests in research to find out how and why errors happen and creates tools to help hospitals prevent problems like diagnostic errors and infections. AHRQ also manages a network of patient safety databases to track problems across the country.</p>
                     <p><strong>The Centers for Medicare & Medicaid Services (CMS):</strong> CMS is a large government agency that uses its power to drive improvements. It does this by creating rules and financial rewards that connect how much a hospital gets paid to the quality and efficiency of the care it provides. CMS also makes it a rule that hospitals with more than 50 beds must work with a Patient Safety Organization (PSO) to improve safety.</p>
@@ -586,16 +694,20 @@
 
                 <!-- Section 6: The Legacy of Meaningful Use -->
                 <div class="content-block text-gray-700 mt-8">
-                    <h4 class="text-xl font-bold text-[#4A7C59] mb-4">Section 6: The Legacy of Meaningful Use</h4>
+                    <div class="section-header">
+                        <h4>Section 6: The Legacy of Meaningful Use</h4>
+                    </div>
                     <p>The modern focus on patient safety and digital quality is a direct result of a policy called the Meaningful Use (MU) program. This federal program gave money to healthcare providers who adopted and showed they were using certified EHR technology in a meaningful way. A major goal of the program was for providers to use Computerized Provider Order Entry (CPOE) for all their orders for medicine, labs, and X-rays. This policy was the main reason EHRs were so widely adopted. The program's biggest legacy is the huge amount of digital patient data that was created. This data is what allows for today's "learning health system," where data from EHRs is used to constantly improve care and create better payment models. CMS has a goal to move to a fully digital quality framework by 2030, which is the next step in the work that was started by Meaningful Use.</p>
                 </div>
 
                 <!-- Section 7: The Challenges -->
                 <div class="content-block text-gray-700 mt-8">
-                    <h4 class="text-xl font-bold text-[#4A7C59] mb-4">Section 7: The Challenges: Barriers and Unintended Consequences</h4>
+                    <div class="section-header">
+                        <h4>Section 7: The Challenges: Barriers and Unintended Consequences</h4>
+                    </div>
                     <p>Even with all the new technology and policies, patient harm is still a serious problem. The biggest challenges are not always technical; they are often tied to human behavior and how healthcare is organized.</p>
                     
-                    <h5 class="text-lg font-semibold mt-6">7.1 Barriers to Progress</h5>
+                    <h5 class="text-lg font-semibold mt-6 interactive-indicator">7.1 Barriers to Progress</h5>
                     <p>Studies from the Office of Inspector General (OIG) and others have found several key barriers:</p>
                     <ul class="list-disc pl-6 space-y-2">
                         <li><strong>A Culture of Blame:</strong> The fear of being blamed for a mistake is still a big problem that stops healthcare workers from reporting safety issues.</li>
@@ -603,7 +715,7 @@
                         <li><strong>Lack of Patient Involvement:</strong> Patients and their families are often not included as partners in safety, which is a missed opportunity for valuable feedback and insight.</li>
                     </ul>
                     
-                    <h5 class="text-lg font-semibold mt-6">7.2 The Unexpected Problems of Technology</h5>
+                    <h5 class="text-lg font-semibold mt-6 interactive-indicator">7.2 The Unexpected Problems of Technology</h5>
                     <p>While health technology is a powerful tool for safety, it can also create new and unexpected problems. These problems often happen when technology does not fit with how people naturally work.</p>
                     <ul class="list-disc pl-6 space-y-2">
                         <li><strong>Alert Fatigue:</strong> Safety features like a warning about a drug interaction can become a problem if the system creates too many warnings. This can make a doctor start to ignore all warnings, even important ones, because they are overwhelmed.</li>
@@ -612,16 +724,16 @@
                     </ul>
                     
                     <div class="mt-8 overflow-x-auto">
-                        <table class="min-w-full bg-white rounded-lg shadow-md">
+                        <table class="enhanced-table">
                             <thead>
-                                <tr class="bg-[#4A7C59] text-white text-left text-sm font-semibold uppercase tracking-wider">
+                                <tr>
                                     <th class="py-3 px-4 rounded-tl-lg">Unexpected Problem</th>
                                     <th class="py-3 px-4">What It Is</th>
                                     <th class="py-3 px-4 rounded-tr-lg">Example</th>
                                 </tr>
                             </thead>
-                            <tbody class="divide-y divide-gray-200">
-                                <tr class="bg-gray-50">
+                            <tbody>
+                                <tr>
                                     <td class="py-3 px-4">Alert Fatigue</td>
                                     <td class="py-3 px-4">A system gives too many warnings, causing users to ignore them.</td>
                                     <td class="py-3 px-4">A CPOE system gives so many drug alerts that a doctor ignores a critical warning and makes a serious mistake.</td>
@@ -631,7 +743,7 @@
                                     <td class="py-3 px-4">A person believes that putting information into a system means others will see and act on it.</td>
                                     <td class="py-3 px-4">A doctor enters an important test result into the EHR but does not tell the rest of the team. The next person to see the patient does not see the result and makes a decision based on incomplete information.</td>
                                 </tr>
-                                <tr class="bg-gray-50">
+                                <tr>
                                     <td class="py-3 px-4">Workarounds</td>
                                     <td class="py-3 px-4">A person changes how they do a task to get around a technology's safety features.</td>
                                     <td class="py-3 px-4">A nurse does not scan a patient's wristband or the medication's barcode because the scanner is broken or not working.</td>
@@ -648,7 +760,9 @@
 
                 <!-- Conclusion -->
                 <div class="content-block text-gray-700 mt-8">
-                    <h4 class="text-xl font-bold text-[#4A7C59] mb-4">Conclusion: A Path Forward</h4>
+                    <div class="section-header">
+                        <h4>Conclusion: A Path Forward</h4>
+                    </div>
                     <p>The journey toward a safer, higher-quality, and more valuable healthcare system has made great progress, but there is still much to be done. This report shows that patient safety is not a separate issue but is at the core of quality care, with the final goal of providing the most value to the patient.</p>
                     <p>The move from a culture of blame to a system of learning is important, but it is not complete. The ongoing problems with reporting, caused by fear and systems that are hard to use, continue to create a data gap that prevents us from learning from mistakes on a national scale.</p>
                     <p>Health technology is a powerful tool and an essential part of a modern healthcare system. However, its unexpected problems, such as alert fatigue and workarounds, show that a purely technical solution is not enough. The biggest challenges are a mix of technology and human factors.</p>
