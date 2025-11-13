@@ -1,0 +1,1080 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Module 9: Health Economics - Health Informatics</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body { 
+            font-family: 'Inter', sans-serif; 
+            background-color: #F8F7F4; 
+            color: #333333; 
+        }
+        .sidebar-link { 
+            transition: all 0.2s ease-in-out; 
+        }
+        .sidebar-link.active, .sidebar-link:hover { 
+            background-color: #4A7C59; 
+            color: #FFFFFF; 
+            transform: translateX(4px); 
+        }
+        .content-block p { 
+            text-align: justify; 
+            margin-bottom: 1rem; 
+        }
+        .content-block h4 { 
+            font-size: 1.25rem; 
+            font-weight: 600; 
+            margin-top: 1.5rem; 
+            margin-bottom: 0.75rem; 
+        }
+        .accordion-header { 
+            cursor: pointer; 
+        }
+        .accordion-content { 
+            max-height: 0; 
+            overflow: hidden; 
+            transition: max-height 0.3s ease-out; 
+        }
+        .progress-bar {
+            height: 4px;
+            background-color: #e5e7eb;
+            border-radius: 2px;
+            overflow: hidden;
+        }
+        .progress-fill {
+            height: 100%;
+            background-color: #4A7C59;
+            width: 0%;
+            transition: width 0.5s ease;
+        }
+        .key-takeaway {
+            background-color: #f0f9ff;
+            border-left: 4px solid #4A7C59;
+            padding: 1rem;
+            margin: 1.5rem 0;
+        }
+        .case-study {
+            background-color: #fef7e0;
+            border-left: 4px solid #f59e0b;
+            padding: 1rem;
+            margin: 1.5rem 0;
+        }
+        .quiz-question {
+            background-color: #f8fafc;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+        }
+        .badge {
+            display: inline-block;
+            padding: 0.25rem 0.75rem;
+            background-color: #4A7C59;
+            color: white;
+            border-radius: 9999px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            margin-right: 0.5rem;
+            margin-bottom: 0.5rem;
+        }
+        .floating-button {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            width: 50px;
+            height: 50px;
+            background-color: #4A7C59;
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            cursor: pointer;
+            z-index: 100;
+            transition: all 0.3s ease;
+        }
+        .floating-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15);
+        }
+        .glossary-term {
+            border-bottom: 1px dashed #4A7C59;
+            cursor: help;
+            position: relative;
+        }
+        .glossary-tooltip {
+            position: absolute;
+            bottom: 100%;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: #333;
+            color: white;
+            padding: 8px 12px;
+            border-radius: 4px;
+            font-size: 0.875rem;
+            white-space: nowrap;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s;
+            z-index: 10;
+        }
+        .glossary-term:hover .glossary-tooltip {
+            opacity: 1;
+        }
+        .matching-exercise {
+            background-color: #f8fafc;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+        }
+        .match-item {
+            background-color: white;
+            border: 1px solid #e2e8f0;
+            border-radius: 6px;
+            padding: 0.75rem;
+            margin-bottom: 0.75rem;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+        .match-item:hover {
+            background-color: #f0f9ff;
+            border-color: #4A7C59;
+        }
+        .match-item.selected {
+            background-color: #4A7C59;
+            color: white;
+        }
+        .match-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+        .economic-model {
+            background-color: white;
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+        }
+        .model-visual {
+            width: 100%;
+            height: 200px;
+            background-color: #f8fafc;
+            border-radius: 6px;
+            margin: 1rem 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 1px dashed #e2e8f0;
+        }
+        .calculation-example {
+            background-color: #f0f9ff;
+            border-radius: 6px;
+            padding: 1rem;
+            margin: 1rem 0;
+            font-family: monospace;
+        }
+        @media (max-width: 768px) {
+            .match-container {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body class="antialiased">
+    <!-- Floating "Back to Top" Button -->
+    <div class="floating-button" id="back-to-top">
+        <i class="fas fa-arrow-up"></i>
+    </div>
+
+    <div class="min-h-screen lg:grid lg:grid-cols-12">
+        <!-- Sidebar Navigation -->
+        <aside class="lg:col-span-3 lg:block bg-[#EAE7E1] p-6 lg:fixed lg:h-full lg:w-1/4 xl:w-1/5">
+            <h1 class="text-2xl font-bold text-[#4A7C59]">Health Informatics</h1>
+            <p class="text-sm text-gray-600 mb-8">Master's Course Overview</p>
+            
+            <!-- Progress Indicator -->
+            <div class="mb-6">
+                <div class="flex justify-between text-sm text-gray-600 mb-1">
+                    <span>Module Progress</span>
+                    <span id="progress-percent">0%</span>
+                </div>
+                <div class="progress-bar">
+                    <div class="progress-fill" id="progress-fill"></div>
+                </div>
+            </div>
+            
+            <nav id="sidebar-nav" class="space-y-2">
+                <a href="./index.html" class="sidebar-link block p-3 rounded-lg font-medium">Home</a>
+                <a href="./module1.html" class="sidebar-link block p-3 rounded-lg font-medium">1. Introduction</a>
+                <a href="./module2.html" class="sidebar-link block p-3 rounded-lg font-medium">2. EHR Ecosystem</a>
+                <a href="./module3.html" class="sidebar-link block p-3 rounded-lg font-medium">3. Data Standards</a>
+                <a href="./module4.html" class="sidebar-link block p-3 rounded-lg font-medium">4. Health Information Exchange</a>
+                <a href="./module5.html" class="sidebar-link block p-3 rounded-lg font-medium">5. Health Data Analytics</a>
+                <a href="./module6.html" class="sidebar-link block p-3 rounded-lg font-medium">6. Clinical Decision Support</a>
+                <a href="./module7.html" class="sidebar-link block p-3 rounded-lg font-medium">7. Safety, Quality & Value</a>
+                <a href="./module8.html" class="sidebar-link block p-3 rounded-lg font-medium">8. Privacy & Security</a>
+                <a href="./module9.html" class="sidebar-link active block p-3 rounded-lg font-medium">9. Health Economics</a>
+            </nav>
+            
+            <!-- Badges Section -->
+            <div class="mt-8 pt-6 border-t border-gray-300">
+                <h3 class="font-semibold text-gray-700 mb-3">Your Achievements</h3>
+                <div id="badges-container">
+                    <span class="badge" id="progress-badge"><i class="fas fa-play-circle mr-1"></i> In Progress</span>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="lg:col-span-9 lg:col-start-4 p-6 md:p-10">
+            <section id="module9">
+                <h3 class="text-3xl font-bold text-[#4A7C59] mb-4">Module 9: Health Economics & Technology Evaluation</h3>
+                
+                <!-- Executive Summary -->
+                <div class="bg-gray-100 p-6 rounded-xl shadow-inner mb-8">
+                    <div class="flex items-center justify-between cursor-pointer" onclick="toggleSection('executive-summary-content')">
+                        <h4 class="text-xl font-semibold text-[#4A7C59]">Executive Summary</h4>
+                        <span id="executive-summary-arrow" class="transform transition-transform duration-300">▼</span>
+                    </div>
+                    <div id="executive-summary-content" class="mt-4 content-block text-gray-700">
+                        <p class="mb-4">This module bridges the gap between technical health informatics capabilities and economic viability, providing students with the tools to evaluate digital health technologies from an economic perspective. We explore how to measure and prove the value of health IT investments in a resource-constrained healthcare environment.</p>
+                        <p class="mb-4">The module covers fundamental health economic concepts including scarcity, opportunity cost, and efficiency, and applies them specifically to health IT decision-making. Students will learn to identify, measure, and value the costs and consequences of health informatics interventions, critically appraise economic evaluations, and develop business cases for health IT projects.</p>
+                        <p class="mb-4">By connecting economic principles with technical knowledge from previous modules, students will be equipped to communicate the value proposition of health informatics solutions to financial and executive leadership, transforming from technical specialists to strategic partners in healthcare organizations.</p>
+                        
+                        <div class="key-takeaway">
+                            <h5 class="font-semibold text-[#4A7C59] mb-2"><i class="fas fa-lightbulb mr-2"></i>Key Takeaway</h5>
+                            <p>Health economics provides the framework to translate technical capabilities into measurable value, enabling informed decisions about health IT investments in a resource-constrained environment.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Section 1: The "Why" -->
+                <div class="content-block text-gray-700">
+                    <h4 class="font-bold">1. The "Why": Economics of Health IT Investment</h4>
+                    <p>Healthcare operates under the fundamental economic problem of <span class="glossary-term">scarcity<span class="glossary-tooltip">Limited resources relative to unlimited wants and needs</span></span> - there are never enough resources to meet all healthcare needs. This reality forces healthcare organizations to make difficult choices about how to allocate their limited budgets, staff, and technology resources.</p>
+
+                    <div class="economic-model mt-6">
+                        <h5 class="font-semibold text-lg mb-2">The Triple Aim Framework</h5>
+                        <p>The Institute for Healthcare Improvement's Triple Aim provides a framework for optimizing health system performance:</p>
+                        <div class="model-visual flex flex-col md:flex-row justify-around items-center">
+                            <div class="flex flex-col items-center m-4">
+                                <div class="w-16 h-16 rounded-full bg-blue-100 flex items-center justify-center mb-2">
+                                    <i class="fas fa-heartbeat text-blue-600 text-xl"></i>
+                                </div>
+                                <span class="text-sm font-medium">Improving Population Health</span>
+                            </div>
+                            <div class="flex flex-col items-center m-4">
+                                <div class="w-16 h-16 rounded-full bg-green-100 flex items-center justify-center mb-2">
+                                    <i class="fas fa-user-md text-green-600 text-xl"></i>
+                                </div>
+                                <span class="text-sm font-medium">Enhancing Patient Experience</span>
+                            </div>
+                            <div class="flex flex-col items-center m-4">
+                                <div class="w-16 h-16 rounded-full bg-purple-100 flex items-center justify-center mb-2">
+                                    <i class="fas fa-dollar-sign text-purple-600 text-xl"></i>
+                                </div>
+                                <span class="text-sm font-medium">Reducing Per Capita Cost</span>
+                            </div>
+                        </div>
+                        <p class="mt-4">Health informatics plays a critical role in achieving all three dimensions of the Triple Aim by enabling data-driven care, improving coordination, and identifying inefficiencies.</p>
+                    </div>
+                    
+                    <h5 class="font-bold mt-8">1.1. Scarcity and Opportunity Cost in Healthcare</h5>
+                    <p><span class="glossary-term">Opportunity cost<span class="glossary-tooltip">The value of the next best alternative forgone when making a decision</span></span> is a fundamental economic concept that applies directly to health IT investments. Every dollar spent on a new EHR system, analytics platform, or telehealth program is a dollar that cannot be spent on other valuable healthcare services, equipment, or staff.</p>
+                    
+                    <div class="case-study mt-6">
+                        <h5 class="font-semibold text-[#f59e0b] mb-2"><i class="fas fa-clipboard-check mr-2"></i>Case Study: EHR Implementation Trade-offs</h5>
+                        <p>A mid-sized hospital with a $5 million capital budget must choose between implementing a new $3 million EHR system or expanding its cardiac catheterization lab. The opportunity cost of choosing the EHR is the improved cardiac care that could have been provided with the lab expansion. This decision requires careful analysis of the expected benefits of each option.</p>
+                    </div>
+                    
+                    <h5 class="font-bold">1.2. Efficiency vs. Equity</h5>
+                    <p>Health economics must balance two sometimes competing goals:</p>
+                    <ul class="list-disc pl-5 mb-4">
+                        <li><strong>Efficiency</strong>: Maximizing health outcomes from available resources</li>
+                        <li><strong>Equity</strong>: Ensuring fair distribution of healthcare resources</li>
+                    </ul>
+                    <p>Health IT systems can impact both dimensions. For example, telehealth can improve efficiency by reducing travel time, but may exacerbate inequities if certain populations lack access to the required technology.</p>
+                    
+                    <!-- Interactive Quiz -->
+                    <div class="quiz-question">
+                        <h5 class="font-semibold mb-3"><i class="fas fa-question-circle mr-2 text-[#4A7C59]"></i>Quick Knowledge Check</h5>
+                        <p class="mb-3">What is the opportunity cost of a $2 million investment in a new patient portal system?</p>
+                        <div class="space-y-2">
+                            <div class="flex items-center">
+                                <input type="radio" id="q1a" name="quiz1" class="mr-2">
+                                <label for="q1a">The $2 million purchase price</label>
+                            </div>
+                            <div class="flex items-center">
+                                <input type="radio" id="q1b" name="quiz1" class="mr-2">
+                                <label for="q1b">The value of the next best alternative use of those funds</label>
+                            </div>
+                            <div class="flex items-center">
+                                <input type="radio" id="q1c" name="quiz1" class="mr-2">
+                                <label for="q1c">The ongoing maintenance costs of the system</label>
+                            </div>
+                            <div class="flex items-center">
+                                <input type="radio" id="q1d" name="quiz1" class="mr-2">
+                                <label for="q1d">The training time required for staff</label>
+                            </div>
+                        </div>
+                        <button class="mt-3 bg-[#4A7C59] text-white px-4 py-2 rounded-md text-sm hover:bg-[#3a6547] transition-colors" onclick="checkAnswer('quiz1', 'q1b')">Check Answer</button>
+                        <div id="quiz1-feedback" class="mt-2 text-sm hidden"></div>
+                    </div>
+                </div>
+                
+                <div class="bg-white p-8 rounded-xl shadow-md mt-8 overflow-x-auto">
+                    <h4 class="text-xl font-semibold mb-4 text-center">Table 1: Economic Concepts Applied to Health IT</h4>
+                    <table class="w-full text-sm text-left text-gray-500">
+                        <thead class="text-xs text-gray-700 uppercase bg-gray-50">
+                            <tr>
+                                <th scope="col" class="py-3 px-6">Economic Concept</th>
+                                <th scope="col" class="py-3 px-6">Definition</th>
+                                <th scope="col" class="py-3 px-6">Application to Health IT</th>
+                                <th scope="col" class="py-3 px-6">Example</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr class="bg-white border-b">
+                                <th scope="row" class="py-4 px-6 font-medium text-gray-900 whitespace-nowrap">Scarcity</th>
+                                <td class="py-4 px-6">Limited resources relative to unlimited wants</td>
+                                <td class="py-4 px-6">Forces prioritization of IT investments</td>
+                                <td class="py-4 px-6">Choosing between EHR upgrade or new imaging equipment</td>
+                            </tr>
+                            <tr class="bg-white border-b">
+                                <th scope="row" class="py-4 px-6 font-medium text-gray-900 whitespace-nowrap">Opportunity Cost</th>
+                                <td class="py-4 px-6">Value of next best alternative forgone</td>
+                                <td class="py-4 px-6">What is given up when selecting one IT project over another</td>
+                                <td class="py-4 px-6">The improved patient outcomes from a cancelled chronic disease management program</td>
+                            </tr>
+                            <tr class="bg-white">
+                                <th scope="row" class="py-4 px-6 font-medium text-gray-900 whitespace-nowrap">Efficiency</th>
+                                <td class="py-4 px-6">Maximizing output from given inputs</td>
+                                <td class="py-4 px-6">Using IT to improve productivity and reduce waste</td>
+                                <td class="py-4 px-6">Automating appointment reminders to reduce no-show rates</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                
+                <!-- Section 2: Costs & Outcomes -->
+                <div class="content-block text-gray-700">
+                    <h4 class="font-bold">2. The Building Blocks: Costs & Outcomes of Digital Health</h4>
+                    <p>To evaluate health IT investments economically, we must systematically identify, measure, and value both the costs incurred and the outcomes achieved.</p>
+                    
+                    <h5 class="font-bold">2.1. Identifying and Categorizing Costs</h5>
+                    <p>Health IT costs extend far beyond the initial purchase price. A comprehensive cost analysis should include:</p>
+                    
+                    <div class="space-y-4 mt-4">
+                        <div class="border rounded-lg">
+                            <div class="accordion-header bg-blue-100 p-4 flex justify-between items-center rounded-lg">
+                                <h5 class="font-bold text-blue-800 text-lg">Direct Costs</h5>
+                                <span class="text-blue-800 transform transition-transform duration-300">&plus;</span>
+                            </div>
+                            <div class="accordion-content bg-white p-4 border-t border-gray-200">
+                                <ul class="list-disc pl-5">
+                                    <li><strong>Implementation Costs</strong>: Software licenses, hardware, installation, system configuration</li>
+                                    <li><strong>Training Costs</strong>: Staff time for training, training materials, temporary coverage during training</li>
+                                    <li><strong>Maintenance Costs</strong>: Software updates, technical support, hardware replacements</li>
+                                    <li><strong>Operational Costs</strong>: Ongoing subscription fees, IT staff time, utilities</li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="border rounded-lg">
+                            <div class="accordion-header bg-green-100 p-4 flex justify-between items-center rounded-lg">
+                                <h5 class="font-bold text-green-800 text-lg">Indirect Costs</h5>
+                                <span class="text-green-800 transform transition-transform duration-300">&plus;</span>
+                            </div>
+                            <div class="accordion-content bg-white p-4 border-t border-gray-200">
+                                <ul class="list-disc pl-5">
+                                    <li><strong>Productivity Loss</strong>: Reduced clinical productivity during implementation and learning period</li>
+                                    <li><strong>Workflow Disruption</strong>: Temporary inefficiencies as staff adapt to new systems</li>
+                                    <li><strong>Change Management</strong>: Costs associated with managing organizational resistance</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <h5 class="font-bold mt-6">2.2. Measuring Outcomes</h5>
+                    <p>Outcomes from health IT investments can be categorized as:</p>
+                    
+                    <div class="economic-model mt-4">
+                        <h5 class="font-semibold text-lg mb-2">Outcome Categories for Health IT Evaluation</h5>
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                            <div class="bg-blue-50 p-4 rounded-lg">
+                                <h6 class="font-semibold text-blue-800 mb-2">Clinical Outcomes</h6>
+                                <ul class="text-sm list-disc pl-4">
+                                    <li>Reduced mortality rates</li>
+                                    <li>Decreased complication rates</li>
+                                    <li>Improved medication adherence</li>
+                                    <li>Shorter hospital stays</li>
+                                </ul>
+                            </div>
+                            <div class="bg-green-50 p-4 rounded-lg">
+                                <h6 class="font-semibold text-green-800 mb-2">Operational Outcomes</h6>
+                                <ul class="text-sm list-disc pl-4">
+                                    <li>Reduced administrative time</li>
+                                    <li>Fewer duplicate tests</li>
+                                    <li>Improved appointment adherence</li>
+                                    <li>Faster billing cycles</li>
+                                </ul>
+                            </div>
+                            <div class="bg-purple-50 p-4 rounded-lg">
+                                <h6 class="font-semibold text-purple-800 mb-2">Patient Experience Outcomes</h6>
+                                <ul class="text-sm list-disc pl-4">
+                                    <li>Improved satisfaction scores</li>
+                                    <li>Reduced wait times</li>
+                                    <li>Better communication</li>
+                                    <li>Increased engagement</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Interactive Exercise -->
+                    <div class="matching-exercise">
+                        <h5 class="font-semibold mb-3"><i class="fas fa-brain mr-2 text-[#4A7C59]"></i>Cost Categorization Exercise</h5>
+                        <p class="mb-3">Categorize the following costs for a new telehealth implementation:</p>
+                        
+                        <div class="match-container">
+                            <div>
+                                <h6 class="font-semibold mb-2 text-center">Cost Items</h6>
+                                <div class="match-item" data-type="direct">Video conferencing software licenses</div>
+                                <div class="match-item" data-type="direct">Training sessions for clinical staff</div>
+                                <div class="match-item" data-type="indirect">20% reduction in patient visits during first month</div>
+                                <div class="match-item" data-type="direct">Tablets for patient use</div>
+                                <div class="match-item" data-type="indirect">Time spent by IT staff troubleshooting connection issues</div>
+                            </div>
+                            <div>
+                                <h6 class="font-semibold mb-2 text-center">Cost Categories</h6>
+                                <div class="match-item" data-description="direct">Direct Cost</div>
+                                <div class="match-item" data-description="indirect">Indirect Cost</div>
+                                <div class="match-item" data-description="direct">Tangible, easily quantifiable expense</div>
+                                <div class="match-item" data-description="indirect">Less tangible, often productivity-related cost</div>
+                                <div class="match-item" data-description="direct">Includes hardware, software, and implementation services</div>
+                            </div>
+                        </div>
+                        
+                        <button class="mt-3 bg-[#4A7C59] text-white px-4 py-2 rounded-md text-sm hover:bg-[#3a6547] transition-colors" onclick="checkMatching()">Check Answers</button>
+                        <div id="matching-feedback" class="mt-2 text-sm hidden"></div>
+                    </div>
+                </div>
+                
+                <!-- Section 3: Economic Evaluation Methods -->
+                <div class="content-block text-gray-700">
+                    <h4 class="font-bold">3. Economic Evaluation Methods for Informaticians</h4>
+                    <p>Several formal methods exist to systematically compare the costs and consequences of healthcare interventions. Understanding these methods is essential for evaluating health IT investments.</p>
+                    
+                    <h5 class="font-bold">3.1. Cost-Effectiveness Analysis (CEA)</h5>
+                    <p>Cost-Effectiveness Analysis (CEA) compares alternatives based on their cost per unit of effect. In healthcare, this is often expressed as cost per life-year gained or cost per clinical event avoided.</p>
+                    
+                    <div class="calculation-example">
+                        <p><strong>Incremental Cost-Effectiveness Ratio (ICER) Formula:</strong></p>
+                        <p>ICER = (Cost<sub>New</sub> - Cost<sub>Standard</sub>) / (Effect<sub>New</sub> - Effect<sub>Standard</sub>)</p>
+                    </div>
+                    
+                    <div class="case-study mt-4">
+                        <h5 class="font-semibold text-[#f59e0b] mb-2"><i class="fas fa-clipboard-check mr-2"></i>Case Study: CDS for VTE Prevention</h5>
+                        <p>A hospital implements a clinical decision support (CDS) system to prevent venous thromboembolism (VTE). The system costs $150,000 to implement and $25,000 annually to maintain. It prevents 15 VTEs per year, each of which would cost approximately $15,000 to treat. The ICER would be calculated as:</p>
+                        <div class="calculation-example mt-2">
+                            <p>ICER = ($175,000 - $225,000) / (15 VTEs prevented) = -$3,333 per VTE prevented</p>
+                        </div>
+                        <p class="mt-2">This negative ICER indicates that the CDS system both improves outcomes and reduces costs—a dominant strategy.</p>
+                    </div>
+                    
+                    <h5 class="font-bold mt-6">3.2. Cost-Utility Analysis (CUA)</h5>
+                    <p>Cost-Utility Analysis (CUA) is a form of CEA that uses quality-adjusted life years (QALYs) as the outcome measure. QALYs combine both quantity and quality of life into a single metric.</p>
+                    
+                    <div class="economic-model mt-4">
+                        <h5 class="font-semibold text-lg mb-2">Understanding QALYs</h5>
+                        <p>QALYs are calculated by multiplying the time spent in a health state by the utility weight of that health state (where 1 = perfect health and 0 = death).</p>
+                        <div class="model-visual flex items-center justify-center">
+                            <div class="text-center">
+                                <div class="flex items-center justify-center mb-2">
+                                    <div class="w-32 h-4 bg-gray-200 rounded-full overflow-hidden">
+                                        <div class="h-full bg-green-500" style="width: 70%"></div>
+                                    </div>
+                                </div>
+                                <p class="text-sm">1 Year × 0.7 Utility = 0.7 QALYs</p>
+                            </div>
+                        </div>
+                        <p class="mt-4">In many healthcare systems, interventions with ICERs below a certain threshold (e.g., $50,000-$100,000 per QALY in the U.S.) are considered cost-effective.</p>
+                    </div>
+                    
+                    <h5 class="font-bold mt-6">3.3. Budget Impact Analysis (BIA)</h5>
+                    <p>While CEA and CUA address value for money, Budget Impact Analysis (BIA) focuses on affordability—whether an organization can afford to implement an intervention given its budget constraints.</p>
+                    
+                    <div class="bg-white p-8 rounded-xl shadow-md mt-4 overflow-x-auto">
+                        <h4 class="text-xl font-semibold mb-4 text-center">Table 2: 3-Year Budget Impact of Telehealth Implementation</h4>
+                        <table class="w-full text-sm text-left text-gray-500">
+                            <thead class="text-xs text-gray-700 uppercase bg-gray-50">
+                                <tr>
+                                    <th scope="col" class="py-3 px-6">Cost/Revenue Category</th>
+                                    <th scope="col" class="py-3 px-6">Year 1</th>
+                                    <th scope="col" class="py-3 px-6">Year 2</th>
+                                    <th scope="col" class="py-3 px-6">Year 3</th>
+                                    <th scope="col" class="py-3 px-6">Total</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr class="bg-white border-b">
+                                    <th scope="row" class="py-4 px-6 font-medium text-gray-900 whitespace-nowrap">Implementation Costs</th>
+                                    <td class="py-4 px-6">$250,000</td>
+                                    <td class="py-4 px-6">$0</td>
+                                    <td class="py-4 px-6">$0</td>
+                                    <td class="py-4 px-6">$250,000</td>
+                                </tr>
+                                <tr class="bg-white border-b">
+                                    <th scope="row" class="py-4 px-6 font-medium text-gray-900 whitespace-nowrap">Annual Maintenance</th>
+                                    <td class="py-4 px-6">$50,000</td>
+                                    <td class="py-4 px-6">$50,000</td>
+                                    <td class="py-4 px-6">$50,000</td>
+                                    <td class="py-4 px-6">$150,000</td>
+                                </tr>
+                                <tr class="bg-white border-b">
+                                    <th scope="row" class="py-4 px-6 font-medium text-gray-900 whitespace-nowrap">Additional Revenue</th>
+                                    <td class="py-4 px-6">$100,000</td>
+                                    <td class="py-4 px-6">$150,000</td>
+                                    <td class="py-4 px-6">$200,000</td>
+                                    <td class="py-4 px-6">$450,000</td>
+                                </tr>
+                                <tr class="bg-white">
+                                    <th scope="row" class="py-4 px-6 font-medium text-gray-900 whitespace-nowrap">Cost Savings</th>
+                                    <td class="py-4 px-6">$75,000</td>
+                                    <td class="py-4 px-6">$100,000</td>
+                                    <td class="py-4 px-6">$125,000</td>
+                                    <td class="py-4 px-6">$300,000</td>
+                                </tr>
+                                <tr class="bg-white border-t-2 border-gray-800">
+                                    <th scope="row" class="py-4 px-6 font-medium text-gray-900 whitespace-nowrap">Net Budget Impact</th>
+                                    <td class="py-4 px-6">-$125,000</td>
+                                    <td class="py-4 px-6">$200,000</td>
+                                    <td class="py-4 px-6">$275,000</td>
+                                    <td class="py-4 px-6">$350,000</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                
+                <!-- Section 4: Connecting to Other Modules -->
+                <div class="content-block text-gray-700">
+                    <h4 class="font-bold">4. Connecting Economics to Health Informatics Domains</h4>
+                    <p>Health economics provides the framework to demonstrate the value of investments across all health informatics domains covered in previous modules.</p>
+                    
+                    <div class="space-y-6 mt-4">
+                        <div class="border-l-4 border-blue-500 pl-4 py-2">
+                            <h5 class="font-semibold text-blue-700">Module 2: EHR Ecosystem</h5>
+                            <p><strong>Economic Question:</strong> What is the return on investment (ROI) of implementing an EHR system?</p>
+                            <p><strong>Approach:</strong> Compare implementation and maintenance costs against savings from reduced transcription, improved coding, decreased medication errors, and reduced duplicate testing.</p>
+                        </div>
+                        
+                        <div class="border-l-4 border-green-500 pl-4 py-2">
+                            <h5 class="font-semibold text-green-700">Module 5: Health Data Analytics</h5>
+                            <p><strong>Economic Question:</strong> What is the value of predictive analytics for readmission reduction?</p>
+                            <p><strong>Approach:</strong> Calculate cost savings from avoided readmissions (which are often penalized under value-based payment models) minus the cost of analytics platform and intervention programs.</p>
+                        </div>
+                        
+                        <div class="border-l-4 border-purple-500 pl-4 py-2">
+                            <h5 class="font-semibold text-purple-700">Module 6: Clinical Decision Support</h5>
+                            <p><strong>Economic Question:</strong> Are CDS alerts for appropriate imaging cost-effective?</p>
+                            <p><strong>Approach:</strong> Measure reduction in unnecessary imaging costs against implementation and maintenance costs, considering both direct savings and potential improved patient outcomes from reduced radiation exposure.</p>
+                        </div>
+                        
+                        <div class="border-l-4 border-orange-500 pl-4 py-2">
+                            <h5 class="font-semibold text-orange-700">Module 7: Safety, Quality & Value</h5>
+                            <p><strong>Economic Question:</strong> What is the business case for investing in patient safety technologies?</p>
+                            <p><strong>Approach:</strong> Quantify the cost avoidance from prevented adverse events (including malpractice costs) and improved quality metrics that impact reimbursement under value-based payment models.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="key-takeaway mt-6">
+                        <h5 class="font-semibold text-[#4A7C59] mb-2"><i class="fas fa-link mr-2"></i>Integration Insight</h5>
+                        <p>Health economics serves as the connective tissue that demonstrates how technical health informatics capabilities translate into measurable value across clinical, operational, and financial dimensions.</p>
+                    </div>
+                </div>
+                
+                <!-- Section 5: Value-Based Care -->
+                <div class="content-block text-gray-700">
+                    <h4 class="font-bold">5. Health Informatics in Payment & Delivery Reform</h4>
+                    <p>The shift from fee-for-service to value-based care has fundamentally changed the economic incentives in healthcare, making health informatics capabilities increasingly valuable.</p>
+                    
+                    <h5 class="font-bold">5.1. Fee-for-Service vs. Value-Based Care</h5>
+                    
+                    <div class="bg-white p-8 rounded-xl shadow-md mt-4 overflow-x-auto">
+                        <h4 class="text-xl font-semibold mb-4 text-center">Table 3: Comparison of Payment Models</h4>
+                        <table class="w-full text-sm text-left text-gray-500">
+                            <thead class="text-xs text-gray-700 uppercase bg-gray-50">
+                                <tr>
+                                    <th scope="col" class="py-3 px-6">Characteristic</th>
+                                    <th scope="col" class="py-3 px-6">Fee-for-Service</th>
+                                    <th scope="col" class="py-3 px-6">Value-Based Care</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr class="bg-white border-b">
+                                    <th scope="row" class="py-4 px-6 font-medium text-gray-900 whitespace-nowrap">Payment Basis</th>
+                                    <td class="py-4 px-6">Volume of services provided</td>
+                                    <td class="py-4 px-6">Quality and outcomes achieved</td>
+                                </tr>
+                                <tr class="bg-white border-b">
+                                    <th scope="row" class="py-4 px-6 font-medium text-gray-900 whitespace-nowrap">IT Focus</th>
+                                    <td class="py-4 px-6">Documentation and billing</td>
+                                    <td class="py-4 px-6">Care coordination and outcomes measurement</td>
+                                </tr>
+                                <tr class="bg-white border-b">
+                                    <th scope="row" class="py-4 px-6 font-medium text-gray-900 whitespace-nowrap">Data Needs</th>
+                                    <td class="py-4 px-6">Coding and charge capture</td>
+                                    <td class="py-4 px-6">Clinical outcomes, patient experience, cost data</td>
+                                </tr>
+                                <tr class="bg-white">
+                                    <th scope="row" class="py-4 px-6 font-medium text-gray-900 whitespace-nowrap">Economic Incentive</th>
+                                    <td class="py-4 px-6">More services = more revenue</td>
+                                    <td class="py-4 px-6">Better outcomes at lower cost = more revenue</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    
+                    <h5 class="font-bold mt-6">5.2. Value-Based Payment Models</h5>
+                    <p>Several payment models fall under the value-based care umbrella:</p>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
+                        <div class="bg-white p-4 rounded-lg shadow-sm border">
+                            <h6 class="font-semibold text-blue-700 mb-2">Accountable Care Organizations (ACOs)</h6>
+                            <p class="text-sm">Groups of providers who share responsibility for the cost and quality of care for a defined population. Health informatics enables population health management and care coordination across the ACO.</p>
+                        </div>
+                        <div class="bg-white p-4 rounded-lg shadow-sm border">
+                            <h6 class="font-semibold text-green-700 mb-2">Bundled Payments</h6>
+                            <p class="text-sm">Single payment for all services related to an episode of care. Requires sophisticated tracking of costs and outcomes across the care continuum.</p>
+                        </div>
+                        <div class="bg-white p-4 rounded-lg shadow-sm border">
+                            <h6 class="font-semibold text-purple-700 mb-2">Pay-for-Performance</h6>
+                            <p class="text-sm">Financial incentives tied to performance on quality measures. Depends on accurate data collection and reporting.</p>
+                        </div>
+                        <div class="bg-white p-4 rounded-lg shadow-sm border">
+                            <h6 class="font-semibold text-orange-700 mb-2">Patient-Centered Medical Homes</h6>
+                            <p class="text-sm">Enhanced primary care model with payment for care coordination. Relies on health IT for patient tracking and communication.</p>
+                        </div>
+                    </div>
+                    
+                    <!-- Interactive Quiz -->
+                    <div class="quiz-question">
+                        <h5 class="font-semibold mb-3"><i class="fas fa-question-circle mr-2 text-[#4A7C59]"></i>Quick Knowledge Check</h5>
+                        <p class="mb-3">Which value-based payment model involves a single payment for all services related to a specific episode of care?</p>
+                        <div class="space-y-2">
+                            <div class="flex items-center">
+                                <input type="radio" id="q2a" name="quiz2" class="mr-2">
+                                <label for="q2a">Accountable Care Organization (ACO)</label>
+                            </div>
+                            <div class="flex items-center">
+                                <input type="radio" id="q2b" name="quiz2" class="mr-2">
+                                <label for="q2b">Bundled Payment</label>
+                            </div>
+                            <div class="flex items-center">
+                                <input type="radio" id="q2c" name="quiz2" class="mr-2">
+                                <label for="q2c">Pay-for-Performance</label>
+                            </div>
+                            <div class="flex items-center">
+                                <input type="radio" id="q2d" name="quiz2" class="mr-2">
+                                <label for="q2d">Patient-Centered Medical Home</label>
+                            </div>
+                        </div>
+                        <button class="mt-3 bg-[#4A7C59] text-white px-4 py-2 rounded-md text-sm hover:bg-[#3a6547] transition-colors" onclick="checkAnswer('quiz2', 'q2b')">Check Answer</button>
+                        <div id="quiz2-feedback" class="mt-2 text-sm hidden"></div>
+                    </div>
+                </div>
+
+                <!-- Section 6: Business Case Development -->
+                <div class="content-block text-gray-700">
+                    <h4 class="font-bold">6. The Business Case: From Theory to Practice</h4>
+                    <p>Developing a compelling business case is the practical application of health economics principles to secure funding for health IT projects.</p>
+                    
+                    <h5 class="font-bold">6.1. Components of a Business Case</h5>
+                    
+                    <div class="economic-model mt-4">
+                        <h5 class="font-semibold text-lg mb-2">Essential Elements of a Health IT Business Case</h5>
+                        <div class="space-y-3">
+                            <div class="flex items-start">
+                                <div class="bg-blue-100 text-blue-800 rounded-full w-8 h-8 flex items-center justify-center mr-3 flex-shrink-0">1</div>
+                                <div>
+                                    <h6 class="font-semibold">Executive Summary</h6>
+                                    <p class="text-sm">Brief overview of the proposal, key benefits, costs, and recommendation</p>
+                                </div>
+                            </div>
+                            <div class="flex items-start">
+                                <div class="bg-green-100 text-green-800 rounded-full w-8 h-8 flex items-center justify-center mr-3 flex-shrink-0">2</div>
+                                <div>
+                                    <h6 class="font-semibold">Problem Statement</h6>
+                                    <p class="text-sm">Clear description of the clinical, operational, or financial problem being addressed</p>
+                                </div>
+                            </div>
+                            <div class="flex items-start">
+                                <div class="bg-purple-100 text-purple-800 rounded-full w-8 h-8 flex items-center justify-center mr-3 flex-shrink-0">3</div>
+                                <div>
+                                    <h6 class="font-semibold">Proposed Solution</h6>
+                                    <p class="text-sm">Description of the health IT intervention and how it addresses the problem</p>
+                                </div>
+                            </div>
+                            <div class="flex items-start">
+                                <div class="bg-yellow-100 text-yellow-800 rounded-full w-8 h-8 flex items-center justify-center mr-3 flex-shrink-0">4</div>
+                                <div>
+                                    <h6 class="font-semibold">Financial Analysis</h6>
+                                    <p class="text-sm">Detailed cost-benefit analysis, ROI calculation, and budget impact</p>
+                                </div>
+                            </div>
+                            <div class="flex items-start">
+                                <div class="bg-red-100 text-red-800 rounded-full w-8 h-8 flex items-center justify-center mr-3 flex-shrink-0">5</div>
+                                <div>
+                                    <h6 class="font-semibold">Implementation Plan</h6>
+                                    <p class="text-sm">Timeline, resource requirements, and risk mitigation strategies</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <h5 class="font-bold mt-6">6.2. ROI Calculation for Health IT</h5>
+                    <p>Return on Investment (ROI) is a key metric for evaluating health IT projects:</p>
+                    
+                    <div class="calculation-example">
+                        <p><strong>ROI Formula:</strong></p>
+                        <p>ROI = (Net Benefits / Total Costs) × 100%</p>
+                        <p>Where Net Benefits = Total Benefits - Total Costs</p>
+                    </div>
+                    
+                    <div class="case-study mt-4">
+                        <h5 class="font-semibold text-[#f59e0b] mb-2"><i class="fas fa-clipboard-check mr-2"></i>Case Study: Patient Portal ROI</h5>
+                        <p>A health system implements a patient portal at a total cost of $500,000. The portal generates the following annual benefits:</p>
+                        <ul class="list-disc pl-5 mb-2">
+                            <li>Reduced phone calls: $150,000</li>
+                            <li>Improved medication adherence: $100,000</li>
+                            <li>Reduced no-shows: $75,000</li>
+                            <li>Improved chronic disease management: $200,000</li>
+                        </ul>
+                        <div class="calculation-example mt-2">
+                            <p>Total Annual Benefits = $150,000 + $100,000 + $75,000 + $200,000 = $525,000</p>
+                            <p>ROI = (($525,000 - $500,000) / $500,000) × 100% = 5% in Year 1</p>
+                        </div>
+                        <p class="mt-2">With ongoing benefits in subsequent years and minimal additional costs, the ROI improves significantly over time.</p>
+                    </div>
+                </div>
+
+                <!-- Section 7: Conclusions -->
+                <div class="content-block text-gray-700">
+                    <h4 class="font-bold">7. Conclusions and Future Outlook</h4>
+                    <p>Health economics provides the critical framework for translating technical health informatics capabilities into measurable value. As healthcare continues to face resource constraints and pressure to demonstrate value, the ability to conduct rigorous economic evaluations of health IT investments becomes increasingly important.</p>
+                    
+                    <p>Future trends that will impact health economics in informatics include:</p>
+                    <ul class="list-disc pl-5 mb-4">
+                        <li><strong>Artificial Intelligence and Machine Learning</strong>: New challenges in evaluating the economic impact of predictive models and automated decision-making</li>
+                        <li><strong>Digital Therapeutics</strong>: Novel payment models for software-based treatments</li>
+                        <li><strong>Real-World Evidence</strong>: Using real-world data from EHRs and other sources to support economic evaluations</li>
+                        <li><strong>Personalized Medicine</strong>: Economic assessment of targeted therapies and diagnostics</li>
+                    </ul>
+                    
+                    <p>By mastering health economics principles, health informatics professionals can position themselves as strategic partners who not only understand the technical aspects of systems but can also articulate their value in the language of healthcare executives and financial decision-makers.</p>
+                    
+                    <div class="key-takeaway">
+                        <h5 class="font-semibold text-[#4A7C59] mb-2"><i class="fas fa-flag-checkered mr-2"></i>Final Takeaway</h5>
+                        <p>Health economics transforms health informatics from a technical function to a strategic capability, enabling professionals to demonstrate how technology investments create value across clinical, operational, and financial dimensions.</p>
+                    </div>
+                </div>
+
+                <!-- Module Completion -->
+                <div class="bg-green-50 p-6 rounded-lg border border-green-200 mt-8 text-center">
+                    <h4 class="text-xl font-semibold text-green-800 mb-2"><i class="fas fa-check-circle mr-2"></i>Module Complete!</h4>
+                    <p class="text-green-700 mb-4">You've finished Module 9: Health Economics & Technology Evaluation. Well done!</p>
+                    <button class="bg-green-600 text-white px-6 py-2 rounded-md hover:bg-green-700 transition-colors" onclick="markModuleComplete()">
+                        Mark as Complete
+                    </button>
+                </div>
+
+                <!-- Final Knowledge Check -->
+                <div class="bg-white p-8 rounded-xl shadow-md mt-8">
+                    <h4 class="text-xl font-semibold mb-4">Final Knowledge Check</h4>
+                    <div class="quiz-question">
+                        <p class="mb-3">Which economic evaluation method would be most appropriate for comparing a new telehealth service to standard in-person visits when the primary outcome of interest is patient satisfaction?</p>
+                        <div class="space-y-2">
+                            <div class="flex items-center">
+                                <input type="radio" id="q3a" name="quiz3" class="mr-2">
+                                <label for="q3a">Cost-Effectiveness Analysis (CEA)</label>
+                            </div>
+                            <div class="flex items-center">
+                                <input type="radio" id="q3b" name="quiz3" class="mr-2">
+                                <label for="q3b">Cost-Utility Analysis (CUA)</label>
+                            </div>
+                            <div class="flex items-center">
+                                <input type="radio" id="q3c" name="quiz3" class="mr-2">
+                                <label for="q3c">Cost-Benefit Analysis (CBA)</label>
+                            </div>
+                            <div class="flex items-center">
+                                <input type="radio" id="q3d" name="quiz3" class="mr-2">
+                                <label for="q3d">Budget Impact Analysis (BIA)</label>
+                            </div>
+                        </div>
+                        <button class="mt-3 bg-[#4A7C59] text-white px-4 py-2 rounded-md text-sm hover:bg-[#3a6547] transition-colors" onclick="checkAnswer('quiz3', 'q3c')">Check Answer</button>
+                        <div id="quiz3-feedback" class="mt-2 text-sm hidden"></div>
+                    </div>
+                </div>
+
+                <!-- Review Questions -->
+                <div class="bg-white p-8 rounded-xl shadow-md mt-8">
+                    <h4 class="text-xl font-semibold mb-4">Review Questions</h4>
+                    <ul class="space-y-2 text-gray-700 list-decimal pl-5">
+                        <li>Explain how the concept of opportunity cost applies to health IT investment decisions.</li>
+                        <li>Differentiate between direct and indirect costs in the context of implementing a new EHR system.</li>
+                        <li>Compare and contrast cost-effectiveness analysis and cost-utility analysis.</li>
+                        <li>Calculate the ROI for a telemedicine program that costs $200,000 to implement and generates $275,000 in annual benefits.</li>
+                        <li>Explain how value-based payment models change the economic incentives for health IT investments.</li>
+                        <li>Describe the key components of a business case for a health IT project.</li>
+                        <li>How does health economics help connect technical health informatics capabilities to organizational strategy?</li>
+                        <li>What role does health informatics play in enabling success under value-based payment models?</li>
+                        <li>How might emerging technologies like AI impact health economic evaluations in the future?</li>
+                    </ul>
+                </div>
+
+                <!-- Suggested Readings -->
+                <div class="bg-white p-8 rounded-xl shadow-md mt-8">
+                    <h4 class="text-xl font-semibold mb-4">Suggested Readings</h4>
+                    <ul class="space-y-2 text-gray-700 list-disc pl-5">
+                        <li>Drummond, M. F., Sculpher, M. J., Claxton, K., Stoddart, G. L., & Torrance, G. W. (2015). Methods for the Economic Evaluation of Health Care Programmes. Oxford University Press.</li>
+                        <li>Folland, S., Goodman, A. C., & Stano, M. (2017). The Economics of Health and Health Care. Pearson.</li>
+                        <li>"The Business Case for Quality: A Systematic Review" (The Commonwealth Fund)</li>
+                        <li>"Economic Evaluation of Health Information Technology" (Journal of the American Medical Informatics Association)</li>
+                        <li>"The Value of Health Information Technology: A Review of the Literature" (Health Affairs)</li>
+                        <li>"Return on Investment for EHR Implementation in Primary Care" (Journal of Healthcare Information Management)</li>
+                    </ul>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <!-- Enhanced Interactive Features Script -->
+    <script>
+        // Progress tracking
+        function updateProgress() {
+            const scrollPosition = window.scrollY;
+            const pageHeight = document.documentElement.scrollHeight - window.innerHeight;
+            const scrollPercentage = (scrollPosition / pageHeight) * 100;
+            
+            const progressFill = document.getElementById('progress-fill');
+            const progressPercent = document.getElementById('progress-percent');
+            
+            progressFill.style.width = `${scrollPercentage}%`;
+            progressPercent.textContent = `${Math.round(scrollPercentage)}%`;
+            
+            // Award badge when 50% complete
+            if (scrollPercentage >= 50 && !document.getElementById('halfway-badge')) {
+                const badgesContainer = document.getElementById('badges-container');
+                const halfwayBadge = document.createElement('span');
+                halfwayBadge.id = 'halfway-badge';
+                halfwayBadge.className = 'badge';
+                halfwayBadge.innerHTML = '<i class="fas fa-hourglass-half mr-1"></i> Halfway There';
+                badgesContainer.appendChild(halfwayBadge);
+            }
+            
+            // Award completion badge when 95% complete
+            if (scrollPercentage >= 95 && !document.getElementById('completion-badge')) {
+                const badgesContainer = document.getElementById('badges-container');
+                const completionBadge = document.createElement('span');
+                completionBadge.id = 'completion-badge';
+                completionBadge.className = 'badge';
+                completionBadge.innerHTML = '<i class="fas fa-graduation-cap mr-1"></i> Module Complete';
+                badgesContainer.appendChild(completionBadge);
+                
+                // Update progress badge
+                document.getElementById('progress-badge').innerHTML = '<i class="fas fa-check-circle mr-1"></i> Completed';
+            }
+        }
+        
+        // Back to top button
+        document.getElementById('back-to-top').addEventListener('click', () => {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
+        
+        // Quiz functionality
+        function checkAnswer(quizId, correctAnswerId) {
+            const selected = document.querySelector(`input[name="${quizId}"]:checked`);
+            const feedback = document.getElementById(`${quizId}-feedback`);
+            
+            if (!selected) {
+                feedback.textContent = 'Please select an answer.';
+                feedback.className = 'mt-2 text-sm text-red-600';
+                feedback.classList.remove('hidden');
+                return;
+            }
+            
+            if (selected.id === correctAnswerId) {
+                feedback.textContent = 'Correct! Well done.';
+                feedback.className = 'mt-2 text-sm text-green-600';
+            } else {
+                feedback.textContent = 'Not quite. Try again!';
+                feedback.className = 'mt-2 text-sm text-red-600';
+            }
+            
+            feedback.classList.remove('hidden');
+        }
+        
+        // Matching exercise functionality
+        let selectedType = null;
+        let selectedDescription = null;
+        
+        function setupMatching() {
+            const typeItems = document.querySelectorAll('.match-item[data-type]');
+            const descriptionItems = document.querySelectorAll('.match-item[data-description]');
+            
+            typeItems.forEach(item => {
+                item.addEventListener('click', function() {
+                    // Remove selection from other types
+                    typeItems.forEach(i => i.classList.remove('selected'));
+                    // Select this type
+                    this.classList.add('selected');
+                    selectedType = this.getAttribute('data-type');
+                    
+                    // Check if we have both selections
+                    checkForMatch();
+                });
+            });
+            
+            descriptionItems.forEach(item => {
+                item.addEventListener('click', function() {
+                    // Remove selection from other descriptions
+                    descriptionItems.forEach(i => i.classList.remove('selected'));
+                    // Select this description
+                    this.classList.add('selected');
+                    selectedDescription = this.getAttribute('data-description');
+                    
+                    // Check if we have both selections
+                    checkForMatch();
+                });
+            });
+        }
+        
+        function checkForMatch() {
+            if (selectedType && selectedDescription) {
+                if (selectedType === selectedDescription) {
+                    // Correct match
+                    const typeItem = document.querySelector(`.match-item[data-type="${selectedType}"].selected`);
+                    const descriptionItem = document.querySelector(`.match-item[data-description="${selectedDescription}"].selected`);
+                    
+                    typeItem.style.backgroundColor = '#4A7C59';
+                    typeItem.style.color = 'white';
+                    descriptionItem.style.backgroundColor = '#4A7C59';
+                    descriptionItem.style.color = 'white';
+                    
+                    // Reset selections
+                    selectedType = null;
+                    selectedDescription = null;
+                    
+                    // Remove selection classes
+                    document.querySelectorAll('.match-item.selected').forEach(item => {
+                        item.classList.remove('selected');
+                    });
+                } else {
+                    // Incorrect match
+                    setTimeout(() => {
+                        document.querySelectorAll('.match-item.selected').forEach(item => {
+                            item.classList.remove('selected');
+                        });
+                        selectedType = null;
+                        selectedDescription = null;
+                    }, 1000);
+                }
+            }
+        }
+        
+        function checkMatching() {
+            const feedback = document.getElementById('matching-feedback');
+            const typeItems = document.querySelectorAll('.match-item[data-type]');
+            
+            let allCorrect = true;
+            
+            typeItems.forEach(item => {
+                const type = item.getAttribute('data-type');
+                const correspondingDescriptions = document.querySelectorAll(`.match-item[data-description="${type}"]`);
+                
+                let hasMatch = false;
+                correspondingDescriptions.forEach(desc => {
+                    if (desc.style.backgroundColor === 'rgb(74, 124, 89)') { // #4A7C59
+                        hasMatch = true;
+                    }
+                });
+                
+                if (!hasMatch) {
+                    allCorrect = false;
+                }
+            });
+            
+            if (allCorrect) {
+                feedback.textContent = 'Excellent! All matches are correct.';
+                feedback.className = 'mt-2 text-sm text-green-600';
+            } else {
+                feedback.textContent = 'Some matches are incorrect. Try again!';
+                feedback.className = 'mt-2 text-sm text-red-600';
+            }
+            
+            feedback.classList.remove('hidden');
+        }
+        
+        // Module completion
+        function markModuleComplete() {
+            alert('Module marked as complete! Progress saved.');
+            // In a real implementation, this would save to a database or localStorage
+        }
+        
+        // Toggle section function
+        function toggleSection(id) {
+            const content = document.getElementById(id);
+            const arrow = document.getElementById(id.replace('-content', '-arrow'));
+            if (content.classList.contains('hidden')) {
+                content.classList.remove('hidden');
+                arrow.classList.add('rotate-180');
+            } else {
+                content.classList.add('hidden');
+                arrow.classList.remove('rotate-180');
+            }
+        }
+        
+        // Accordion functionality for sub-sections
+        function setupAccordions() {
+            const accordions = document.querySelectorAll('.accordion-header');
+            accordions.forEach(accordion => {
+                accordion.addEventListener('click', () => {
+                    const content = accordion.nextElementSibling;
+                    const icon = accordion.querySelector('span');
+                    const isExpanded = content.style.maxHeight;
+
+                    if (!isExpanded) {
+                        content.style.maxHeight = content.scrollHeight + "px";
+                        icon.classList.add('rotate-45');
+                    } else {
+                        content.style.maxHeight = null;
+                        icon.classList.remove('rotate-45');
+                    }
+                });
+            });
+        }
+        
+        // Initialize interactive elements
+        document.addEventListener('DOMContentLoaded', function() {
+            setupMatching();
+            setupAccordions();
+        });
+        
+        // Scroll event listener for progress tracking
+        window.addEventListener('scroll', updateProgress);
+        
+        // Initial progress update
+        updateProgress();
+    </script>
+</body>
+</html>
